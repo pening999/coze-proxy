@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平遥古城 - 智能文化旅游</title>
+    <link rel="stylesheet" href="CSS/PYGCCSS.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+   <a href="#" class="logo">平遥古城</a>
+   <ul class="nav-links">
+       <li><a href="首页.html">首页</a></li>
+       <li><a href="history.html">历史与文化</a></li>
+       <li><a href="architecture.html">建筑特色</a></li>
+       <li><a href="vr.html">VR体验</a></li>
+       <li><a href="creation.html">文化共创</a></li>
+       <li><a href="https://pingyao888.cn">旅游服务</a></li>
+       <li><a href="login.html">登录</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    
+    <!-- 建筑特色 -->
+    <section class="architecture" id="architecture">
+        <div class="container">
+            <div class="section-title">
+                <h2>建筑特色</h2>
+            </div>
+            
+            <div class="arch-gallery">
+                <div class="arch-item">
+                    <a href="4.html">
+                        <img src="IMG/pywn.jpg"/600x400/f8f5f0/333333?text=  平遥文庙" alt="平遥文庙"></img>
+                        <div class="arch-overlay">
+                            <h3>平遥文庙</h3>
+                            <p>始建于唐贞观初年，是中国保存最完整的文庙之一，展示了中国传统儒家文化。</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="arch-item">
+                    <a href="5.html">
+                        <img src="IMG/rs.jpg" /600x400/f8f5f0/333333?text=  日升昌票号" alt="日升昌票号"></img>
+                        <div class="arch-overlay">
+                            <h3>日升昌票号</h3>
+                            <p>中国第一家票号，被誉为"中国现代银行的鼻祖"，见证了晋商的辉煌历史。</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="arch-item">
+                    <a href="6.html">
+                        <img src="IMG/sls.png"/600x400/f8f5f0/333333?text=  双林寺" alt="双林寺"></img>
+                        <div class="arch-overlay">
+                            <h3>双林寺</h3>
+                            <p>始建于北魏，寺内彩塑艺术精湛，被誉为"东方彩塑艺术宝库"。</p>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="arch-item">
+                    <a href="7.html">
+                        <img src="img/cx.jpeg"/600x400/f8f5f0/333333?text=  平遥城墙" alt="平遥城墙">
+                        <div class="arch-overlay">
+                            <h3>平遥城墙</h3>
+                            <p>始建于明洪武年间，周长6163米，有6座城门，是中国保存最完整的古城墙之一。</p>
+                        </div>
+                    </a>
+                </div>
+				<div class="arch-item">
+				    <a href="8.html">
+				        <img src="img/gxy.jpg"/600x400/f8f5f0/333333?text=  平遥县衙" alt="平遥县衙">
+				        <div class="arch-overlay">
+				            <h3>平遥县衙</h3>
+				            <p>平遥县衙坐落于平遥古城中心，始建于北魏，定型于元明清，保存下来最早的建筑在元至正六年（1346年），距今已有六百多年的历史。</p>
+				        </div>
+				    </a>
+				</div>
+				<div class="arch-item">
+				    <a href="9.html">
+				        <img src="img/chm.jpg"/600x400/f8f5f0/333333?text=  平遥城隍庙" alt="平遥城隍庙">
+				        <div class="arch-overlay">
+				            <h3>平遥城隍庙</h3>
+				            <p>平遥城隍庙坐北朝南，属于道教建筑，是古代官署建筑与寺庙建筑风格相融合的建筑群体，是研究平遥古城建置布局、道教发展以及民俗风情的实物遗存。</p>
+				        </div>
+				    </a>
+				</div>
+            </div>
+        </div>
+    </section>
+
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+       type: 'bot',
+    bot_id: '7628618640471965731',
+    isIframe: true,
+    },
+    componentProps: {
+      title: '平遥古城智能助手',
+      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
+      position: {
+        top: '85px', /* 导航栏下方 */
+        right: '20px',
+        bottom: 'auto'
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    }
+  });
+</script>
+
+
+    <script src="JS/PYGCJS.js"></script>
+</body>
+</html>

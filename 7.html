@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平遥城墙 - 平遥古城</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SimSun', '宋体', serif;
+        }
+        
+        body {
+            background-color: #f8f5f0;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: linear-gradient(to right, #902E22, #31322C);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f8f5f0;
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: #f8f5f0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #e8c6a6;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            color: #f8f5f0;
+            text-decoration: none;
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: #f8f5f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #f8f5f0;
+            cursor: pointer;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+        
+        /* 页面内容样式 */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #8c1515;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            font-family: 'STXingkai', '华文行楷', serif;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #8c1515;
+        }
+        
+        .intro-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .intro-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .intro-image {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-section {
+            margin-bottom: 40px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            color: #8c1515;
+			top:10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .feature-content {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .feature-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .feature-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '•';
+            color: #8c1515;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #8c1515;
+        }
+        
+        .footer-section p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #8c1515;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: #8c1515;
+        }
+        
+        .copyright {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        /* 内容样式 */
+        .content-section {
+            max-width: 800px; /* 设置最大宽度 */
+            margin: 0 auto;  /* 居中显示 */
+            margin-bottom: 40px;
+        }
+        
+        h3 {
+            font-size: 24px;
+            color: #8c1515;
+            margin: 30px 0 15px;
+        }
+        
+        p {
+            font-size: 18px; /* 增大字体大小 */
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+
+        .img{
+			  position: relative;
+			   margin:0 auto;
+			   max-width: 800px;
+			    display: block;
+			
+		}
+        blockquote {
+            background-color: #f9f9f9;
+            border-left: 5px solid #8c1515;
+            padding: 15px;
+            font-style: italic;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        
+        blockquote cite {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        .highlight {
+            color: #8c1515;
+            font-weight: bold;
+        }
+        
+        /* 标题吸顶效果 */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #e5e5e5;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .sticky-header h1 {
+            text-align: center;
+            color: #8c1515;
+            font-size: 35px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">平遥古城</a>
+                <ul class="nav-links">
+                        <li><a href="首页.html">首页</a></li>
+                        <li><a href="history.html">历史与文化</a></li>
+                        <li><a href="architecture.html">建筑特色</a></li>
+                        <li><a href="vr.html">VR体验</a></li>
+		 <li><a href="creation.html">文化共创</a></li>
+                        <li><a href="https://pingyao888.cn">旅游服务</a></li>
+                </ul>
+            
+            </nav>
+        </div>
+    </header>
+
+    <!-- 平遥城墙介绍 -->
+    <section id="pingyao-wall">
+        <div class="container">
+            <div class="sticky-header">
+                <h1>平遥城墙——古城的守护者</h1>
+            </div>
+			<div>
+            <img class="img" src="IMG/cx.jpeg"></img>
+			</div>
+            <div class="content-section">
+                <h2 class="feature-title">千年屏障：历史的见证者</h2>
+                <p>平遥城墙始建于西周宣王时期（公元前827年至公元前782年），为夯土版筑而成。明洪武三年（公元1370年），为了防御外敌入侵，平遥知县古惟新将城墙改筑为砖石结构，形成了今天我们所见的基本格局。</p>
+                
+                <h3>明清时期</h3>
+                <p>明清两代，平遥城墙经历了多次修缮和扩建。城墙高约12米，顶部宽3-5米，底部宽4-6米，周长约6163米。墙身以青砖包砌，内填夯土，坚固异常。城墙上设有3000个垛口，72座敌楼，这些数字分别象征着孔子的"三千弟子"和"七十二贤人"，体现了儒家文化对平遥的深远影响。</p>
+                
+                <h3>近现代</h3>
+                <p>百余年来，平遥城墙历经风雨侵蚀和战乱破坏，但依然屹立不倒。1986年，平遥城墙被列入山西省重点文物保护单位。1997年，作为平遥古城的重要组成部分，平遥城墙与古城一起被联合国教科文组织列入《世界文化遗产名录》。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">防御体系：完整的军事工程</h2>
+                <p>平遥城墙是一套完整的古代军事防御体系，其设计巧妙，功能完备，在古代城市防御中发挥了重要作用。</p>
+                <p>城墙四角各建有一座角楼，城墙顶部环绕着3000个垛口和72座敌楼，形成了严密的防御网络。敌楼间距约50米，既可相互支援，又能独立作战。每个敌楼高约10米，视野开阔，便于观察敌情和指挥作战。</p>
+                <p>城墙外侧设有护城河，宽约3-5米，深约2-3米，形成天然屏障。城墙底部建有马面，向外突出，使得攻城敌人暴露在守军的交叉火力之下。城墙内侧设有女墙，既可防止守军坠落，又能作为第二道防线。</p>
+                <p>平遥城墙共开设六座城门，东西南北各有一座主城门，东西城门各附设一座水门。每座城门都建有城楼、箭楼和瓮城，形成了复杂的进门体系。瓮城呈"目"字形，攻城者进入瓮城后，将身处守军的四面夹击之下。</p>
+                
+                <blockquote>
+                    <p>"平遥城墙是中国现存最完好的四座古城墙之一，其规模宏大、体系完整、保存完好，具有极高的历史、艺术和科学价值。"</p>
+                    <cite>——《中国古城墙研究》</cite>
+                </blockquote>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">建筑艺术：精湛的工艺展示</h2>
+                <p>平遥城墙不仅是军事防御工程，也是古代建筑艺术的杰出代表。其建筑工艺精湛，艺术价值极高。</p>
+                <p>城墙砖石砌筑工艺精湛，砖与砖之间严丝合缝，历经数百年风雨依然坚固如初。城墙顶部的海墁砖铺设整齐，排水系统设计巧妙，即使在暴雨天气也能有效排除积水。</p>
+                <p>城门建筑尤为壮观，每座城门都建有三层楼阁：箭楼居中，城楼居后，瓮城门楼在侧。这些建筑飞檐斗拱，雕梁画栋，集木构建筑艺术之大成。</p>
+                <p>城墙上的敌楼造型各异，装饰精美。屋顶采用悬山、歇山等多种形式，屋脊装饰有龙、凤、狮子等造型，既具实用性，又有很高的艺术观赏性。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">文化象征：丰富的民俗内涵</h2>
+                <p>平遥城墙承载着丰富的民俗文化内涵，是平遥人民精神生活的重要组成部分。</p>
+                <p>每年春节期间，城墙都会举办盛大的灯会活动。五彩斑斓的花灯沿着城墙绵延数里，市民们提灯夜游城墙，祈求平安吉祥。这一传统已延续数百年，成为平遥春节不可或缺的民俗活动。</p>
+                <p>城墙也是平遥民间艺术的展示舞台。社火表演、民间歌舞、传统戏曲等艺术形式常常在城墙上精彩上演，为古城增添了浓郁的文化氛围。</p>
+                <p>平遥城墙见证了无数历史事件，也承载着平遥人民的记忆与情感。如今，城墙不仅是游客欣赏古代建筑艺术的景点，更是平遥人民心中的精神象征。</p>
+                <p>如今的平遥城墙，已从昔日的军事防线转变为文化传承的载体，继续守护着这座千年古城，向世人讲述着中国北方古城的传奇故事。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+          <div class="copyright">
+                      <p>&copy; 2025 平遥古城文化旅游</p>
+                  </div>
+              </div>
+          </footer>
+
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+       type: 'bot',
+    bot_id: '7628618640471965731',
+    isIframe: true,
+    },
+    componentProps: {
+      title: '平遥古城智能助手',
+      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
+      position: {
+        top: '85px', /* 导航栏下方 */
+        right: '20px',
+        bottom: 'auto'
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    }
+  });
+</script>
+</body>
+</html>

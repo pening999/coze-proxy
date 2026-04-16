@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平遥文庙 - 平遥古城</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SimSun', '宋体', serif;
+        }
+        
+        body {
+            background-color: #f8f5f0;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: linear-gradient(to right, #902E22, #31322C);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f8f5f0;
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: #f8f5f0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #e8c6a6;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            color: #f8f5f0;
+            text-decoration: none;
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: #f8f5f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #f8f5f0;
+            cursor: pointer;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+        
+        /* 页面内容样式 */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #8c1515;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            font-family: 'STXingkai', '华文行楷', serif;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #8c1515;
+        }
+        
+        .intro-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .intro-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .intro-image {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-section {
+            margin-bottom: 40px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            color: #8c1515;
+            top:10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .feature-content {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .feature-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .feature-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '•';
+            color: #8c1515;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #8c1515;
+        }
+        
+        .footer-section p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #8c1515;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: #8c1515;
+        }
+        
+        .copyright {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        /* 内容样式 */
+        .content-section {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-bottom: 40px;
+        }
+        
+        h3 {
+            font-size: 24px;
+            color: #8c1515;
+            margin: 30px 0 15px;
+        }
+        
+        p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+
+        .img{
+			  position: relative;
+			   margin:0 auto;
+			   max-width: 800px;
+			    display: block;
+			
+		}
+        blockquote {
+            background-color: #f9f9f9;
+            border-left: 5px solid #8c1515;
+            padding: 15px;
+            font-style: italic;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        
+        blockquote cite {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        .highlight {
+            color: #8c1515;
+            font-weight: bold;
+        }
+        
+        /* 标题吸顶效果 */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #e5e5e5;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .sticky-header h1 {
+            text-align: center;
+            color: #8c1515;
+            font-size: 35px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">平遥古城</a>
+                <ul class="nav-links">
+                    <li><a href="首页.html">首页</a></li>
+                    <li><a href="history.html">历史与文化</a></li>
+                    <li><a href="architecture.html">建筑特色</a></li>
+                    <li><a href="vr.html">VR体验</a></li>
+		 <li><a href="creation.html">文化共创</a></li>
+                    <li><a href="https://pingyao888.cn">旅游服务</a></li>
+                </ul>
+            
+            </nav>
+        </div>
+    </header>
+
+    <!-- 平遥文庙介绍 -->
+    <section id="pingyao-confucius-temple">
+        <div class="container">
+            <div class="sticky-header">
+                <h1>平遥文庙——千年学脉的圣地</h1>
+            </div>
+			<div>
+            <img class="img" src="Img/pywn.jpg"></img>
+			</div>
+            <div class="content-section">
+                <h2 class="feature-title">千年学府：儒家文化的传承之地</h2>
+                <p>平遥文庙始建于唐贞观初年（公元627年），是中国现存最早的孔庙之一，也是全国文庙中唯一一座不间断祭祀孔子的圣地。历经宋、元、明、清各代的修缮与扩建，形成了如今规模宏大的建筑群。</p>
+                
+                <h3>建筑沿革</h3>
+                <p>宋朝时期，文庙进行了大规模的扩建，形成了前为庙、后为学的格局。元代进一步完善了祭祀孔子的礼仪制度。明代嘉靖年间，文庙达到了鼎盛时期，祭祀规模宏大，学子络绎不绝。清代又多次修缮，形成了如今保存完好的建筑风貌。</p>
+                
+                <h3>文化地位</h3>
+                <p>平遥文庙不仅是祭祀孔子的场所，更是地方教育和文化传播的中心。它见证了中国古代科举制度的发展，培养了无数优秀人才，对当地乃至整个北方地区的文化教育产生了深远影响。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">建筑布局：儒家文化的物质载体</h2>
+                <p>平遥文庙占地面积约15000平方米，采用中轴对称的布局，体现了儒家思想中的"礼"与"序"。主要建筑沿中轴线依次排列，形成了严谨而壮观的空间序列。</p>
+                <p>棂星门作为文庙的入口，象征着孔子思想如星光般照亮世间。泮池则取"泮水"之意，象征着学问的源泉。大成门是文庙的主体建筑，其名称源自《孟子》"孔子之谓集大成"。</p>
+                <p>大成殿是文庙的核心建筑，供奉着孔子及四配十二哲的牌位。殿内悬挂有历代帝王御书的匾额，如"万世师表"等。两庑陈列着72贤人的塑像，象征着孔子学说的广泛传播。</p>
+                
+                <blockquote>
+                    <p>"平遥文庙是中国古代文庙建筑的杰出代表，其建筑艺术和文化内涵堪称一绝。"</p>
+                    <cite>——《中国建筑史》</cite>
+                </blockquote>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">教育功能：培养人才的摇篮</h2>
+                <p>平遥文庙不仅是祭祀孔子的场所，更是地方教育的重要基地。它设有明伦堂、尊经阁等教学设施，承担着培养学子、传播儒家文化的重要使命。</p>
+                <p>明伦堂是文庙的主要教学场所，教师在此讲授《四书》《五经》等儒家经典。尊经阁则是藏书之所，收藏了大量珍贵的古籍善本，为学子提供了丰富的学习资源。</p>
+                <p>学宫制度是平遥文庙教育体系的核心。学子通过严格的入学考试进入学宫，接受系统的儒家教育。学宫不仅传授知识，更注重品德修养，培养了一批又一批品学兼优的人才。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">祭祀典礼：儒家文化的活态传承</h2>
+                <p>平遥文庙的祭祀活动是儒家文化的重要体现，每年春秋两季都要举行盛大的祭孔大典。这一传统延续至今，成为传承儒家文化的重要仪式。</p>
+                <p>祭祀典礼严格遵循古礼，包括迎神、初献、亚献、终献等环节。参祭人员身着传统服饰，按照既定程序进行祭祀，体现了儒家文化的庄重与神圣。</p>
+                <p>祭孔大典不仅是对孔子的纪念，更是对儒家价值观的弘扬。通过这一仪式，后人得以缅怀先哲，传承文化，感受儒家思想的博大精深。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">现代价值：文化传承与旅游胜地</h2>
+                <p>作为全国重点文物保护单位，平遥文庙不仅是儒家文化的重要载体，更是平遥古城文化旅游的重要组成部分。每年吸引着大量游客前来参观游览，感受传统文化的魅力。</p>
+                <p>现代的文庙不仅保留了传统的祭祀活动，还增加了文化展览、学术讲座等多种形式的文化活动。这些活动让古老的文庙焕发了新的生机，成为连接传统与现代的文化桥梁。</p>
+                <p>文庙内的碑廊保存了大量珍贵的碑刻，记录了平遥的教育发展史和文庙的修缮历史。这些碑刻不仅是艺术珍品，更是研究古代教育和文化的重要资料。</p>
+                <p>如今，平遥文庙以其深厚的文化底蕴和独特的建筑艺术，吸引着越来越多的人关注。它不仅是平遥古城的文化瑰宝，更是中华民族优秀传统文化的重要象征。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+          <div class="copyright">
+                      <p>&copy; 2025 平遥古城文化旅游</p>
+                  </div>
+              </div>
+          </footer>
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+       type: 'bot',
+    bot_id: '7628618640471965731',
+    isIframe: true,
+    },
+    componentProps: {
+      title: '平遥古城智能助手',
+      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
+      position: {
+        top: '85px', /* 导航栏下方 */
+        right: '20px',
+        bottom: 'auto'
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    }
+  });
+</script>
+</body>
+</html>

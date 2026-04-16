@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日升昌票号 - 平遥古城</title>
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SimSun', '宋体', serif;
+        }
+        
+        body {
+            background-color: #f8f5f0;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: linear-gradient(to right, #902E22, #31322C);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f8f5f0;
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: #f8f5f0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #e8c6a6;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            color: #f8f5f0;
+            text-decoration: none;
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: #f8f5f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #f8f5f0;
+            cursor: pointer;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+        
+        /* 页面内容样式 */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #8c1515;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            font-family: 'STXingkai', '华文行楷', serif;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #8c1515;
+        }
+        
+        .intro-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .intro-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .intro-image {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-section {
+            margin-bottom: 40px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            color: #8c1515;
+    		top:10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .feature-content {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .feature-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .feature-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '•';
+            color: #8c1515;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #8c1515;
+        }
+        
+        .footer-section p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #8c1515;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: #8c1515;
+        }
+        
+        .copyright {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        /* 内容样式 */
+        .content-section {
+            max-width: 800px; /* 设置最大宽度 */
+            margin: 0 auto;  /* 居中显示 */
+            margin-bottom: 40px;
+        }
+        
+        h3 {
+            font-size: 24px;
+            color: #8c1515;
+            margin: 30px 0 15px;
+        }
+        
+        p {
+            font-size: 18px; /* 增大字体大小 */
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+    
+        .img{
+    		  position: relative;
+    		   margin:0 auto;
+    		   max-width: 800px;
+    		    display: block;
+    		
+    	}
+        blockquote {
+            background-color: #f9f9f9;
+            border-left: 5px solid #8c1515;
+            padding: 15px;
+            font-style: italic;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        
+        blockquote cite {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        .highlight {
+            color: #8c1515;
+            font-weight: bold;
+        }
+        
+        /* 标题吸顶效果 */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #e5e5e5;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .sticky-header h1 {
+            text-align: center;
+            color: #8c1515;
+            font-size: 35px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">平遥古城</a>
+                <ul class="nav-links">
+                     <li><a href="首页.html">首页</a></li>
+                     <li><a href="history.html">历史与文化</a></li>
+                     <li><a href="architecture.html">建筑特色</a></li>
+                     <li><a href="vr.html">VR体验</a></li>
+		 <li><a href="creation.html">文化共创</a></li>
+                     <li><a href="https://pingyao888.cn">旅游服务</a></li>
+                </ul>
+            
+            </nav>
+        </div>
+    </header>
+
+    <!-- 日升昌票号介绍 -->
+    <section id="risen-sun-ticket-shop">
+        <div class="container">
+            <div class="sticky-header">
+                <h1>日升昌票号——中国银行业的鼻祖</h1>
+            </div>
+			<div>
+            <img class="img" src="IMG/日升昌票号.png"></img>
+			</div>
+            <div class="content-section">
+                <h2 class="feature-title">百年兴衰：从颜料庄到金融巨擘</h2>
+                <p>日升昌票号的故事始于清朝道光年间。1823年，西裕成颜料庄的掌柜雷履泰凭借其敏锐的商业洞察力，捕捉到了当时商业活动中对金融汇兑服务的巨大需求。他果断地将原本作为副业的汇兑业务独立出来，创立了"日升昌"票号，从而开创了中国金融史上的首个票号体系。这一创新举措打破了当时银钱流转的地域限制，为后续中国银行业的近代化奠定了坚实的基石。</p>
+                
+                <h3>19世纪中叶</h3>
+                <p>到了19世纪中叶，日升昌票号已经发展成为一个庞大的金融网络。分号遍布全国30多个城市，北至张家口，南至广州，东至上海，西至迪化，几乎覆盖了整个中国。日升昌掌控着全国80%的汇兑业务，成为当时中国金融市场上的绝对巨头。</p>
+                
+                <h3>辛亥革命后</h3>
+                <p>然而，随着辛亥革命的爆发，时局的动荡对传统的金融体系造成了巨大冲击。加之现代银行的逐渐崛起，日升昌票号在1914年黯然结束了其辉煌的经营历史。尽管如此，日升昌的经营模式和管理智慧依然在历史长河中熠熠生辉，对后世产生了深远影响。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">金融创举：一纸汇票通天下</h2>
+                <p>日升昌票号以"汇通天下"为经营理念，构建起了一套完备的金融服务体系。在当时的社会经济条件下，这些创举极大地推动了商业活动的繁荣和发展。</p>
+                <p>汇兑业务是日升昌的核心服务之一。他们首创的"会票"制度，允许商人在全国各地的分号之间便捷地兑取现银。例如，一位山西茶商可以将货款存入平遥的总号，在汉口的分号直接支取，从而避免了长途运输银两的风险，加速了资金的周转。</p>
+                <p>存贷业务则为各类商业活动提供了强有力的资金支持。日升昌推出了"定期存款"与"活期存款"制度，根据市场需求灵活调整利率，满足了不同客户群体的需求。</p>
+                <p>为了保障资金安全，日升昌在防伪技术上也进行了诸多创新。他们采用微雕印章、水印纸张、暗号密码等多种手段。汇票上的密押每旬更换一次，例如"谨防假票冒取，勿忘细视书章"这样的暗语中就隐藏着日期代码，有效防止了假票的流通。</p>
+                
+                <blockquote>
+                    <p>"身股"制度被学者誉为"东方股份制的典范"，比西方企业股权激励早近百年。</p>
+                    <cite>——《晋商研究》</cite>
+                </blockquote>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">制度创新：现代企业管理的雏形</h2>
+                <p>日升昌在管理制度上的创新，展现了其前瞻性的经营理念。这些制度不仅提高了企业的运营效率，也对现代企业管理制度的发展产生了重要启示。</p>
+                <p>掌柜负责制是日升昌管理架构的核心。东家赋予掌柜独立的经营权，并在年终通过利润分红的方式进行考核。这种权责分明的机制充分激发了管理者的积极性和创造力。</p>
+                <p>顶身股制度是日升昌激励员工的重要手段。员工可以通过"人力股"的形式参与分红，高级职员甚至可以获得1-3股的股份。这一制度将员工的个人利益与企业的命运紧密地联系在一起，极大地提升了员工的忠诚度和工作热情。</p>
+                <p>学徒培养体系则为日升昌提供了源源不断的优秀人才。学徒需要经过三年的严格训练，包括"练毛笔、翻银元、识银两"等多项技能的学习和磨练。只有通过层层筛选和考验，学徒才能真正成长为兼具诚信与专业素养的金融人才。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">匠心营造：凝固的晋商智慧</h2>
+                <p>日升昌总号的建筑设计是晋商智慧的结晶。它占地1600平方米，采用三进院落布局，既严谨又实用，充分体现了防御性和功能性的完美结合。</p>
+                <p>空间设计上，日升昌采用了前店后宅的格局。账房、信房、客房等功能区域各司其职，互不干扰。地下金库更是深藏密室之中，墙体厚度达1.5米，有效防范了盗抢等安全威胁。</p>
+                <p>装饰艺术方面，日升昌同样展现了极高的水准。木雕"渔樵耕读"、砖雕"五福捧寿"、石雕"狮子滚绣球"等精美作品比比皆是，每一处细节都彰显出晋商"贾而好儒"的文化追求和艺术品味。</p>
+                <p>风水布局也经过精心考量。院落的中轴线偏东15度，取"紫气东来"之意，象征着吉祥和繁荣。过厅处设置的照壁，不仅起到了挡风的作用，更寓意着"藏风聚气"，体现了晋商对传统文化的尊重和传承。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">精神传承：跨越时空的商业文明</h2>
+                <p>日升昌票号不仅是中国近代银行业的先驱，更是晋商文化的精神象征。它所蕴含的商业精神和价值观，至今仍然具有重要的启示意义。</p>
+                <p>诚信为本是日升昌立足之本。他们提出了"万两白银一句话"的信誉承诺，在经营过程中始终坚守诚信原则。即使在面临挤兑危机时，也毫不犹豫地变卖资产以兑现对客户的承诺。</p>
+                <p>创新精神是日升昌发展的动力源泉。他们首创的票号模式为后世银行的发展提供了宝贵的经验借鉴，其密押系统更是启发现代密码学的重要灵感来源。</p>
+                <p>社会责任是日升昌企业文化的重要组成部分。在灾年，他们积极赈灾救济；在平常年份，又资助教育事业，将商业成功与社会公益紧密结合在一起。</p>
+                <p>如今，位于平遥古城的日升昌旧址已经变成了中国票号博物馆。每年，这里都会接待来自世界各地的百万游客，继续讲述着中国金融文明的传奇故事，传承着晋商文化的宝贵精神。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+          <div class="copyright">
+                      <p>&copy; 2025 平遥古城文化旅游</p>
+                  </div>
+              </div>
+          </footer>
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+       type: 'bot',
+    bot_id: '7628618640471965731',
+    isIframe: true,
+    },
+    componentProps: {
+      title: '平遥古城智能助手',
+      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
+      position: {
+        top: '85px', /* 导航栏下方 */
+        right: '20px',
+        bottom: 'auto'
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

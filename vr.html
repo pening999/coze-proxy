@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平遥古城 - 智能文化旅游</title>
+    <link rel="stylesheet" href="CSS/PYGCCSS.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">平遥古城</a>
+                <ul class="nav-links">
+                    <li><a href="首页.html">首页</a></li>
+                    <li><a href="history.html">历史与文化</a></li>
+                    <li><a href="architecture.html">建筑特色</a></li>
+                    <li><a href="vr.html">VR体验</a></li>
+	 <li><a href="creation.html">文化共创</a></li>
+                    <li><a href="https://pingyao888.cn">旅游服务</a></li>
+                    <li><a href="login.html">登录</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+<!-- VR体验 -->
+<section class="vr-experience" id="vr">
+    <div class="container">
+        <div class="section-title">
+            <h2>VR体验</h2>
+        </div>
+        
+        <!-- VR 场景容器 -->
+        <div class="vr-container">
+            <iframe src="https://www.720yun.com/t/0cvksh7mdfl?scene_id=49629934 " allowfullscreen></iframe>
+            <!-- 全屏按钮 -->
+            <button class="fullscreen-button" id="enter-fullscreen">进入全屏</button>
+            <!-- 退出全屏按钮 -->
+            <button class="fullscreen-button" id="exit-fullscreen" style="display: none;">退出全屏</button>
+		</div>
+		<div class="vr-description">
+		    <p>通过VR技术，您可以身临其境地感受平遥古城的千年魅力，探索古城的每个角落，体验古代商业的繁荣，感受传统文化的独特魅力。</p>
+			<p>温馨提示:</p>
+			<p>可以点击左下角的场景选择-地面全景，就可以跳转到你感兴趣的景点啦！</p>
+		</div>
+    </div>
+</section>
+
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+       type: 'bot',
+    bot_id: '7628618640471965731',
+    isIframe: true,
+    },
+    componentProps: {
+      title: '平遥古城智能助手',
+      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
+      position: {
+        top: '85px', /* 导航栏下方 */
+        right: '20px',
+        bottom: 'auto'
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    }
+  });
+</script>
+    <script src="JS/PYGCJS.js"></script>
+</body>
+</html>

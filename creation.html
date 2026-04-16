@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文化共创 - 平遥古城</title>
+    <link rel="stylesheet" href="CSS/PYGCCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <style>
+        * { box-sizing: border-box; }
+        
+        body { 
+            background: linear-gradient(135deg, #f5f0eb 0%, #ebe4dc 100%);
+            min-height: 100vh;
+        }
+        
+        .creation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-top: 80px;
+        }
+        
+        .section-header h2 {
+            color: #8c1515;
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-family: 'SimSun', serif;
+            letter-spacing: 4px;
+        }
+        
+        .section-header p {
+            color: #666;
+            font-size: 16px;
+            font-style: italic;
+        }
+        
+        .ai-card { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 35px; 
+            box-shadow: 0 8px 30px rgba(140,21,21,0.08);
+            border: 1px solid #e8e0d8;
+            border-top: 4px solid #8c1515;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ai-card:hover { 
+            box-shadow: 0 12px 40px rgba(140,21,21,0.12);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #e0d5c7;
+        }
+        
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #8c1515;
+            font-size: 24px;
+            font-family: 'SimSun', serif;
+            font-weight: bold;
+        }
+        
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #8c1515, #a52a2a);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(140,21,21,0.2);
+        }
+        
+        .card-badge {
+            background: #f3e9e3;
+            color: #8c1515;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .ai-input-group { margin-bottom: 20px; }
+        
+        .input-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .input-label { 
+            color: #444; 
+            font-size: 15px; 
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .input-tools {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        
+        .tool-btn {
+            background: #f5f0eb;
+            border: 1px solid #e0d5c7;
+            color: #8c6d5a;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .tool-btn:hover {
+            background: #8c1515;
+            color: white;
+            border-color: #8c1515;
+        }
+        
+        .ai-prompt-input { 
+            width: 100%; 
+            padding: 14px; 
+            border: 1px solid #e0d5c7; 
+            border-radius: 8px; 
+            font-family: 'SimSun', 'Microsoft YaHei', serif; 
+            font-size: 14px; 
+            resize: vertical; 
+            transition: all 0.3s; 
+            background: #fdfcfa;
+            line-height: 1.6;
+        }
+        
+        .ai-prompt-input:focus { 
+            outline: none; 
+            border-color: #8c1515; 
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(140,21,21,0.05);
+        }
+        
+        .input-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 6px;
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .char-count { color: #8c6d5a; }
+        
+        .controls-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .control-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .control-label {
+            display: block;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        .style-select {
+            width: 100%; 
+            padding: 10px 14px; 
+            border: 1px solid #e0d5c7; 
+            border-radius: 8px;
+            font-family: 'SimSun', 'Microsoft YaHei', serif; 
+            font-size: 14px; 
+            background: #fdfcfa;
+            color: #444;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .style-select:focus {
+            outline: none;
+            border-color: #8c1515;
+        }
+        
+        .radio-group { 
+            display: flex; 
+            gap: 16px; 
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .radio-item { 
+            display: flex; 
+            align-items: center; 
+            cursor: pointer; 
+            padding: 8px 16px;
+            background: #f5f0eb;
+            border-radius: 20px;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+        
+        .radio-item:hover { background: #ebe4dc; }
+        
+        .radio-item.active {
+            background: #f3e9e3;
+            border-color: #8c1515;
+            color: #8c1515;
+        }
+        
+        .radio-item input[type="radio"] { 
+            display: none;
+        }
+        
+        .action-btn { 
+            background: linear-gradient(135deg, #8c1515, #a52a2a);
+            color: white; 
+            border: none; 
+            padding: 14px 32px; 
+            cursor: pointer; 
+            border-radius: 8px; 
+            transition: all 0.3s;
+            font-weight: bold; 
+            font-family: 'SimSun', 'Microsoft YaHei', serif; 
+            font-size: 16px;
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(140,21,21,0.2);
+            width: 100%;
+        }
+        
+        .action-btn:hover:not(:disabled) { 
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(140,21,21,0.3);
+        }
+        
+        .action-btn:disabled { 
+            background: #d4c4c4; 
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .tip-box { 
+            background: linear-gradient(135deg, #faf7f4, #f5f0eb);
+            border-left: 4px solid #8c1515;
+            padding: 12px 16px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: start;
+            gap: 10px;
+        }
+        
+        .tip-box i {
+            color: #8c1515;
+            margin-top: 2px;
+        }
+        
+        .loading-state { 
+            display: none; 
+            text-align: center; 
+            padding: 40px; 
+            color: #8c1515;
+            background: #faf7f4;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px dashed #e0d5c7;
+        }
+        
+        .loading-state.active { display: block; }
+        
+        .spinner { 
+            display: inline-block; 
+            width: 40px; 
+            height: 40px; 
+            border: 3px solid #f3e9e3; 
+            border-top-color: #8c1515; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            margin-bottom: 15px;
+        }
+        
+        .loading-text {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .error-msg {
+            display: none; 
+            margin-top: 15px; 
+            padding: 12px 16px; 
+            background: #fef2f2; 
+            border: 1px solid #fecaca; 
+            border-radius: 8px; 
+            color: #991b1b; 
+            font-size: 14px;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .error-msg.active { display: flex; }
+        
+        .result-container { 
+            margin-top: 25px; 
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .result-container.active { display: block; }
+        
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(10px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+        
+        .result-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 12px;
+            padding: 0 4px;
+        }
+        
+        .result-title { 
+            font-size: 16px; 
+            color: #8c1515; 
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .icon-btn { 
+            background: white;
+            border: 1px solid #e0d5c7; 
+            color: #666; 
+            padding: 6px 12px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 13px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .icon-btn:hover { 
+            border-color: #8c1515;
+            color: #8c1515;
+            background: #faf7f4;
+        }
+        
+        .icon-btn.copied {
+            background: #8c1515;
+            color: white;
+            border-color: #8c1515;
+        }
+        
+        /* Markdown 内容样式 */
+        .markdown-body {
+            border: 1px solid #e8e0d8; 
+            border-radius: 10px; 
+            padding: 24px; 
+            background: #fff;
+            font-size: 15px; 
+            line-height: 1.8; 
+            color: #333;
+            max-height: 500px;
+            overflow-y: auto;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+        
+        .markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4 {
+            color: #8c1515;
+            margin-top: 24px;
+            margin-bottom: 16px;
+            font-weight: 600;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+        }
+        
+        .markdown-body h1 { font-size: 1.5em; }
+        .markdown-body h2 { font-size: 1.3em; }
+        .markdown-body h3 { font-size: 1.15em; }
+        
+        .markdown-body p { margin-bottom: 16px; text-align: justify; }
+        .markdown-body ul, .markdown-body ol { margin-bottom: 16px; padding-left: 24px; }
+        .markdown-body li { margin-bottom: 8px; }
+        
+        .markdown-body blockquote {
+            border-left: 4px solid #8c1515;
+            padding-left: 16px;
+            margin: 16px 0;
+            color: #666;
+            font-style: italic;
+            background: #faf7f4;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .markdown-body code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #c9302c;
+        }
+        
+        .markdown-body pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+        }
+        
+        .markdown-body pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+        
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: block;
+            cursor: zoom-in;
+        }
+        
+        .markdown-body strong { color: #8c1515; font-weight: 600; }
+        
+        .quick-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        
+        .quick-tag {
+            background: #f5f0eb;
+            color: #8c6d5a;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        
+        .quick-tag:hover {
+            background: #8c1515;
+            color: white;
+            border-color: #8c1515;
+        }
+        
+        .image-placeholder {
+            background: linear-gradient(135deg, #f5f0eb, #ebe4dc);
+            border: 2px dashed #d0c4b8;
+            border-radius: 8px;
+            padding: 60px 20px;
+            text-align: center;
+            color: #8c6d5a;
+            margin: 20px 0;
+        }
+        
+        .image-placeholder i {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+        
+        /* 全屏模态框样式 */
+        .fullscreen-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .fullscreen-modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.4s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .modal-header {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e8e0d8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .modal-title {
+            color: #8c1515;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .modal-close {
+            background: #f5f0eb;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            color: #8c1515;
+            font-size: 18px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-close:hover {
+            background: #8c1515;
+            color: white;
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 30px;
+            font-size: 16px;
+            line-height: 1.9;
+        }
+        
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 24px 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        
+        .modal-body h1, .modal-body h2, .modal-body h3 {
+            color: #8c1515;
+            margin-top: 32px;
+        }
+        
+        .modal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        /* Toast 提示样式 */
+        .toast {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: #8c1515;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            box-shadow: 0 4px 20px rgba(140,21,21,0.3);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        /* 猜你还想问样式 */
+        .suggested-questions {
+            margin-top: 24px;
+            padding: 20px;
+            background: linear-gradient(135deg, #faf7f4, #f5f0eb);
+            border-radius: 12px;
+            border-left: 4px solid #8c1515;
+        }
+        
+        .suggested-questions-title {
+            color: #8c1515;
+            font-weight: bold;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+        
+        /* 新增：问题内容容器 */
+        .suggested-questions-content {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        .suggested-questions-content p {
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        
+        @media (max-width: 640px) {
+            .creation-container { padding: 20px 16px; }
+            .ai-card { padding: 24px; }
+            .card-title { font-size: 20px; }
+            .controls-row { flex-direction: column; }
+            .modal-content { margin: 10px; }
+            .modal-body { padding: 20px; }
+            .input-tools { gap: 4px; }
+            .tool-btn { padding: 4px 8px; font-size: 11px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">平遥古城</a>
+                <ul class="nav-links">
+                    <li><a href="首页.html">首页</a></li>
+                    <li><a href="history.html">历史与文化</a></li>
+                    <li><a href="architecture.html">建筑特色</a></li>
+                    <li><a href="vr.html">VR体验</a></li>
+                    <li><a href="creation.html" style="color: #e8c6a6;">文化共创</a></li>
+                    <li><a href="https://pingyao888.cn">旅游服务</a></li>
+                    <li><a href="login.html">登录</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="section-header">
+        <h2>文化共创空间</h2>
+        <p>融合 AI 技术，共绘平遥千年华章</p>
+    </div>
+
+    <section class="creation-container">
+        
+        <!-- 模块 1：意境绘卷 -->
+        <div class="ai-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <div class="card-icon"><i class="fa-solid fa-paintbrush"></i></div>
+                    <span>意境绘卷</span>
+                </div>
+                <span class="card-badge">AI绘图</span>
+            </div>
+
+            <div class="ai-input-group">
+                <div class="input-header">
+                    <label class="input-label">
+                        <i class="fa-solid fa-circle-info" style="color: #8c1515;"></i>
+                        描绘您心中的平遥意境
+                    </label>
+                    <div class="input-tools">
+                        <button class="tool-btn" onclick="fillExample('image', 1)">
+                            <i class="fa-solid fa-wand-magic"></i> 示例1
+                        </button>
+                        <button class="tool-btn" onclick="fillExample('image', 2)">
+                            <i class="fa-solid fa-wand-magic"></i> 示例2
+                        </button>
+                        <button class="tool-btn" onclick="fillExample('image', 3)">
+                            <i class="fa-solid fa-wand-magic"></i> 示例3
+                        </button>
+                        <button class="tool-btn" onclick="clearInput('gen-prompt')">
+                            <i class="fa-solid fa-trash-can"></i> 清空
+                        </button>
+                    </div>
+                </div>
+                <textarea id="gen-prompt" class="ai-prompt-input" rows="4" 
+                    placeholder="描述您想生成的平遥场景：季节、时间（晨/昏/夜）、元素（灯笼/城墙/票号/镖局）、氛围（热闹/宁静/古朴）..."></textarea>
+                <div class="input-meta">
+                    <span class="quick-tags">
+                        快速添加：
+                        <span class="quick-tag" onclick="appendTag('gen-prompt', '明清街夜景')">明清街夜景</span>
+                        <span class="quick-tag" onclick="appendTag('gen-prompt', '推光漆器')">推光漆器</span>
+                        <span class="quick-tag" onclick="appendTag('gen-prompt', '日升昌票号')">日升昌票号</span>
+                        <span class="quick-tag" onclick="appendTag('gen-prompt', '城墙落日')">城墙落日</span>
+                    </span>
+                    <span class="char-count" id="gen-count">0 字</span>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="action-btn" id="image-generate-btn" onclick="startImageGeneration()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> 
+                    <span>生成意境图</span>
+                </button>
+            </div>
+
+            <div class="tip-box">
+                <i class="fa-solid fa-lightbulb"></i>
+                <div>
+                    <strong>提示：</strong>AI 将根据您的描述生成<strong>横版</strong>专属平遥意境图，并配上诗意文案。
+                </div>
+            </div>
+            
+            <div class="loading-state" id="image-loading">
+                <div class="spinner"></div>
+                <div class="loading-text">
+                    AI正在作画<span class="loading-dots"></span><br>
+                    <small style="color: #999; margin-top: 8px; display: block;">约需 10-20 秒</small>
+                </div>
+            </div>
+            
+            <div class="error-msg" id="image-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span></span>
+            </div>
+            
+            <div class="result-container" id="image-result">
+                <div class="result-header">
+                    <span class="result-title">
+                        <i class="fa-solid fa-image"></i> 意境绘卷
+                    </span>
+                    <div class="result-actions">
+                        <button class="icon-btn" onclick="openFullscreen('image')">
+                            <i class="fa-solid fa-expand"></i> 全屏
+                        </button>
+                        <button class="icon-btn" onclick="downloadImage()">
+                            <i class="fa-solid fa-download"></i> 保存
+                        </button>
+                        <button class="icon-btn" onclick="copyContent('image')">
+                            <i class="fa-regular fa-copy"></i> 复制
+                        </button>
+                    </div>
+                </div>
+                <div id="image-content" class="markdown-body"></div>
+            </div>
+        </div>
+
+        <!-- 模块 2：故里新篇 -->
+        <div class="ai-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <div class="card-icon"><i class="fa-solid fa-feather-pointed"></i></div>
+                    <span>故里新篇</span>
+                </div>
+                <span class="card-badge">内容再创作</span>
+            </div>
+
+            <div class="radio-group" id="rewrite-radio-group">
+                <label class="radio-item active" onclick="selectRadio(this, 'rewrite')">
+                    <input type="radio" name="rewrite-type" value="平遥文化" checked>
+                    <i class="fa-solid fa-landmark"></i> 平遥文化素材
+                </label>
+                <label class="radio-item" onclick="selectRadio(this, 'rewrite')">
+                    <input type="radio" name="rewrite-type" value="自定义">
+                    <i class="fa-solid fa-file-lines"></i> 自定义内容
+                </label>
+            </div>
+
+            <div class="ai-input-group">
+                <div class="input-header">
+                    <label class="input-label">
+                        <i class="fa-solid fa-pen-to-square" style="color: #8c1515;"></i>
+                        原始素材输入
+                    </label>
+                    <div class="input-tools">
+                        <button class="tool-btn" onclick="fillExample('rewrite', 1)">
+                            <i class="fa-solid fa-wand-magic"></i> 示例1
+                        </button>
+                        <button class="tool-btn" onclick="fillExample('rewrite', 2)">
+                            <i class="fa-solid fa-wand-magic"></i> 示例2
+                        </button>
+                        <button class="tool-btn" onclick="fillExample('rewrite', 3)">
+                            <i class="fa-solid fa-wand-magic"></i> 示例3
+                        </button>
+                        <button class="tool-btn" onclick="clearInput('rewrite-content')">
+                            <i class="fa-solid fa-trash-can"></i> 清空
+                        </button>
+                    </div>
+                </div>
+                <textarea id="rewrite-content" class="ai-prompt-input" rows="5" 
+                    placeholder="输入关于平遥的原始文字：历史典故、非遗技艺介绍、建筑描述、或您的游记草稿..."></textarea>
+                <div class="input-meta">
+                    <span style="color: #999;">支持粘贴长文本，AI 会智能提炼</span>
+                    <span class="char-count" id="rewrite-count">0 字</span>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <div class="control-group">
+                    <label class="control-label">创作风格</label>
+                    <select id="rewrite-style" class="style-select">
+                        <option value="小红书爆款">🍠 小红书种草风</option>
+                        <option value="文艺治愈">🎨 文艺治愈风</option>
+                        <option value="抖音口播">📱 短视频口播</option>
+                        <option value="公众号长文">📰 公众号深度长文</option>
+                        <option value="学术严谨">🎓 学术严谨风</option>
+                        <option value="幽默风趣">😄 轻松幽默风</option>
+                    </select>
+                </div>
+                <div class="control-group" style="max-width: 120px;">
+                    <label class="control-label">字数限制</label>
+                    <div style="position: relative;">
+                        <input type="number" id="rewrite-length" class="style-select" value="500" min="100" max="2000" step="100" 
+                            style="padding-right: 30px; text-align: center;">
+                        <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #999; font-size: 12px;">字</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="action-btn" id="rewrite-generate-btn" onclick="startRewrite()">
+                    <i class="fa-solid fa-wand-sparkles"></i> 
+                    <span>开始智能创作</span>
+                </button>
+            </div>
+
+            <div class="tip-box">
+                <i class="fa-solid fa-circle-info"></i>
+                <div>
+                    <strong>功能说明：</strong>AI 将分析原文核心信息，按选定风格重新组织语言，保持史实准确的同时提升可读性。
+                </div>
+            </div>
+            
+            <div class="loading-state" id="rewrite-loading">
+                <div class="spinner"></div>
+                <div class="loading-text">
+                    文思泉涌，妙笔生花<span class="loading-dots"></span>
+                </div>
+            </div>
+            
+            <div class="error-msg" id="rewrite-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span></span>
+            </div>
+            
+            <div class="result-container" id="rewrite-result">
+                <div class="result-header">
+                    <span class="result-title">
+                        <i class="fa-solid fa-scroll"></i> 创作成果
+                    </span>
+                    <div class="result-actions">
+                        <button class="icon-btn" onclick="openFullscreen('rewrite')">
+                            <i class="fa-solid fa-expand"></i> 全屏
+                        </button>
+                        <button class="icon-btn" onclick="regenerate('rewrite')">
+                            <i class="fa-solid fa-rotate-right"></i> 重试
+                        </button>
+                        <button class="icon-btn" onclick="copyContent('rewrite')">
+                            <i class="fa-regular fa-copy"></i> 复制
+                        </button>
+                    </div>
+                </div>
+                <div id="rewrite-text" class="markdown-body"></div>
+            </div>
+        </div>
+
+        <!-- 模块 3：灵感拾遗 -->
+        <div class="ai-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <div class="card-icon"><i class="fa-solid fa-compass"></i></div>
+                    <span>灵感拾遗</span>
+                </div>
+                <span class="card-badge">个性化推荐</span>
+            </div>
+
+            <div class="radio-group" id="recommend-radio-group">
+                <label class="radio-item active" onclick="selectRadio(this, 'recommend')">
+                    <input type="radio" name="recommend-type" value="旅游路线" checked>
+                    <i class="fa-solid fa-route"></i> 旅游路线
+                </label>
+                <label class="radio-item" onclick="selectRadio(this, 'recommend')">
+                    <input type="radio" name="recommend-type" value="美食">
+                    <i class="fa-solid fa-utensils"></i> 特色美食
+                </label>
+                <label class="radio-item" onclick="selectRadio(this, 'recommend')">
+                    <input type="radio" name="recommend-type" value="摄影点">
+                    <i class="fa-solid fa-camera"></i> 摄影点位
+                </label>
+            </div>
+
+            <div class="ai-input-group">
+                <div class="input-header">
+                    <label class="input-label">
+                        <i class="fa-solid fa-user" style="color: #8c1515;"></i>
+                        您的偏好与需求
+                    </label>
+                    <div class="input-tools">
+                        <button class="tool-btn" onclick="fillExample('recommend', 1)">
+                            <i class="fa-solid fa-wand-magic"></i> 示例1
+                        </button>
+                        <button class="tool-btn" onclick="fillExample('recommend', 2)">
+                            <i class="fa-solid fa-wand-magic"></i> 示例2
+                        </button>
+                        <button class="tool-btn" onclick="fillExample('recommend', 3)">
+                            <i class="fa-solid fa-wand-magic"></i> 示例3
+                        </button>
+                        <button class="tool-btn" onclick="clearInput('recommend-prompt')">
+                            <i class="fa-solid fa-trash-can"></i> 清空
+                        </button>
+                    </div>
+                </div>
+                <textarea id="recommend-prompt" class="ai-prompt-input" rows="4" 
+                    placeholder="请告诉我们：同行人（亲子/老人/情侣/独自）、兴趣点（古建/美食/摄影/历史）、体力状况、预算范围、特殊需求..."></textarea>
+                <div class="input-meta">
+                    <span style="color: #999;">越详细的描述，推荐越精准</span>
+                    <span class="char-count" id="recommend-count">0 字</span>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button class="action-btn" id="recommend-generate-btn" onclick="startRecommend()">
+                    <i class="fa-solid fa-map-location-dot"></i> 
+                    <span>生成专属推荐</span>
+                </button>
+            </div>
+
+            <div class="tip-box">
+                <i class="fa-solid fa-star"></i>
+                <div>
+                    <strong>智能推荐：</strong>基于您的画像，AI 会避开大众打卡点，挖掘真正符合您口味的平遥文化深度体验。
+                </div>
+            </div>
+            
+            <div class="loading-state" id="recommend-loading">
+                <div class="spinner"></div>
+                <div class="loading-text">
+                    正在为您规划专属体验<span class="loading-dots"></span><br>
+                    <small style="color: #999; margin-top: 8px; display: block;">分析您的偏好，匹配最佳路线</small>
+                </div>
+            </div>
+            
+            <div class="error-msg" id="recommend-error">
+                <i class="fa-solid fa-circle-exclamation"></i>
+                <span></span>
+            </div>
+            
+            <div class="result-container" id="recommend-result">
+                <div class="result-header">
+                    <span class="result-title">
+                        <i class="fa-solid fa-clipboard-list"></i> 专属方案
+                    </span>
+                    <div class="result-actions">
+                        <button class="icon-btn" onclick="openFullscreen('recommend')">
+                            <i class="fa-solid fa-expand"></i> 全屏
+                        </button>
+                        <button class="icon-btn" onclick="copyContent('recommend')">
+                            <i class="fa-regular fa-copy"></i> 复制
+                        </button>
+                    </div>
+                </div>
+                <div id="recommend-text" class="markdown-body"></div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Toast 提示 -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-check-circle"></i>
+        <span id="toast-message">复制成功</span>
+    </div>
+
+    <!-- 全屏模态框 -->
+    <div id="fullscreen-modal" class="fullscreen-modal" onclick="closeFullscreenOnOverlay(event)">
+        <div class="modal-overlay"></div>
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fa-solid fa-eye"></i>
+                    <span id="modal-title-text">查看内容</span>
+                </div>
+                <button class="modal-close" onclick="closeFullscreen()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- 内容将在这里显示 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- API 配置与核心逻辑 -->
+    <script>
+        // ===================== 核心配置 =====================
+        const COZE_CONFIG = {
+            BOT_ID: "7628618640471965731",
+            API_URL: "https://pygcwhgc.site/api/coze",
+            USER_ID: "pingyao_visitor_" + Date.now().toString().slice(-6)
+        };
+
+        // ===================== Toast 提示功能 =====================
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+        }
+
+        // ===================== 特定标记替换功能 =====================
+        function replaceTechMarkers(content) {
+            if (!content || typeof content !== 'string') return '';
+            
+            let result = content;
+            
+            // 1. 删除连续的 ,"from_module":null,"from_unit":null} 
+            result = result.replace(/,?\s*"from_module":\s*null\s*,\s*"from_unit":\s*null\s*\}/g, '');
+            
+            // 2. 匹配 generate_answer_finish 标记
+            const finishPattern = /\{["']msg_type["']:\s*["']generate_answer_finish["'][^}]*\}/g;
+            
+            // 查找所有匹配的位置
+            const matches = [...result.matchAll(finishPattern)];
+            
+            if (matches.length > 0) {
+                // 获取最后一个匹配的索引
+                const lastMatch = matches[matches.length - 1];
+                const matchIndex = lastMatch.index;
+                const matchLength = lastMatch[0].length;
+                
+                // 截取匹配前的内容
+                const beforeContent = result.substring(0, matchIndex).trim();
+                // 截取匹配后的内容（即"猜你还想问"后面的文字）
+                const afterContent = result.substring(matchIndex + matchLength).trim();
+                
+                // 构建新的HTML结构
+                // 匹配前的内容保持不变
+                // 匹配后的内容放入 .suggested-questions-content div 中
+                let newContent = beforeContent;
+                newContent += '\n\n<div class="suggested-questions">';
+                newContent += '<div class="suggested-questions-title"><i class="fa-solid fa-lightbulb"></i>猜你还想问：</div>';
+                newContent += '<div class="suggested-questions-content">';
+                newContent += afterContent;
+                newContent += '</div></div>';
+                
+                result = newContent;
+            }
+            
+            return result;
+        }
+
+        // 字数统计
+        document.querySelectorAll('.ai-prompt-input').forEach(textarea => {
+            textarea.addEventListener('input', function() {
+                const id = this.id;
+                const count = this.value.length;
+                const countEl = document.getElementById(id.replace('prompt', 'count').replace('content', 'count'));
+                if (countEl) {
+                    countEl.textContent = count + ' 字';
+                    countEl.style.color = count > 0 ? '#8c1515' : '#999';
+                }
+            });
+        });
+
+        // 单选按钮样式切换
+        function selectRadio(label, group) {
+            const groupEl = document.getElementById(group + '-radio-group');
+            groupEl.querySelectorAll('.radio-item').forEach(item => {
+                item.classList.remove('active');
+                item.querySelector('input').checked = false;
+            });
+            label.classList.add('active');
+            label.querySelector('input').checked = true;
+        }
+
+        // 快速填充示例（每个模块3个示例）
+        const examples = {
+            'image': {
+                1: '平遥古城南门迎薰门，晨曦微光中，城楼轮廓若隐若现，城墙根下老人打着太极，红灯笼在薄雾中透出暖光，青石板路湿润反光，远处传来晨钟声，水墨丹青风格',
+                2: '日升昌票号大院内，阳光透过雕花窗棂洒在青砖地上，形成斑驳光影，账房先生装扮的演员正在用毛笔书写，桌上摆放着算盘和账本，背景是精美的三雕砖刻，暖色调，复古胶片质感',
+                3: '明清一条街夜景，华灯初上，大红灯笼高高挂起，石板路上人来人往，两侧店铺幌子随风轻摆，药铺、茶庄、票号灯火通明，热闹非凡，电影感构图，85mm镜头，浅景深'
+            },
+            'rewrite': {
+                1: '推光漆器是山西省著名的传统手工艺品，产于平遥县。这种漆器以手掌推出光泽而得名，制作工艺复杂，需要经过木胎、灰胎、漆工、画工和镶嵌等工序。其外观古朴雅致、绘饰金碧辉煌，手感细腻滑润，耐热防潮，经久耐用。2006年，平遥推光漆器髹饰技艺被列入国家级非物质文化遗产名录。',
+                2: '平遥牛肉是山西平遥的特产，历史悠久。相传起源于汉代，明代已负盛名。其制作工艺独特，从生牛屠宰、生肉切割、腌渍、锅煮等操作程序和操作方法，到用盐、用水以至加工的节气时令等，都十分讲究。所产牛肉，色泽红润，肉质鲜嫩，肥而不腻，瘦而不柴，醇香可口，营养丰富。',
+                3: '平遥古城墙始建于西周宣王时期，为夯土城垣。明洪武三年重筑，变为砖石城墙。城墙周长6163米，墙高约12米，把面积约2.25平方公里的平遥县城一隔为两个风格迥异的世界。城墙上有72座敌楼，3000垛口，象征孔子三千弟子及七十二圣人。城墙历经600余年的风雨沧桑，至今雄风犹存。'
+            },
+            'recommend': {
+                1: '一家三口带7岁男孩，孩子喜欢听故事和动手体验，不喜欢纯看建筑。体力中等，预算中等，希望避开人挤人的主干道，想体验真正的晋商文化和非遗手作，最好有互动性强的项目。',
+                2: '情侣两人，摄影爱好者，喜欢拍摄古建筑和人文纪实。希望找一些人少但出片的好地方，需要知道最佳拍摄时间和角度。体力较好，可以接受早起拍日出。预算宽裕，希望体验一些有特色的民宿。',
+                3: '两位退休老人，腿脚不便需要平路或轮椅通道，喜欢安静的环境听历史讲解。对晋商文化感兴趣，想深入了解票号、镖局的故事。节奏要慢，中午需要休息，附近要有茶馆或休息区。'
+            }
+        };
+
+        function fillExample(type, num) {
+            const content = examples[type] && examples[type][num];
+            if (content) {
+                const inputId = type === 'image' ? 'gen-prompt' : type + '-' + (type === 'rewrite' ? 'content' : 'prompt');
+                const el = document.getElementById(inputId);
+                el.value = content;
+                el.dispatchEvent(new Event('input'));
+                el.focus();
+                el.style.background = '#fff8f0';
+                setTimeout(() => el.style.background = '#fdfcfa', 300);
+            }
+        }
+
+        function clearInput(id) {
+            const el = document.getElementById(id);
+            el.value = '';
+            el.dispatchEvent(new Event('input'));
+            el.focus();
+        }
+
+        function appendTag(inputId, tag) {
+            const el = document.getElementById(inputId);
+            const current = el.value;
+            const separator = current && !current.endsWith(' ') ? '，' : '';
+            el.value = current + separator + tag + '，';
+            el.dispatchEvent(new Event('input'));
+            el.focus();
+        }
+
+        // 错误处理
+        function showError(type, message) {
+            const el = document.getElementById(type + '-error');
+            el.querySelector('span').textContent = message;
+            el.classList.add('active');
+            setTimeout(() => el.classList.remove('active'), 6000);
+        }
+
+        function hideError(type) {
+            document.getElementById(type + '-error').classList.remove('active');
+        }
+
+        // API 调用封装
+        async function callCozeApiNonStream(prompt) {
+            const response = await fetch(COZE_CONFIG.API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    bot_id: COZE_CONFIG.BOT_ID,
+                    user: COZE_CONFIG.USER_ID,
+                    query: prompt,
+                    stream: false,
+                    auto_save_history: true
+                })
+            });
+            if (!response.ok) throw new Error(`服务繁忙(${response.status})`);
+            const data = await response.json();
+            if (data.code !== 0) throw new Error(data.msg || '生成失败');
+            return data;
+        }
+
+        async function callCozeApiStream(prompt, resultElement, type) {
+            const response = await fetch(COZE_CONFIG.API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    bot_id: COZE_CONFIG.BOT_ID,
+                    user: COZE_CONFIG.USER_ID,
+                    query: prompt,
+                    stream: true,
+                    auto_save_history: true
+                })
+            });
+
+            if (!response.ok) throw new Error(`服务繁忙(${response.status})`);
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let resultText = '';
+            let buffer = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                buffer += decoder.decode(value, { stream: true });
+                const lines = buffer.split('\n');
+                buffer = lines.pop();
+
+                for (const line of lines) {
+                    if (line.startsWith('data:')) {
+                        try {
+                            const jsonStr = line.replace('data:', '').trim();
+                            if (jsonStr === '[DONE]') continue;
+                            
+                            const data = JSON.parse(jsonStr);
+                            if (data.event === 'message' && data.message?.content) {
+                                // 替换特定技术标记
+                                const processedChunk = replaceTechMarkers(data.message.content);
+                                resultText += processedChunk;
+                                
+                                if (resultText.trim()) {
+                                    resultElement.innerHTML = marked.parse(resultText);
+                                    resultElement.querySelectorAll('pre code').forEach((block) => {
+                                        hljs.highlightElement(block);
+                                    });
+                                    resultElement.scrollTop = resultElement.scrollHeight;
+                                }
+                            }
+                            if (data.event === 'done') {
+                                resultText = replaceTechMarkers(resultText);
+                                resultElement.innerHTML = marked.parse(resultText);
+                                resultElement.querySelectorAll('pre code').forEach((block) => {
+                                    hljs.highlightElement(block);
+                                });
+                                return resultText;
+                            }
+                            if (data.event === 'error') throw new Error(data.error?.message || '生成出错');
+                        } catch (e) {
+                            console.warn('解析流数据失败', e);
+                        }
+                    }
+                }
+            }
+            
+            resultText = replaceTechMarkers(resultText);
+            resultElement.innerHTML = marked.parse(resultText);
+            return resultText;
+        }
+
+        // ========== 功能 1：意境绘卷（横版图片） ==========
+        async function startImageGeneration() {
+            const prompt = document.getElementById('gen-prompt').value.trim();
+            if (!prompt) {
+                showError('image', '请输入场景描述，或使用上方示例快速填充');
+                return;
+            }
+
+            hideError('image');
+            document.getElementById('image-result').classList.remove('active');
+            document.getElementById('image-loading').classList.add('active');
+            document.getElementById('image-generate-btn').disabled = true;
+
+            try {
+                // 优化后的提示词：要求横版图片（16:9比例）
+                const finalPrompt = `【角色】你是平遥古城的资深文旅策划与AI绘画专家。
+【任务】根据用户的场景描述，直接生成一张高清横版意境图（16:9宽屏比例），并配上一段诗意文案。
+
+【用户描述】${prompt}
+
+【输出要求】
+1. 首先生成一张符合描述的横版高清图片（横向构图，适合网页展示），使用Markdown图片格式：![平遥意境](图片URL)
+2. 图片要求：宽屏比例（16:9），画面开阔，适合作为banner或头图使用
+3. 然后配上一段中文宣传文案（200-300字），要求诗意优美，有画面感，突出"${prompt}"中的核心元素
+4. 使用Markdown格式：标题用##，重点用**加粗**
+5. 不要输出英文提示词、不要输出技术参数
+
+【输出格式】
+![平遥古城意境图](图片URL)
+
+## 文案标题
+
+正文内容...`;
+                
+                const res = await callCozeApiNonStream(finalPrompt);
+                let content = res.messages?.find(m => m.type === 'answer')?.content || '';
+                
+                // 替换技术标记
+                content = replaceTechMarkers(content);
+                
+                const resultEl = document.getElementById('image-content');
+                resultEl.innerHTML = marked.parse(content);
+                
+                // 为图片添加点击放大功能
+                resultEl.querySelectorAll('img').forEach(img => {
+                    img.onclick = function() {
+                        window.open(this.src, '_blank');
+                    };
+                    img.onerror = function() {
+                        this.parentElement.innerHTML = `<div class="image-placeholder">
+                            <i class="fa-regular fa-image"></i>
+                            <div>图片加载失败</div>
+                            <small style="color: #999;">${this.alt || '平遥意境图'}</small>
+                        </div>`;
+                    };
+                });
+                
+                document.getElementById('image-result').classList.add('active');
+                document.getElementById('image-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+            } catch (e) {
+                showError('image', e.message);
+            } finally {
+                document.getElementById('image-loading').classList.remove('active');
+                document.getElementById('image-generate-btn').disabled = false;
+            }
+        }
+
+        function downloadImage() {
+            const img = document.querySelector('#image-content img');
+            if (img && img.src) {
+                const a = document.createElement('a');
+                a.href = img.src;
+                a.download = 'pingyao-意境绘卷-' + Date.now() + '.jpg';
+                a.target = '_blank';
+                a.click();
+                showToast('图片下载已开始');
+            } else {
+                showToast('暂无图片可下载');
+            }
+        }
+
+        // ========== 功能 2：故里新篇 ==========
+        async function startRewrite() {
+            const content = document.getElementById('rewrite-content').value.trim();
+            const style = document.getElementById('rewrite-style').value;
+            const length = document.getElementById('rewrite-length').value;
+            const type = document.querySelector('input[name="rewrite-type"]:checked').value;
+            
+            if (!content) {
+                showError('rewrite', '请输入原始素材');
+                return;
+            }
+
+            hideError('rewrite');
+            document.getElementById('rewrite-result').classList.remove('active');
+            document.getElementById('rewrite-loading').classList.add('active');
+            document.getElementById('rewrite-generate-btn').disabled = true;
+
+            try {
+                const stylePrompts = {
+                    '小红书爆款': '使用小红书风格：多用emoji表情，短句分段，口语化，有网感，标题要吸引人，带话题标签',
+                    '文艺治愈': '文艺清新风格：语言优美流畅，多用修辞，情感细腻，营造意境，适合慢读',
+                    '抖音口播': '短视频口播稿：短句有力，口语化，有节奏感，适合朗读，信息密度适中，有互动感',
+                    '公众号长文': '公众号深度文：结构完整（引言-正文-结语），逻辑清晰，有深度，适合沉浸式阅读',
+                    '学术严谨': '学术风格：客观准确，引用规范，逻辑严密，术语准确，避免主观臆断',
+                    '幽默风趣': '幽默风格：轻松诙谐，适当调侃，网络梗适度，让历史"活"起来'
+                };
+
+                const finalPrompt = `【角色】你是平遥文化推广大使，精通各类文风转换。
+【任务】将以下关于"${type}"的素材，改写成【${style}】风格。
+【要求】
+- 字数控制在${length}字左右（可浮动10%）
+- ${stylePrompts[style] || ''}
+- 保留核心事实准确性，不虚构历史
+- 使用Markdown格式：标题用##，重点用**加粗**，列表用-，引用用>
+- 如果是小红书风格，末尾加相关话题标签
+
+【原始素材】
+${content}
+
+【请直接输出改写后的内容】`;
+                
+                await callCozeApiStream(finalPrompt, document.getElementById('rewrite-text'), 'rewrite');
+                document.getElementById('rewrite-result').classList.add('active');
+                document.getElementById('rewrite-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+            } catch (e) {
+                showError('rewrite', e.message);
+            } finally {
+                document.getElementById('rewrite-loading').classList.remove('active');
+                document.getElementById('rewrite-generate-btn').disabled = false;
+            }
+        }
+
+        function regenerate(type) {
+            startRewrite();
+        }
+
+        // ========== 功能 3：灵感拾遗 ==========
+        async function startRecommend() {
+            const typeRadio = document.querySelector('input[name="recommend-type"]:checked');
+            const type = typeRadio ? typeRadio.value : '旅游路线';
+            const prompt = document.getElementById('recommend-prompt').value.trim();
+            
+            if (!prompt) {
+                showError('recommend', '请输入您的偏好');
+                return;
+            }
+
+            hideError('recommend');
+            document.getElementById('recommend-result').classList.remove('active');
+            document.getElementById('recommend-loading').classList.add('active');
+            document.getElementById('recommend-generate-btn').disabled = true;
+
+            try {
+                const typeSpecific = {
+                    '旅游路线': '包含路线规划（不走回头路）、时间分配、体力消耗评估、避坑提示',
+                    '美食': '包含菜品推荐、店铺选择（老字号vs网红店）、人均消费、最佳用餐时间',
+                    '摄影点': '包含机位描述、最佳拍摄时间、焦段建议、构图提示、模特摆姿建议'
+                };
+
+                const finalPrompt = `【角色】你是平遥本地通，深度了解古城每个角落。
+【任务】为用户推荐3个最符合需求的${type}，避开大众攻略的流水线推荐。
+【用户画像】${prompt}
+
+【输出要求】
+1. 使用Markdown格式，每个推荐用### 标题
+2. 每个推荐包含：
+   - 🎯 推荐理由（为什么适合这位用户）
+   - 📍 具体位置/店铺名/机位坐标
+   - ⏰ 建议时段/季节
+   - 💡 insider tips（本地人知道的技巧）
+   - ${typeSpecific[type] || ''}
+3. 整体结构：
+   - 开篇：简短总结用户画像匹配策略
+   - 正文：3个推荐（重要程度降序）
+   - 结尾：贴心提醒（天气/预约/携带物品等）
+
+【语言风格】亲切专业，像朋友推荐，适当使用emoji增加可读性。`;
+                
+                await callCozeApiStream(finalPrompt, document.getElementById('recommend-text'), 'recommend');
+                document.getElementById('recommend-result').classList.add('active');
+                document.getElementById('recommend-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+            } catch (e) {
+                showError('recommend', e.message);
+            } finally {
+                document.getElementById('recommend-loading').classList.remove('active');
+                document.getElementById('recommend-generate-btn').disabled = false;
+            }
+        }
+
+        // ========== 全屏显示功能 ==========
+        function openFullscreen(type) {
+            const contentEl = document.getElementById(type === 'image' ? 'image-content' : type + '-text');
+            const modal = document.getElementById('fullscreen-modal');
+            const modalBody = document.getElementById('modal-body');
+            const modalTitle = document.getElementById('modal-title-text');
+            
+            modalBody.innerHTML = contentEl.innerHTML;
+            
+            const titles = {
+                'image': '意境绘卷 - 全屏预览',
+                'rewrite': '故里新篇 - 全屏预览',
+                'recommend': '灵感拾遗 - 全屏预览'
+            };
+            modalTitle.textContent = titles[type] || '内容预览';
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            modalBody.querySelectorAll('img').forEach(img => {
+                img.onclick = function() {
+                    window.open(this.src, '_blank');
+                };
+            });
+        }
+
+        function closeFullscreen() {
+            const modal = document.getElementById('fullscreen-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function closeFullscreenOnOverlay(event) {
+            if (event.target.classList.contains('fullscreen-modal') || 
+                event.target.classList.contains('modal-overlay')) {
+                closeFullscreen();
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeFullscreen();
+            }
+        });
+
+        // ========== 复制功能（带Toast反馈） ==========
+        async function copyContent(type) {
+            const contentEl = document.getElementById(type === 'image' ? 'image-content' : type + '-text');
+            const text = contentEl.innerText;
+            
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('复制成功！');
+            } catch (err) {
+                // 降级方案
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    showToast('复制成功！');
+                } catch (err) {
+                    showToast('复制失败，请手动复制');
+                }
+                
+                document.body.removeChild(textArea);
+            }
+        }
+
+        // 回车快捷键
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('gen-prompt').addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') startImageGeneration();
+            });
+            document.getElementById('rewrite-content').addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') startRewrite();
+            });
+            document.getElementById('recommend-prompt').addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') startRecommend();
+            });
+        });
+    </script>
+
+    <!-- Coze 智能助手 -->
+    <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
+    <script>
+        new CozeWebSDK.WebChatClient({
+            config: {
+                type: 'bot',
+                bot_id: '7628618640471965731',
+                isIframe: true,
+            },
+            componentProps: {
+                title: '平遥古城智能助手',
+                icon: 'https://img.icons8.com/color/48/000000/pagoda.png',
+                position: { top: '85px', right: '20px', bottom: 'auto' }
+            },
+            auth: {
+                type: 'token',
+                token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+                onRefreshToken: () => 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+            }
+        });
+    </script>
+</body>
+</html>

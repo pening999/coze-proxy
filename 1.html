@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平遥古城历史 - 平遥古城</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SimSun', '宋体', serif;
+        }
+        
+        body {
+            background-color: #f8f5f0;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: linear-gradient(to right, #902E22, #31322C);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f8f5f0;
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: #f8f5f0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #e8c6a6;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            color: #f8f5f0;
+            text-decoration: none;
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: #f8f5f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #f8f5f0;
+            cursor: pointer;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+        
+        /* 页面内容样式 */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #8c1515;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            font-family: 'STXingkai', '华文行楷', serif;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #8c1515;
+        }
+        
+        .intro-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .intro-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .intro-image {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-section {
+            margin-bottom: 40px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            color: #8c1515;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .feature-content {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .feature-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .feature-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '•';
+            color: #8c1515;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #8c1515;
+        }
+        
+        .footer-section p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #8c1515;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: #8c1515;
+        }
+        
+        .copyright {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        /* 内容样式 */
+        .content-section {
+            max-width: 800px; /* 设置最大宽度 */
+            margin: 0 auto;  /* 居中显示 */
+            margin-bottom: 40px;
+        }
+        
+        h3 {
+            font-size: 24px;
+            color: #8c1515;
+            margin: 30px 0 15px;
+        }
+        
+        p {
+            font-size: 18px; /* 增大字体大小 */
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+
+        .img{
+            position: relative;
+            margin:0 auto;
+            max-width: 800px;
+            display: block;
+        }
+        
+        blockquote {
+            background-color: #f9f9f9;
+            border-left: 5px solid #8c1515;
+            padding: 15px;
+            font-style: italic;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        
+        blockquote cite {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        .highlight {
+            color: #8c1515;
+            font-weight: bold;
+        }
+        
+        /* 标题吸顶效果 */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #e5e5e5;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .sticky-header h1 {
+            text-align: center;
+            color: #8c1515;
+            font-size: 35px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">平遥古城</a>
+                <ul class="nav-links">
+                    <li><a href="首页.html">首页</a></li>
+                    <li><a href="history.html">历史与文化</a></li>
+                    <li><a href="architecture.html">建筑特色</a></li>
+                    <li><a href="vr.html">VR体验</a></li>
+	 <li><a href="creation.html">文化共创</a></li>
+                    <li><a href="https://pingyao888.cn">旅游服务</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 平遥古城历史介绍 -->
+    <section id="risen-sun-ticket-shop">
+        <div class="container">
+            <div class="sticky-header">
+                <h1>平遥古城历史——中国保存最完整的古代城市</h1>
+            </div>
+            <div>
+                <img class="img" src="IMG/pygc.jpg"></img>
+            </div>
+            <div class="content-section">
+                <h2 class="feature-title">西周始建：军事重镇的开端</h2>
+                <p>平遥古城的雏形可追溯至西周时期，始建于周宣王十五年（公元前827年），当时称为“平陶”，是周王朝北方的重要军事防御据点。这个时期的城市规模较小，但已经具备了早期城市的基本特征，是平遥古城漫长历史的开端。</p>
+                
+                <h3>战略位置</h3>
+                <p>平遥古城位于山西省中部，地处汾河流域，这里是古代中原文明与北方游牧民族交流的关键地带。平遥的地理位置使其在古代军事防御体系中占据了重要地位，多次成为军事冲突的前线。</p>
+                
+                <h3>早期发展</h3>
+                <p>在随后的春秋战国时期，平遥逐渐发展为区域性的经济和文化中心，城市的规模也不断扩大。尽管经历了多次战乱，平遥始终保持着较高的战略价值和经济活力。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">明清辉煌：金融中心的崛起</h2>
+                <p>明清时期是平遥古城发展的黄金时代，尤其是清代，平遥因其独特的金融创新而闻名于世。这一时期，平遥从一个普通的北方城市跃升为全国乃至亚洲的金融中心。</p>
+                <p>1823年，平遥商人雷履泰创立了中国第一家票号——日升昌票号，开创了中国现代银行业的先河。票号的出现极大地促进了商业活动的繁荣，平遥迅速成为全国的金融中心。</p>
+                <p>到19世纪中叶，平遥已经拥有数十家票号，这些票号的业务网络遍布全国，甚至延伸至海外。平遥的金融地位达到了巅峰，城市经济繁荣，文化昌盛。</p>
+                
+                <blockquote>
+                    <p>平遥古城在清代被誉为“中国的华尔街”，其金融创新对近代中国经济的发展产生了深远影响。</p>
+                    <cite>——《中国金融史》</cite>
+                </blockquote>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">文化遗产：历史见证的保存</h2>
+                <p>平遥古城不仅是中国古代城市规划的杰出范例，也是世界上保存最完整的古代城市之一。1997年，平遥古城被联合国教科文组织列入《世界遗产名录》，成为中国第13处世界文化遗产。</p>
+                <p>古城内的街道、店铺、民居和庙宇基本保持了明清时期的风貌，为研究中国古代城市规划、建筑艺术和社会生活提供了珍贵的实物资料。</p>
+                <p>平遥古城的城墙、市楼、县衙等建筑不仅是历史的见证，也是中国古代建筑艺术的杰出代表。这些建筑在设计和施工上都体现了极高的技术水平和艺术价值。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">现代保护：历史与现代的交融</h2>
+                <p>自20世纪80年代以来，平遥古城得到了系统的保护和修复。当地政府和社会各界共同努力，恢复了古城的历史风貌，同时改善了居民的生活条件。</p>
+                <p>如今，平遥古城不仅是一个重要的旅游目的地，也是文化遗产保护和文化旅游发展的典范。每年，平遥吸引着来自世界各地的游客，他们在这里感受着中国传统文化的魅力。</p>
+                <p>平遥古城的保护和发展模式为其他历史文化遗产提供了宝贵的经验，展示了如何在现代化进程中保护和传承历史。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+          <div class="copyright">
+                      <p>&copy; 2025 平遥古城文化旅游</p>
+                  </div>
+              </div>
+          </footer>
+
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+       type: 'bot',
+    bot_id: '7628618640471965731',
+    isIframe: true,
+    },
+    componentProps: {
+      title: '平遥古城智能助手',
+      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
+      position: {
+        top: '85px', /* 导航栏下方 */
+        right: '20px',
+        bottom: 'auto'
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

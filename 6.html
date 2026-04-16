@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双林寺 - 平遥古城</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SimSun', '宋体', serif;
+        }
+        
+        body {
+            background-color: #f8f5f0;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: linear-gradient(to right, #902E22, #31322C);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f8f5f0;
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: #f8f5f0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #e8c6a6;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            color: #f8f5f0;
+            text-decoration: none;
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: #f8f5f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #f8f5f0;
+            cursor: pointer;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+        
+        /* 页面内容样式 */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #8c1515;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            font-family: 'STXingkai', '华文行楷', serif;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #8c1515;
+        }
+        
+        .intro-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .intro-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .intro-image {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-section {
+            margin-bottom: 40px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            color: #8c1515;
+    		top:10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .feature-content {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .feature-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .feature-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '•';
+            color: #8c1515;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #8c1515;
+        }
+        
+        .footer-section p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #8c1515;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: #8c1515;
+        }
+        
+        .copyright {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        /* 内容样式 */
+        .content-section {
+            max-width: 800px; /* 设置最大宽度 */
+            margin: 0 auto;  /* 居中显示 */
+            margin-bottom: 40px;
+        }
+        
+        h3 {
+            font-size: 24px;
+            color: #8c1515;
+            margin: 30px 0 15px;
+        }
+        
+        p {
+            font-size: 18px; /* 增大字体大小 */
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+    
+        .img{
+    		  position: relative;
+    		   margin:0 auto;
+    		   max-width: 800px;
+    		    display: block;
+    		
+    	}
+        blockquote {
+            background-color: #f9f9f9;
+            border-left: 5px solid #8c1515;
+            padding: 15px;
+            font-style: italic;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        
+        blockquote cite {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        .highlight {
+            color: #8c1515;
+            font-weight: bold;
+        }
+        
+        /* 标题吸顶效果 */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #e5e5e5;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .sticky-header h1 {
+            text-align: center;
+            color: #8c1515;
+            font-size: 35px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">平遥古城</a>
+                <ul class="nav-links">
+                    <li><a href="首页.html">首页</a></li>
+                    <li><a href="history.html">历史与文化</a></li>
+                    <li><a href="architecture.html">建筑特色</a></li>
+                    <li><a href="vr.html">VR体验</a></li>
+		 <li><a href="creation.html">文化共创</a></li>
+                    <li><a href="https://pingyao888.cn">旅游服务</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 双林寺介绍 -->
+    <section id="shuanglin-temple">
+        <div class="container">
+            <div class="sticky-header">
+                <h1>双林寺——中国彩塑艺术的宝库</h1>
+            </div>
+			<div>
+            <img class="img" src="IMG/sls.png"></img>
+			</div>
+            <div class="content-section">
+                <h2 class="feature-title">千年古刹：从北魏到明清的变迁</h2>
+                <p>双林寺位于山西省平遥县城西南六公里的桥头村，始建于北魏孝文帝时期，原名中都寺。据《平遥县志》记载，这是一座有着1500多年历史的古老寺庙，见证了中国佛教文化从盛到衰的漫长历程。</p>
+                
+                <h3>唐宋时期</h3>
+                <p>唐明宗时期，中都寺因寺内有两株千年古柏，形似双林而改名双林寺。宋代以后，双林寺多次遭到战乱破坏，又多次重建，形成了今天我们看到的规模。</p>
+                
+                <h3>明清时期</h3>
+                <p>明代成化二年（1466年）和清代康熙二十六年（1687年）两次大规模的重建，使双林寺达到了鼎盛时期。现存的大部分建筑和彩塑都来自这两个时期，是中国古代寺庙建筑和彩塑艺术的杰出代表。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">艺术瑰宝：两千余尊彩塑的震撼</h2>
+                <p>双林寺最令人称奇的是其保存完好的两千余尊彩塑。这些彩塑艺术价值极高，被誉为"中国彩塑艺术的宝库"，其艺术风格涵盖了唐、宋、元、明、清各个时期，是中国古代彩塑艺术的百科全书。</p>
+                <p>双林寺的彩塑以释迦殿、大雄宝殿和千佛殿最为著名。释迦殿内有佛、菩萨、弟子等三百余尊彩塑，造型生动，神态各异。大雄宝殿的彩塑更是工艺精湛，其中十八罗汉彩塑高约两米，姿态各异，栩栩如生。</p>
+                <p>千佛殿内的《地狱变相》组塑更是堪称一绝，通过各种阴曹地府的场景展现了佛教因果报应的思想，其艺术表现力令人叹为观止。</p>
+                
+                <blockquote>
+                    <p>"双林寺彩塑是中国古代雕塑艺术的巅峰之作，其艺术价值可与欧洲文艺复兴时期的雕塑相媲美。"</p>
+                    <cite>——《中国艺术史》</cite>
+                </blockquote>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">建筑奇迹：匠心独运的寺庙布局</h2>
+                <p>双林寺占地面积约15000平方米，现存十座殿堂，建筑布局严谨，体现了中国古代寺庙建筑的典型风格。</p>
+                <p>寺院坐北朝南，以中轴线为中心，主要建筑有山门、天王殿、释迦殿、大雄宝殿、娘娘殿等。各殿之间以回廊相连，形成了一个完整的建筑群。</p>
+                <p>建筑装饰方面，双林寺的木雕、砖雕和石雕艺术同样精彩绝伦。释迦殿前的"云龙照壁"，刻有两条巨龙在云海中翻腾的图案，工艺精湛，是明代砖雕的代表作品。</p>
+                <p>值得一提的是，双林寺的天花藻井设计独具匠心。大雄宝殿内的藻井由无数斗拱组成，造型复杂而精巧，展现了古代工匠精湛的木工技艺。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">文化遗产：从荒芜到世界遗产的重生</h2>
+                <p>在20世纪中叶，双林寺因年久失修而破败不堪，许多珍贵的彩塑面临毁坏的危险。1965年，著名古建筑专家祁英涛率队到双林寺考察，大力呼吁保护这座艺术瑰宝。</p>
+                <p>经过数十年的修缮保护，双林寺逐渐恢复了昔日的辉煌。1997年，双林寺与平遥古城一同被列入世界文化遗产名录，成为中国古代寺庙建筑和彩塑艺术的杰出代表。</p>
+                <p>如今，双林寺每年吸引着来自世界各地的游客和艺术爱好者。漫步在双林寺的殿堂之间，仿佛穿越了时空，感受到中国古代艺术家们卓越的创造力和精湛的技艺。</p>
+                <p>双林寺的保护和传承工作仍在继续，通过数字化技术，这些珍贵的彩塑艺术将被永久保存下来，为后世研究中国古代艺术提供了无价的资料。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+          <div class="copyright">
+                      <p>&copy; 2025 平遥古城文化旅游</p>
+                  </div>
+              </div>
+          </footer>
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+       type: 'bot',
+    bot_id: '7628618640471965731',
+    isIframe: true,
+    },
+    componentProps: {
+      title: '平遥古城智能助手',
+      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
+      position: {
+        top: '85px', /* 导航栏下方 */
+        right: '20px',
+        bottom: 'auto'
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

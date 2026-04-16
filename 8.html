@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平遥县衙 - 平遥古城</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SimSun', '宋体', serif;
+        }
+        
+        body {
+            background-color: #f8f5f0;
+            color: #333;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        /* 导航栏样式 */
+        header {
+            background: linear-gradient(to right, #902E22, #31322C);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 30px;
+            font-weight: bold;
+            color: #f8f5f0;
+            text-decoration: none;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: #f8f5f0;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #e8c6a6;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            color: #f8f5f0;
+            text-decoration: none;
+        }
+        
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background-color: #f8f5f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #f8f5f0;
+            cursor: pointer;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+        
+        .logout-btn:hover {
+            text-decoration: underline;
+        }
+        
+        /* 页面内容样式 */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: #8c1515;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            font-family: 'STXingkai', '华文行楷', serif;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #8c1515;
+        }
+        
+        .intro-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+        
+        .intro-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .intro-image {
+            flex: 1;
+            min-width: 300px;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-section {
+            margin-bottom: 40px;
+        }
+        
+        .feature-title {
+            font-size: 24px;
+            color: #8c1515;
+			top:10px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        
+        .feature-content {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .feature-text {
+            flex: 1;
+            min-width: 300px;
+            padding-right: 30px;
+        }
+        
+        .feature-image {
+            flex: 1;
+            min-width: 300px;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .feature-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '•';
+            color: #8c1515;
+            position: absolute;
+            left: 0;
+        }
+        
+        /* 页脚样式 */
+        footer {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 30px;
+            padding: 0 20px;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #8c1515;
+        }
+        
+        .footer-section p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section ul li a:hover {
+            color: #8c1515;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: #8c1515;
+        }
+        
+        .copyright {
+            border-top: 1px solid #333;
+            padding-top: 20px;
+            font-size: 14px;
+            color: #999;
+        }
+        
+        /* 内容样式 */
+        .content-section {
+            max-width: 800px; /* 设置最大宽度 */
+            margin: 0 auto;  /* 居中显示 */
+            margin-bottom: 40px;
+        }
+        
+        h3 {
+            font-size: 24px;
+            color: #8c1515;
+            margin: 30px 0 15px;
+        }
+        
+        p {
+            font-size: 18px; /* 增大字体大小 */
+            line-height: 1.8;
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+
+        .img{
+			  position: relative;
+			   margin:0 auto;
+			   max-width: 800px;
+			    display: block;
+			
+		}
+        blockquote {
+            background-color: #f9f9f9;
+            border-left: 5px solid #8c1515;
+            padding: 15px;
+            font-style: italic;
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 20px 0;
+        }
+        
+        blockquote cite {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        .highlight {
+            color: #8c1515;
+            font-weight: bold;
+        }
+        
+        /* 标题吸顶效果 */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            background-color: #e5e5e5;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .sticky-header h1 {
+            text-align: center;
+            color: #8c1515;
+            font-size: 35px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">平遥古城</a>
+                <ul class="nav-links">
+                     <li><a href="首页.html">首页</a></li>
+                     <li><a href="history.html">历史与文化</a></li>
+                     <li><a href="architecture.html">建筑特色</a></li>
+                     <li><a href="vr.html">VR体验</a></li>
+		 <li><a href="creation.html">文化共创</a></li>
+                     <li><a href="https://pingyao888.cn">旅游服务</a></li>
+                </ul>
+            
+            </nav>
+        </div>
+    </header>
+
+    <!-- 平遥县衙介绍 -->
+    <section id="pingyao-yamen">
+        <div class="container">
+            <div class="sticky-header">
+                <h1>平遥县衙——古城的政治中枢</h1>
+            </div>
+			<div>
+            <img class="img" src="IMG/gxy.jpg"></img>
+			</div>
+            <div class="content-section">
+                <h2 class="feature-title">千年衙署：历史的见证者</h2>
+                <p>平遥县衙始建于北魏时期，是中国现存历史最久、规模最大的县衙之一。现存建筑大多为元、明、清三代遗构，完整地展现了中国古代基层政权的运作模式。</p>
+                
+                <h3>元代扩建</h3>
+                <p>元代时期，平遥县衙进行了大规模扩建，形成了前堂后宅的基本格局。这一时期修建的大堂是县衙的核心建筑，用于审理重大案件和举行重要仪式。</p>
+                
+                <h3>明清沿革</h3>
+                <p>明清两代，平遥县衙经历了多次修缮和局部改建。明代嘉靖年间，对县衙的防御体系进行了加强，修建了围墙和角楼。清代乾隆年间，对主要建筑进行了全面翻新，形成了今天我们所见的基本风貌。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">功能布局：完整的官署体系</h2>
+                <p>平遥县衙占地26000多平方米，拥有各式房屋200余间，是中国古代县衙建筑的杰出代表。</p>
+                <p>县衙整体布局呈坐北朝南的中轴对称式，主要分为三大部分：前为监狱区，中为衙署办公区，后为县令生活区。这种布局体现了"前朝后寝"的传统理念。</p>
+                <p>大堂是县衙的核心建筑，用于审理重大案件和举行隆重的典礼。堂上悬挂"明镜高悬"匾额，两侧摆放着代表权威的仪仗。二堂则用于处理日常政务和接待上级官员。</p>
+                <p>东西两侧的厢房分别为监狱、六房（吏、户、礼、兵、刑、工六科）等办公场所。东侧的监狱区设有牢房、审讯室等设施，形成了完整的司法体系。</p>
+                
+                <blockquote>
+                    <p>"平遥县衙是中国古代官制文化的重要实物例证，其建筑布局和功能设置完整地再现了封建社会县级政权的运作机制。"</p>
+                    <cite>——《中国古建筑研究》</cite>
+                </blockquote>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">建筑艺术：传统工艺的瑰宝</h2>
+                <p>平遥县衙的建筑艺术价值极高，体现了中国古代建筑的精湛工艺。</p>
+                <p>县衙的屋顶全部采用黄色琉璃瓦覆盖，这是古代建筑等级的重要标志。大堂的屋顶采用九脊重檐歇山顶，造型宏伟，气势恢宏。</p>
+                <p>木构件上精美的雕饰是平遥县衙的一大特色。梁枋上的彩绘、门窗上的木雕、柱础上的石雕等，都展现了极高的艺术水平。这些雕刻多以吉祥图案、历史典故为主题，既具装饰性，又有文化内涵。</p>
+                <p>县衙内的砖雕艺术也十分突出。照壁、墀头等部位的砖雕工艺精细，图案丰富，充分体现了古代工匠的高超技艺。</p>
+            </div>
+            
+            <div class="content-section">
+                <h2 class="feature-title">文化传承：活态的历史博物馆</h2>
+                <p>平遥县衙不仅是一座历史建筑，更是一座活态的历史博物馆，承载着丰富的文化内涵。</p>
+                <p>县衙内陈列着大量的历史文物，包括古代的刑具、官印、文书等，生动地再现了古代官府的运作场景。游客可以在这里体验古代审案过程，感受中国传统政治文化。</p>
+                <p>每年，平遥县衙都会举办"县令到任仪式"、"古县衙文化节"等传统活动，通过复原古代礼仪和政务活动，让游客穿越时空，感受古代官场文化。</p>
+                <p>如今，平遥县衙已成为研究中国古代基层政权组织的重要实物资料，每年吸引着数十万游客前来参观，继续讲述着中国古代政治文明的故事。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+          <div class="copyright">
+                      <p>&copy; 2025 平遥古城文化旅游</p>
+                  </div>
+              </div>
+          </footer>
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+       type: 'bot',
+    bot_id: '7628618640471965731',
+    isIframe: true,
+    },
+    componentProps: {
+      title: '平遥古城智能助手',
+      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
+      position: {
+        top: '85px', /* 导航栏下方 */
+        right: '20px',
+        bottom: 'auto'
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    }
+  });
+</script>
+</body>
+</html>

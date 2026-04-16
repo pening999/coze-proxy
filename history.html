@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平遥古城 - 智能文化旅游</title>
+    <link rel="stylesheet" href="CSS/PYGCCSS.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+             <a href="#" class="logo">平遥古城</a>
+             <ul class="nav-links">
+                 <li><a href="首页.html">首页</a></li>
+                 <li><a href="history.html">历史与文化</a></li>
+                 <li><a href="architecture.html">建筑特色</a></li>
+                 <li><a href="vr.html">VR体验</a></li>
+	 <li><a href="creation.html">文化共创</a></li>
+                 <li><a href="https://pingyao888.cn">旅游服务</a></li>
+                 <li><a href="login.html">登录</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+
+
+    <!-- 历史与文化 -->
+    <section class="culture" id="culture">
+        <div class="container">
+            <div class="section-title">
+                <h2>历史与文化</h2>
+            </div>
+            
+            <div class="culture-grid">
+                <div class="culture-item">
+                    <a href="1.html">
+                        <img src="IMG/pygc.jpg"/400x200/f8f5f0/333333?text=  历史建筑" alt="历史建筑"></img>
+                    </a>
+                     <div class="culture-item-text">
+                        <h3>古城历史 </h3>
+                        <p>平遥古城始建于西周宣王时期，明洪武三年(1370年)扩建，距今已有2700多年历史，是中国保存最为完整的四大古城之一。</p>
+                    </div>
+                </div>
+                
+                <div class="culture-item">
+                    <a href="2.html">
+                        <img src="IMG/jswh.jpg"/400x200/f8f5f0/333333?text=  文化传承" alt="文化传承"></img>
+                    </a>
+                    <div class="culture-item-text">
+                        <h3>文化传承</h3>
+                        <p>平遥古城承载着丰富的晋商文化和传统民俗，是晋商发祥地之一，被誉为"中国古建筑博物馆"。</p>
+                    </div>
+                </div>
+                
+                <div class="culture-item">
+                    <a href="3.html">
+                        <img src="IMG/sls.png"/400x200/f8f5f0/333333?text=  古迹风貌" alt="古迹风貌"></img>
+                    </a>
+                    <div class="culture-item-text">
+                        <h3>古迹风貌</h3>
+                        <p>古城内有300多处古建筑，包括平遥文庙、日升昌票号、双林寺等，展现了明清时期的建筑风格。</p>
+                    </div>
+                </div>
+            </div>
+		
+            
+
+            <div class="timeline">
+                <div class="timeline-item timeline-item-left">
+                    <div class="timeline-content">
+                        <div class="timeline-year">西周宣王十五年</div>
+                        <h3>初建</h3>
+                        <p>平遥古城始建于西周宣王十五年(公元前827年)，当时称为"平陶"。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item timeline-item-right">
+                    <div class="timeline-content">
+                        <div class="timeline-year">明洪武三年</div>
+                        <h3>扩建</h3>
+                        <p>明洪武三年(1370年)，平遥古城进行了大规模扩建，奠定了今日古城的基本格局。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item timeline-item-left">
+                    <div class="timeline-content">
+                        <div class="timeline-year">清咸丰年间</div>
+                        <h3>商业繁荣</h3>
+                        <p>清咸丰年间，平遥成为全国重要的金融中心，日升昌票号的创立标志着中国现代银行业的开端。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item timeline-item-right">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1997年</div>
+                        <h3>世界遗产</h3>
+                        <p>1997年，平遥古城被联合国教科文组织列入《世界遗产名录》，成为中国第13处世界文化遗产。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+      bot_id: '7628618640471965731',
+    },
+    componentProps: {
+      title: '平遥古城智能助手', // 自定义标题
+      icon: 'https://img.icons8.com/color/48/000000/pagoda.png', // 可替换为古城图标URL
+      zIndex: 1100, // 确保在最上层，高于导航栏的1000
+      position: {
+        bottom: '80px', // 距离底部距离，避免与页脚重叠
+        right: '30px'
+      },
+      style: {
+        color: '#8c1515', // 主题色
+        backgroundColor: '#f8f5f0', // 背景米色
+        fontFamily: 'SimSun, "宋体", serif' // 匹配网站字体
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    },
+    ui: {
+      base: {
+        zIndex: 1100, // UI基础层级
+      },
+      chat: {
+        header: {
+          backgroundColor: '#8c1515', // 聊天头部暗红色
+          color: '#f8f5f0' // 文字米色
+        },
+        input: {
+          borderColor: '#8c1515',
+          focusBorderColor: '#902E22'
+        },
+        message: {
+          userBackground: '#8c1515', // 用户消息背景
+          userColor: '#ffffff',
+          botBackground: '#f8f5f0', // 机器人消息背景
+          botColor: '#333333'
+        }
+      }
+    }
+  });
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+       type: 'bot',
+    bot_id: '7628618640471965731',
+    isIframe: true,
+    },
+    componentProps: {
+      title: '平遥古城智能助手',
+      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
+      position: {
+        top: '85px', /* 导航栏下方 */
+        right: '20px',
+        bottom: 'auto'
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    }
+  });
+</script>
+
+
+    <script src="JS/PYGCJS.js"></script>
+</body>
+</html>

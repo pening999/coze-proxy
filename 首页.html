@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>平遥古城 - 智能文化旅游</title>
+    <link rel="stylesheet" href="CSS/PYGCCSS.css">
+    <style>
+       
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">平遥古城</a>
+		<ul class="nav-links">
+    		<li><a href="首页.html">首页</a></li>
+    		<li><a href="history.html">历史与文化</a></li>
+    		<li><a href="architecture.html">建筑特色</a></li>
+    		<li><a href="vr.html">VR体验</a></li>
+   		 <li><a href="creation.html">文化共创</a></li> <!-- 新增 -->
+    		<li><a href="https://pingyao888.cn ">旅游服务</a></li>
+    		<li><a href="login.html">登录</a></li>
+		</ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 首页轮播图 -->
+    <section class="hero" id="home">
+        <div class="carousel">
+            <div class="carousel-item active" style="background-image: url('IMG/1.jpeg')">
+                <div class="carousel-caption">
+                    <h2>千年古城</h2>
+                    <p>平遥古城，世界文化遗产，感受千年古城的历史韵味</p>
+                </div>
+            </div>
+            
+            <div class="carousel-item" style="background-image: url('IMG/MQYTJ.jpg')">
+                <div class="carousel-caption">
+                    <h2>古城夜色</h2>
+                    <p>夜幕下的平遥古城，灯火辉煌，别有一番韵味</p>
+                </div>
+            </div>
+            
+            <div class="carousel-item" style="background-image: url('img/6.JPG')">
+                <div class="carousel-caption">
+                    <h2>古建筑艺术</h2>
+                    <p>精美的古建筑，体现了中国传统建筑的精湛技艺</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: {
+       type: 'bot',
+    bot_id: '7628618640471965731',
+    isIframe: true,
+    },
+    componentProps: {
+      title: '平遥古城智能助手',
+      icon: 'img/logo.png ',
+      position: {
+        top: '85px', /* 导航栏下方 */
+        right: '20px',
+        bottom: 'auto'
+      }
+    },
+    auth: {
+      type: 'token',
+      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
+      onRefreshToken: function () {
+        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+      }
+    }
+  });
+</script>
+
+    <script src="JS/PYGCJS.js"></script>
+</body>
+</html>
