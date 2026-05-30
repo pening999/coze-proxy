@@ -3,84 +3,690 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>平遥古城 - 智能文化旅游</title>
+    <title>平遥古城 - 智能文化旅游平台</title>
+    <meta name="description" content="AI 导览平遥古城，让千年晋商文化可问、可游、可创作。智能问答、个性化路线、VR体验、文化共创。">
+    <meta property="og:title" content="平遥古城智能文旅平台">
+    <meta property="og:description" content="AI 引导的平遥古城智能文旅体验 —— 问答、路线、VR、创作，一站式文化探索。">
+    <meta property="og:image" content="https://pygcwhgc.site/IMG/pygc.jpg">
+    <meta property="og:url" content="https://pygcwhgc.site/">
+    <meta property="og:type" content="website">
+    <meta name="keywords" content="平遥古城,智能文旅,AI导览,晋商文化,世界遗产,VR旅游,文化共创">
     <link rel="stylesheet" href="CSS/PYGCCSS.css">
-    <style>
-       
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8c1515">
+    <link rel="icon" href="IMG/logo.png" type="image/png">
 </head>
 <body>
-    <!-- 导航栏 -->
-    <header>
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">平遥古城</a>
-		<ul class="nav-links">
-    		<li><a href="首页.html">首页</a></li>
-    		<li><a href="history.html">历史与文化</a></li>
-    		<li><a href="architecture.html">建筑特色</a></li>
-    		<li><a href="vr.html">VR体验</a></li>
-   		 <li><a href="creation.html">文化共创</a></li> <!-- 新增 -->
-    		<li><a href="https://pingyao888.cn ">旅游服务</a></li>
-    		<li><a href="login.html">登录</a></li>
-		</ul>
-            </nav>
-        </div>
-    </header>
+    <!-- 页面加载遮罩 -->
+    <div id="page-loading" class="page-loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">平遥古韵 · 徐徐展开</div>
+    </div>
+    <script>
+    window.addEventListener('load', function() {
+        const loading = document.getElementById('page-loading');
+        if (loading) {
+            setTimeout(function() {
+                loading.classList.add('fade-out');
+                setTimeout(function() { loading.style.display = 'none'; }, 500);
+            }, 400);
+        }
+    });
+    </script>
 
-    <!-- 首页轮播图 -->
+    <!-- 全局导航栏 -->
+    <div id="global-nav"></div>
+    <script src="JS/components/nav.js"></script>
+
+    <!-- 首页轮播图（完全保持原样） -->
     <section class="hero" id="home">
         <div class="carousel">
             <div class="carousel-item active" style="background-image: url('IMG/1.jpeg')">
                 <div class="carousel-caption">
-                    <h2>千年古城</h2>
-                    <p>平遥古城，世界文化遗产，感受千年古城的历史韵味</p>
+                    <h2>千年古城 · 晋商故里</h2>
+                    <p>平遥古城，世界文化遗产。2700年岁月在此沉淀，听——每一块青砖都在诉说着晋商"汇通天下"的传奇，每一扇木门背后都是岁月的回响。</p>
                 </div>
             </div>
-            
+
             <div class="carousel-item" style="background-image: url('IMG/MQYTJ.jpg')">
                 <div class="carousel-caption">
-                    <h2>古城夜色</h2>
-                    <p>夜幕下的平遥古城，灯火辉煌，别有一番韵味</p>
+                    <h2>古城夜色 · 灯火平遥</h2>
+                    <p>夜幕低垂，千盏红灯笼次第亮起，明清街巷在暖光中苏醒。石板路上倒映着百年商号的匾额光影，仿佛一脚踏入了"日升昌"票号的金色年代。</p>
                 </div>
             </div>
-            
+
             <div class="carousel-item" style="background-image: url('img/6.JPG')">
                 <div class="carousel-caption">
-                    <h2>古建筑艺术</h2>
-                    <p>精美的古建筑，体现了中国传统建筑的精湛技艺</p>
+                    <h2>古建神韵 · 匠艺千年</h2>
+                    <p>飞檐斗拱间藏着明清匠人的呼吸，木雕窗棂里透出百年前的光。中国保存最完整的古城——每一根梁柱都是活着的史书，每一处砖雕都是凝固的诗行。</p>
+                </div>
+            </div>
+        </div>
+        <!-- 轮播指示器圆点 -->
+        <div class="carousel-dots">
+            <span class="dot active" data-index="0"></span>
+            <span class="dot" data-index="1"></span>
+            <span class="dot" data-index="2"></span>
+        </div>
+    </section>
+
+    <!-- ====== 新增：AI导览入口区（在轮播图下方，保持原风格） ====== -->
+    <section class="ai-entry-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>AI 导览平遥古城</h2>
+                <p style="font-size:18px;color:#555;margin-top:15px;">让千年晋商文化可问、可游、可创作 · 2700年古城 · 中国保存最完整四大古城之一 · 23处国家级文保单位</p>
+            </div>
+            <div class="entry-cards">
+                <a href="creation.html#ai-chat" class="entry-card">
+                    <div class="entry-icon"><i class="fa-solid fa-comment-dots"></i></div>
+                    <h3>开始 AI 导览</h3>
+                    <p>向 AI 询问平遥历史、晋商文化、建筑特色，获取专业讲解</p>
+                </a>
+                <a href="creation.html#inspiration" class="entry-card">
+                    <div class="entry-icon"><i class="fa-solid fa-compass"></i></div>
+                    <h3>灵感拾遗</h3>
+                    <p>AI 为您推荐专属旅游路线、特色美食和摄影点位，挖掘深度文化体验</p>
+                </a>
+                <a href="vr.html" class="entry-card">
+                    <div class="entry-icon"><i class="fa-solid fa-vr-cardboard"></i></div>
+                    <h3>进入 VR 古城</h3>
+                    <p>720°全景漫游古城墙、票号、县衙，沉浸式体验平遥</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== 平台核心能力 ====== -->
+    <section class="core-capabilities">
+        <div class="container">
+            <div class="section-title">
+                <h2>平台核心能力</h2>
+            </div>
+            <div class="culture-grid">
+                <div class="culture-item">
+                    <div class="culture-item-text">
+                        <h3><i class="fa-solid fa-robot"></i> AI 智能问答</h3>
+                        <p>围绕平遥古城历史、晋商文化、建筑特色、票号知识进行专业问答，让您深入了解古城文化。</p>
+                    </div>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-item-text">
+                        <h3><i class="fa-solid fa-map-location-dot"></i> 个性游线规划</h3>
+                        <p>根据您的游玩时长、兴趣偏好、同行人群等，AI 自动生成结构化游览路线。</p>
+                    </div>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-item-text">
+                        <h3><i class="fa-solid fa-vr-cardboard"></i> VR 沉浸体验</h3>
+                        <p>720°全景漫游平遥古城，配合 AI 场景讲解，让历史建筑在您眼前生动呈现。</p>
+                    </div>
+                </div>
+            </div>
+            <div class="culture-grid" style="margin-top:20px;">
+                <div class="culture-item">
+                    <a href="creation.html" style="text-decoration:none;">
+                        <div class="culture-item-text">
+                            <h3><i class="fa-solid fa-palette"></i> 文化共创</h3>
+                            <p>使用 AI 生成意境绘卷、润色游记文案、获取旅游灵感，创作您的平遥文化作品。</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <a href="usercenter.html" style="text-decoration:none;">
+                        <div class="culture-item-text">
+                            <h3><i class="fa-regular fa-bookmark"></i> 个人中心</h3>
+                            <p>保存您的路线、创作记录和偏好设置，打造专属的平遥旅行记忆。</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="culture-item">
+                    <div class="culture-item-text">
+                        <h3><i class="fa-solid fa-share-nodes"></i> 内容传播</h3>
+                        <p>生成的游记、海报、文案支持复制和分享，助力平遥文化传播。</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
-<script>
-  new CozeWebSDK.WebChatClient({
-    config: {
-       type: 'bot',
-    bot_id: '7628618640471965731',
-    isIframe: true,
-    },
-    componentProps: {
-      title: '平遥古城智能助手',
-       icon: 'https://img.icons8.com/color/48/000000/pagoda.png', // 可替换为古城图标URL
-      position: {
-        top: '85px', /* 导航栏下方 */
-        right: '20px',
-        bottom: 'auto'
-      }
-    },
-    auth: {
-      type: 'token',
-      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
-      onRefreshToken: function () {
-        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
-      }
-    }
-  });
-</script>
+    <!-- ====== 新增：商业价值展示 ====== -->
+    <section class="business-value-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>商业价值与社会效益</h2>
+            </div>
 
+            <!-- C 端：游客价值 -->
+            <div class="value-group">
+                <div class="value-group-header">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <h3>C 端 · 游客价值</h3>
+                    <span class="value-tag">流量入口</span>
+                </div>
+                <div class="value-cards">
+                    <div class="value-card">
+                        <div class="value-card-icon free-icon">
+                            <i class="fa-solid fa-comment-dots"></i>
+                        </div>
+                        <h4>免费 AI 导览</h4>
+                        <p>智能问答、景点百科、路线规划、VR 全景预览——全程免费，零门槛了解平遥古城。</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-card-icon premium-icon">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h4>增值创作服务 <span class="badge-free">免费</span></h4>
+                        <p>AI 生成研学版/小红书版/英文版文案、游记润色、高清壁纸，全部免费使用。</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-card-icon premium-icon">
+                            <i class="fa-solid fa-route"></i>
+                        </div>
+                        <h4>专属路线定制 <span class="badge-free">免费</span></h4>
+                        <p>AI 根据时间/偏好/人群深度定制路线，可导出 PDF 路书，全部免费使用。</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-card-icon free-icon">
+                            <i class="fa-solid fa-share-nodes"></i>
+                        </div>
+                        <h4>社交裂变传播</h4>
+                        <p>一键生成分享海报、AI 创作内容分享至朋友圈/小红书，免费驱动自然传播获客。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- B 端：机构价值 -->
+            <div class="value-group" style="margin-top:40px;">
+                <div class="value-group-header">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <h3>B 端 · 机构价值</h3>
+                    <span class="value-tag" style="background:#b8860b;">利润层</span>
+                </div>
+                <div class="value-cards">
+                    <div class="value-card">
+                        <div class="value-card-icon b-icon">
+                            <i class="fa-solid fa-city"></i>
+                        </div>
+                        <h4>景区数字化升级</h4>
+                        <p>数字导览平台 + 游客行为数据分析 + 多语言 AI 讲解员——SaaS 年费 2-5 万元或一次性部署 8-15 万元。</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-card-icon b-icon">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h4>研学机构合作</h4>
+                        <p>定制研学路线 + AI 讲解词批量生成 + 学生互动答题系统——按路线授权 500-2000 元/条或机构年费 1 万元。</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-card-icon b-icon">
+                            <i class="fa-solid fa-newspaper"></i>
+                        </div>
+                        <h4>文旅内容授权</h4>
+                        <p>AI 文旅内容 API 输出、景点数据授权、AI 文案批量生产——API 按量计费或内容授权年费。</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-card-icon b-icon">
+                            <i class="fa-solid fa-store"></i>
+                        </div>
+                        <h4>本地商户入驻</h4>
+                        <p>AI 推荐接入、商家主页、优惠券发放、客流引导——入驻服务费 3000 元/年或订单抽佣 5%。</p>
+                    </div>
+            </div>
+        </div>
+
+        <!-- ====== 新增：运营能力展示 ====== -->
+    </section>
+
+    <!-- ====== 新增：运营能力展示 ====== -->
+    <section class="operations-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>上线运营能力</h2>
+            </div>
+
+            <div class="ops-grid">
+                <!-- 运营节奏 -->
+                <div class="ops-card">
+                    <div class="ops-card-header">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <h3>运营节奏</h3>
+                    </div>
+                    <div class="ops-timeline">
+                        <div class="ops-phase">
+                            <span class="phase-dot startup"></span>
+                            <div>
+                                <strong>冷启动</strong>
+                                <p>第 1-2 周：功能验证 + 种子用户测试迭代</p>
+                            </div>
+                        </div>
+                        <div class="ops-phase">
+                            <span class="phase-dot growth"></span>
+                            <div>
+                                <strong>成长期</strong>
+                                <p>第 3-6 周：社交传播 + UGC 内容沉淀 200+ 条</p>
+                            </div>
+                        </div>
+                        <div class="ops-phase">
+                            <span class="phase-dot stable"></span>
+                            <div>
+                                <strong>稳定期</strong>
+                                <p>第 7-12 周：数据驱动优化 + C/B 端商业验证</p>
+                            </div>
+                        </div>
+                        <div class="ops-phase">
+                            <span class="phase-dot expand"></span>
+                            <div>
+                                <strong>拓展期</strong>
+                                <p>第 13 周+：模式复制 + 品牌输出 + 政府项目申报</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 数字名片 -->
+                <div class="ops-card">
+                    <div class="ops-card-header">
+                        <i class="fa-solid fa-medal"></i>
+                        <h3>平遥古城·数字名片</h3>
+                    </div>
+                    <div class="ops-metrics">
+                        <div class="metric-row">
+                            <span class="metric-name">🌍 世界文化遗产</span>
+                            <span class="metric-bar"><span class="bar-fill" style="width:100%"></span></span>
+                            <span class="metric-value">1997 年列入</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-name">⭐ 国家 5A 级景区</span>
+                            <span class="metric-bar"><span class="bar-fill" style="width:100%"></span></span>
+                            <span class="metric-value">2015 年评定</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-name">🏯 古城面积</span>
+                            <span class="metric-bar"><span class="bar-fill" style="width:75%"></span></span>
+                            <span class="metric-value">2.25 km²</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-name">🧱 城墙周长</span>
+                            <span class="metric-bar"><span class="bar-fill" style="width:85%"></span></span>
+                            <span class="metric-value">6,163 m</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-name">🏘️ 保存古街巷</span>
+                            <span class="metric-bar"><span class="bar-fill" style="width:80%"></span></span>
+                            <span class="metric-value">199 条</span>
+                        </div>
+                        <div class="metric-row">
+                            <span class="metric-name">🏺 全国重点文保</span>
+                            <span class="metric-bar"><span class="bar-fill" style="width:70%"></span></span>
+                            <span class="metric-value">20 处</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 反馈机制 -->
+                <div class="ops-card">
+                    <div class="ops-card-header">
+                        <i class="fa-solid fa-arrows-spin"></i>
+                        <h3>反馈闭环</h3>
+                    </div>
+                    <div class="ops-feedback">
+                        <div class="feedback-flow">
+                            <span class="flow-node">用户反馈</span>
+                            <i class="fa-solid fa-arrow-right flow-arrow"></i>
+                            <span class="flow-node">分类处理</span>
+                            <i class="fa-solid fa-arrow-right flow-arrow"></i>
+                            <span class="flow-node">迭代优化</span>
+                            <i class="fa-solid fa-arrow-right flow-arrow"></i>
+                            <span class="flow-node">更新上线</span>
+                        </div>
+                        <div class="feedback-loopback">
+                            <i class="fa-solid fa-rotate-left"></i> 持续循环，不断改进
+                        </div>
+                        <div class="feedback-kpis">
+                            <div class="kpi-item">
+                                <span class="kpi-num">&lt;24h</span>
+                                <span class="kpi-label">反馈响应</span>
+                            </div>
+                            <div class="kpi-item">
+                                <span class="kpi-num">&lt;48h</span>
+                                <span class="kpi-label">Bug 修复</span>
+                            </div>
+                            <div class="kpi-item">
+                                <span class="kpi-num">2 周</span>
+                                <span class="kpi-label">迭代周期</span>
+                            </div>
+                            <div class="kpi-item">
+                                <span class="kpi-num">&gt;80%</span>
+                                <span class="kpi-label">闭环率</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 内容维护 -->
+                <div class="ops-card">
+                    <div class="ops-card-header">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        <h3>内容维护</h3>
+                    </div>
+                    <div class="ops-content-maint">
+                        <div class="maint-item">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span>景点百科</span>
+                            <span class="maint-freq">每月核查</span>
+                        </div>
+                        <div class="maint-item">
+                            <i class="fa-solid fa-database"></i>
+                            <span>文化知识库</span>
+                            <span class="maint-freq">每季更新</span>
+                        </div>
+                        <div class="maint-item">
+                            <i class="fa-solid fa-robot"></i>
+                            <span>AI 提示词</span>
+                            <span class="maint-freq">持续优化</span>
+                        </div>
+                        <div class="maint-item">
+                            <i class="fa-solid fa-check-double"></i>
+                            <span>UGC 审核</span>
+                            <span class="maint-freq">每日审核</span>
+                        </div>
+                        <div class="maint-item">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            <span>活动信息</span>
+                            <span class="maint-freq">节前更新</span>
+                        </div>
+                        <div class="maint-item">
+                            <i class="fa-solid fa-file-lines"></i>
+                            <span>页面文案</span>
+                            <span class="maint-freq">随版更新</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 评审保障 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== 新增：反馈入口 ====== -->
+    <section class="feedback-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>意见反馈</h2>
+            </div>
+            <div class="feedback-card">
+                <p style="text-align:center;color:#555;margin-bottom:20px;">您的建议是我们进步的动力</p>
+                <div class="feedback-form">
+                    <div class="emoji-rating" style="text-align:center;margin-bottom:15px;">
+                        <span class="emoji-btn active" data-rating="happy" onclick="selectRating(this)">😊</span>
+                        <span class="emoji-btn" data-rating="neutral" onclick="selectRating(this)">😐</span>
+                        <span class="emoji-btn" data-rating="unhappy" onclick="selectRating(this)">😞</span>
+                    </div>
+                    <textarea id="feedback-input" class="ai-prompt-input" rows="6" placeholder="请告诉我们您的使用体验、发现的问题或建议..." style="min-height:150px;resize:vertical;"></textarea>
+                    <div style="display:flex;gap:10px;margin-top:10px;justify-content:center;">
+                        <button class="action-btn" onclick="submitFeedback()" style="background:#8c1515;color:white;border:none;padding:10px 24px;border-radius:5px;cursor:pointer;">
+                            <i class="fa-solid fa-paper-plane"></i> 提交反馈
+                        </button>
+                    </div>
+                    <p style="text-align:center;color:#999;font-size:14px;margin-top:10px;" id="feedback-status"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== 新增：页脚 ====== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>平遥古城智能文旅平台</h3>
+                    <p>融合 AI 问答、个性化游线推荐、VR 沉浸式体验与文化内容共创的智能文旅平台。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="history.html">历史与文化</a></li>
+                        <li><a href="architecture.html">建筑特色</a></li>
+                        <li><a href="vr.html">VR体验</a></li>
+                        <li><a href="creation.html">文化共创</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>关于平台</h3>
+                    <p>本项目为 AI Web 网页开发挑战赛参赛作品。</p>
+                    <p>线上访问：<a href="https://pygcwhgc.site/" target="_blank">https://pygcwhgc.site/</a></p>
+                    <p>测试账号：test / 123456</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy;  平遥古城智能文旅平台 | 世界文化遗产 · 平遥古城</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ====== AI 服务降级提示横幅（可自动隐藏） ====== -->
+    <div id="api-fallback-banner" class="api-fallback-banner" style="display:none;">
+      <div class="container">
+        <span class="banner-icon">⚠️</span>
+        <span class="banner-text">当前 AI 服务暂时不可用，已切换至离线演示模式，部分功能响应为预设内容。</span>
+        <button class="banner-close" onclick="hideFallbackBanner()" title="不再显示">✕</button>
+      </div>
+    </div>
+
+    <!-- Coze AI 助手 -->
+    <script src="config.js"></script>
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
+    <script>
+      try {
+        if (typeof CozeWebSDK !== 'undefined') {
+          new CozeWebSDK.WebChatClient({
+            config: {
+              type: 'bot',
+              bot_id: '7628618640471965731',
+              isIframe: true,
+            },
+            componentProps: {
+              title: '平遥古城智能助手',
+              icon: 'https://img.icons8.com/color/48/000000/pagoda.png',
+              position: {
+                top: '85px',
+                right: '20px',
+                bottom: 'auto'
+              }
+            },
+            auth: {
+              type: 'token',
+              token: window.PINGYAO_CONFIG.coze.token,
+              onRefreshToken: function () {
+                return window.PINGYAO_CONFIG.coze.token
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('Coze SDK 初始化失败（不影响页面其他功能）:', e.message);
+      }
+    </script>
+
+    <!-- 引入模块化 JS -->
+    <script src="JS/utils/storage.js"></script>
+    <script src="JS/utils/validators.js"></script>
+    <script src="JS/utils/errorHandler.js"></script>
+    <script src="JS/api/cozeClient.js"></script>
+    <script src="JS/modules/userCenter.js"></script>
+    <script src="JS/modules/routePlanner.js"></script>
     <script src="JS/PYGCJS.js"></script>
+    <script>
+        // 全局变量：记录当前选中的评分
+        let selectedRating = 'happy';
+
+        // emoji 评分选择
+        function selectRating(el) {
+            document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            selectedRating = el.getAttribute('data-rating');
+        }
+
+        // 提交反馈
+        function submitFeedback() {
+            const input = document.getElementById('feedback-input');
+            const status = document.getElementById('feedback-status');
+            if (!input || !input.value.trim()) {
+                status.textContent = '请填写反馈内容';
+                status.style.color = '#e74c3c';
+                return;
+            }
+            StorageUtils.saveFeedback({ content: input.value.trim(), rating: selectedRating, page: '首页' });
+            status.textContent = '感谢您的反馈！我们会认真对待每一条建议。';
+            status.style.color = '#4caf50';
+            input.value = '';
+            // 重置评分为开心
+            document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.emoji-btn[data-rating="happy"]').classList.add('active');
+            selectedRating = 'happy';
+        }
+
+        // ========== AI 服务降级检测与提示 ==========
+
+        /**
+         * 检查 AI 服务状态，必要时显示降级提示
+         */
+        function checkAIServiceStatus() {
+            // 等待 CozeClient 初始化
+            var checkInterval = setInterval(function () {
+                if (window.CozeClient && typeof CozeClient.isFallbackMode === 'function') {
+                    clearInterval(checkInterval);
+                    if (CozeClient.isFallbackMode()) {
+                        showFallbackBanner();
+                    } else if (!CozeClient.isOnline()) {
+                        // 离线但尚未进入降级模式，稍后再次检查
+                        setTimeout(checkAIServiceStatus, 3000);
+                    }
+                }
+            }, 500);
+        }
+
+        /**
+         * 显示降级提示横幅
+         */
+        function showFallbackBanner() {
+            var banner = document.getElementById('api-fallback-banner');
+            if (!banner || banner.style.display === 'flex') return;
+
+            // 检查用户是否已关闭过（localStorage 记录）
+            if (localStorage.getItem('pingyao_banner_hidden') === 'true') {
+                return;
+            }
+
+            banner.style.display = 'flex';
+            banner.style.animation = 'slideDown 0.5s ease';
+            ErrorHandler.toast('⚠️ AI 服务已切换至离线演示模式', 'warning', 8000);
+        }
+
+        /**
+         * 隐藏降级提示横幅
+         */
+        function hideFallbackBanner() {
+            var banner = document.getElementById('api-fallback-banner');
+            if (banner) {
+                banner.style.animation = 'slideUp 0.3s ease';
+                setTimeout(function () {
+                    banner.style.display = 'none';
+                }, 300);
+                // 记录用户已隐藏，12小时内不再显示
+                localStorage.setItem('pingyao_banner_hidden', 'true');
+                setTimeout(function () { localStorage.removeItem('pingyao_banner_hidden'); }, 12 * 60 * 60 * 1000);
+            }
+        }
+
+        // 页面加载后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            UserCenter.init();
+            checkAIServiceStatus();
+        });
+    </script>
+
+<script src="JS/components/aiTip.js"></script>
+<script src="JS/utils/lazyLoad.js"></script>
+<script src="JS/components/scrollReveal.js"></script>
+<script src="JS/components/searchOverlay.js"></script>
+<script src="JS/components/skeletonLoader.js"></script>
+<script src="JS/components/backToTop.js"></script>
+<script src="JS/components/uiEnhancements.js"></script>
+<script>
+// 首页轮播自动播放
+(function() {
+    'use strict';
+    var items = document.querySelectorAll('.carousel-item');
+    var dots = document.querySelectorAll('.carousel-dots .dot');
+    if (!items.length) return;
+    var current = 0, timer = null;
+    var hasDots = dots.length > 0;
+
+    function goTo(index) {
+        items.forEach(function(el, i) {
+            el.classList.toggle('active', i === index);
+        });
+        if (hasDots) {
+            dots.forEach(function(d, i) {
+                d.classList.toggle('active', i === index);
+            });
+        }
+        current = index;
+    }
+
+    function next() {
+        goTo((current + 1) % items.length);
+    }
+
+    // 点击圆点切换
+    if (hasDots) {
+        dots.forEach(function(dot) {
+            dot.addEventListener('click', function() {
+                var idx = parseInt(this.getAttribute('data-index'), 10);
+                goTo(idx);
+                resetTimer();
+            });
+        });
+    }
+
+    function startAuto() {
+        stopAuto();
+        timer = setInterval(next, 3000);
+    }
+    function stopAuto() {
+        if (timer) { clearInterval(timer); timer = null; }
+    }
+    function resetTimer() { startAuto(); }
+
+    // 鼠标悬停暂停
+    var hero = document.querySelector('.hero');
+    if (hero) {
+        hero.addEventListener('mouseenter', stopAuto);
+        hero.addEventListener('mouseleave', startAuto);
+        // 触屏：触碰时暂停
+        hero.addEventListener('touchstart', function() {
+            stopAuto();
+        }, { passive: true });
+        hero.addEventListener('touchend', startAuto);
+    }
+
+    startAuto();
+})();
+</script>
+<script>
+// 注册 Service Worker（PWA 离线支持）
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js').then(function(reg) {
+      console.log('Service Worker 注册成功:', reg.scope);
+    }).catch(function(err) {
+      console.warn('Service Worker 注册失败:', err);
+    });
+  });
+}
+</script>
 </body>
 </html>

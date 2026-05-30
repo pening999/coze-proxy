@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 平遥古城智能文旅平台</title>
+    <link rel="stylesheet" href="CSS/PYGCCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8c1515">
+    <link rel="icon" href="IMG/logo.png" type="image/png">
+    <meta name="description" content="平遥古城个人中心 - 管理偏好设置、查看路线记录、创作历史和收藏">
+    <meta property="og:title" content="平遥古城 - 个人中心">
+    <meta property="og:description" content="您的平遥文旅体验，尽在指尖管理。">
+    <meta property="og:image" content="https://pygcwhgc.site/IMG/pygc.jpg">
+    <meta name="keywords" content="平遥古城,个人中心,用户设置,收藏,路线记录">
+    <style>
+        /* 用户中心专用样式（复用原设计体系） */
+        .user-center-section {
+            padding-top: 100px;
+            min-height: 80vh;
+        }
+        .user-center-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        @media (max-width: 768px) {
+            .user-center-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 侧边栏 */
+        .user-sidebar {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 25px;
+            height: fit-content;
+        }
+        .user-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8c1515, #c0392b);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 15px;
+        }
+        .user-name-display {
+            text-align: center;
+            font-size: 20px;
+            color: #8c1515;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-family: 'SimSun', 'Microsoft YaHei', serif;
+        }
+        .user-role {
+            text-align: center;
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        .sidebar-menu li {
+            margin-bottom: 2px;
+        }
+        .sidebar-menu a {
+            display: block;
+            padding: 12px 15px;
+            color: #555;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 15px;
+            transition: all 0.2s;
+        }
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #fdf6f0;
+            color: #8c1515;
+            font-weight: 600;
+        }
+        .sidebar-menu a i {
+            width: 20px;
+            margin-right: 8px;
+            text-align: center;
+        }
+
+        /* 主内容区 */
+        .user-content {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .tab-panel {
+            display: none;
+        }
+        .tab-panel.active {
+            display: block;
+        }
+        .tab-panel h3 {
+            font-size: 22px;
+            color: #8c1515;
+            margin-bottom: 20px;
+            font-family: 'SimSun', 'Microsoft YaHei', serif;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #8c1515;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .empty-state i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .empty-state p {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+        .empty-state .go-btn {
+            display: inline-block;
+            margin-top: 15px;
+            background: #8c1515;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .empty-state .go-btn:hover {
+            background: #6c0f0f;
+        }
+
+        /* 路线卡片 */
+        .route-card {
+            border: 1px solid #f0e8dc;
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 15px;
+            transition: box-shadow 0.3s;
+        }
+        .route-card:hover {
+            box-shadow: 0 4px 16px rgba(140,21,21,0.1);
+        }
+        .route-card h4 {
+            color: #8c1515;
+            font-size: 17px;
+            margin-bottom: 6px;
+        }
+        .route-card .meta {
+            color: #999;
+            font-size: 13px;
+        }
+        .route-card .route-actions {
+            margin-top: 10px;
+        }
+        .route-actions button {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 5px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #666;
+            font-size: 13px;
+            margin-right: 8px;
+            transition: all 0.2s;
+        }
+        .route-actions button:hover {
+            border-color: #8c1515;
+            color: #8c1515;
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面加载遮罩 -->
+    <div id="page-loading" class="page-loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">个人空间 · 加载中</div>
+    </div>
+    <script>
+    window.addEventListener('load', function() {
+        var loading = document.getElementById('page-loading');
+        if (loading) {
+            setTimeout(function() {
+                loading.classList.add('fade-out');
+                setTimeout(function() { loading.style.display = 'none'; }, 500);
+            }, 300);
+        }
+    });
+    </script>
+
+    <!-- 全局导航栏 -->
+    <div id="global-nav"></div>
+    <script src="JS/components/nav.js"></script>
+
+    <!-- 个人中心主体 -->
+    <section class="user-center-section">
+        <div class="container">
+            <div class="user-center-grid">
+                <!-- 侧边栏 -->
+                <aside class="user-sidebar">
+                    <div class="user-avatar-large">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="user-name-display" id="display-name">游客</div>
+                    <div class="user-role">平遥文化探索者</div>
+                    <ul class="sidebar-menu">
+                        <li><a href="#" class="active" data-tab="creations">
+                            <i class="fa-solid fa-palette"></i> 我的创作
+                        </a></li>
+                        <li><a href="#" data-tab="bookmarks">
+                            <i class="fa-regular fa-bookmark"></i> 我的收藏
+                        </a></li>
+                        <li><a href="#" data-tab="settings">
+                            <i class="fa-solid fa-gear"></i> 偏好设置
+                        </a></li>
+                    </ul>
+                    <button class="logout-btn" id="logout-main-btn" style="margin-top:20px;width:100%;padding:10px;background:transparent;border:1px solid #ddd;border-radius:6px;cursor:pointer;color:#888;font-size:14px;transition:all 0.2s;">
+                        <i class="fa-solid fa-right-from-bracket"></i> 退出登录
+                    </button>
+                </aside>
+
+                <!-- 主内容 -->
+                <main class="user-content">
+                    <!-- 我的创作 -->
+                    <div class="tab-panel active" id="panel-creations">
+                        <h3><i class="fa-solid fa-palette"></i> 我的创作</h3>
+                        <div id="creations-container">
+                            <div class="empty-state">
+                                <i class="fa-solid fa-feather-pointed"></i>
+                                <p>还没有创作内容</p>
+                                <a href="creation.html" class="go-btn">
+                                    <i class="fa-solid fa-wand-sparkles"></i> 开始文化创作
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 我的收藏 -->
+                    <div class="tab-panel" id="panel-bookmarks">
+                        <h3><i class="fa-regular fa-bookmark"></i> 我的收藏</h3>
+                        <div id="bookmarks-container">
+                            <div class="empty-state">
+                                <i class="fa-regular fa-bookmark"></i>
+                                <p>还没有收藏任何内容</p>
+                                <p style="color:#bbb;font-size:13px;">浏览历史、建筑或 AI 推荐时点击"保存"即可收藏</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 偏好设置 -->
+                    <div class="tab-panel" id="panel-settings">
+                        <h3><i class="fa-solid fa-gear"></i> 偏好设置</h3>
+                        <div style="padding:15px 0;">
+                            <div style="margin-bottom:20px;">
+                                <label style="display:block;color:#555;margin-bottom:8px;font-size:15px;">
+                                    <i class="fa-solid fa-user-pen"></i> 昵称
+                                </label>
+                                <input type="text" id="settings-nickname" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:15px;font-family:'SimSun',serif;" placeholder="输入您的昵称">
+                            </div>
+                            <div style="margin-bottom:20px;">
+                                <label style="display:block;color:#555;margin-bottom:8px;font-size:15px;">
+                                    <i class="fa-solid fa-language"></i> AI 回答风格偏好
+                                </label>
+                                <select id="settings-style" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:15px;font-family:'SimSun',serif;">
+                                    <option value="专业详尽">专业详尽</option>
+                                    <option value="简洁明了">简洁明了</option>
+                                    <option value="故事化">故事化（通俗历史）</option>
+                                </select>
+                            </div>
+
+                            <!-- ====== API Token 配置（新增） ====== -->
+                            <div style="margin-bottom:20px;padding:20px;background:#fdf8f4;border:1px solid #f0e0d0;border-radius:10px;">
+                                <label style="display:block;color:#555;margin-bottom:8px;font-size:15px;font-weight:600;">
+                                    <i class="fa-solid fa-key"></i> Coze API Token
+                                </label>
+                                <input type="password" id="settings-token" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;font-family:'SimSun',serif;background:#fff;" placeholder="粘贴您的 Coze API Token...">
+                                <p style="margin:8px 0 0;color:#999;font-size:12px;">
+                                    <i class="fa-solid fa-circle-info"></i> 
+                                    在 <a href="https://www.coze.cn" target="_blank" style="color:#8c1515;">Coze 平台</a> → 个人设置 → API Token 获取。
+                                    如需更新 Token，直接粘贴后保存即可。
+                                </p>
+                            </div>
+
+                            <button onclick="saveSettings()" style="background:#8c1515;color:white;border:none;padding:10px 30px;border-radius:6px;cursor:pointer;font-size:15px;transition:background 0.3s;">
+                                <i class="fa-solid fa-floppy-disk"></i> 保存设置
+                            </button>
+                            <span id="settings-saved" style="display:none;color:#4caf50;margin-left:15px;font-size:14px;">
+                                <i class="fa-solid fa-check"></i> 已保存
+                            </span>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>平遥古城智能文旅平台</h3>
+                    <p>融合 AI 问答、个性化游线推荐、VR 沉浸式体验与文化内容共创的智能文旅平台。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="首页.html">首页</a></li>
+                        <li><a href="history.html">历史与文化</a></li>
+                        <li><a href="architecture.html">建筑特色</a></li>
+                        <li><a href="vr.html">VR体验</a></li>
+                        <li><a href="creation.html">文化共创</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>关于平台</h3>
+                    <p>本项目为 AI Web 网页开发挑战赛参赛作品。</p>
+                    <p>线上访问：<a href="https://pygcwhgc.site/">https://pygcwhgc.site/</a></p>
+                    <p>测试账号：test / 123456</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy;  平遥古城智能文旅平台 | 世界文化遗产 · 平遥古城</p>
+            </div>
+        </div>
+    </footer>
+
+<script src="JS/utils/storage.js"></script>
+    <script>
+    (function() {
+        'use strict';
+
+        // ========== Tab 切换 ==========
+        document.querySelectorAll('.sidebar-menu a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var tab = this.dataset.tab;
+                if (!tab) return;
+
+                // 高亮当前
+                document.querySelectorAll('.sidebar-menu a').forEach(function(a) { a.classList.remove('active'); });
+                this.classList.add('active');
+
+                // 切换面板
+                document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+                var panel = document.getElementById('panel-' + tab);
+                if (panel) panel.classList.add('active');
+            });
+        });
+
+        // ========== 加载用户信息 ==========
+        function loadUserInfo() {
+            var user = null;
+            try {
+                var raw = localStorage.getItem('pingyao_user_profile');
+                if (raw) user = JSON.parse(raw);
+            } catch(e) {}
+
+            var displayName = document.getElementById('display-name');
+            if (displayName) {
+                displayName.textContent = (user && user.username) || '游客';
+            }
+
+            // 加载偏好设置
+            if (user && user.settings) {
+                var nickInput = document.getElementById('settings-nickname');
+                var styleSelect = document.getElementById('settings-style');
+                if (nickInput && user.settings.nickname) nickInput.value = user.settings.nickname;
+                if (styleSelect && user.settings.aiStyle) styleSelect.value = user.settings.aiStyle;
+            }
+
+            // 加载当前 Token（回填输入框）
+            var tokenInput = document.getElementById('settings-token');
+            if (tokenInput) {
+                var savedToken = localStorage.getItem('pingyao_coze_token') || '';
+                if (savedToken) tokenInput.value = savedToken;
+            }
+        }
+
+        // ========== 保存设置 ==========
+        window.saveSettings = function() {
+            var nickname = document.getElementById('settings-nickname').value.trim();
+            var aiStyle = document.getElementById('settings-style').value;
+            var apiToken = document.getElementById('settings-token').value.trim();
+
+            var user = {};
+            try {
+                var raw = localStorage.getItem('pingyao_user_profile');
+                if (raw) user = JSON.parse(raw);
+            } catch(e) {}
+
+            user.settings = user.settings || {};
+            user.settings.nickname = nickname;
+            user.settings.aiStyle = aiStyle;
+
+            localStorage.setItem('pingyao_user_profile', JSON.stringify(user));
+
+            // 保存 API Token 到獨立 key
+            if (apiToken) {
+                localStorage.setItem('pingyao_coze_token', apiToken);
+                // 同步更新全局配置
+                if (window.PINGYAO_CONFIG && window.PINGYAO_CONFIG.coze) {
+                    window.PINGYAO_CONFIG.coze.token = apiToken;
+                }
+            }
+
+            // 更新显示
+            if (nickname) {
+                document.getElementById('display-name').textContent = nickname;
+            }
+
+            var savedEl = document.getElementById('settings-saved');
+            savedEl.style.display = 'inline';
+            setTimeout(function() { savedEl.style.display = 'none'; }, 2000);
+        };
+
+        // ========== 退出登录 ==========
+        document.getElementById('logout-main-btn').addEventListener('click', function() {
+            try { localStorage.removeItem('pingyao_user_profile'); } catch(e) {}
+            // 如果 UserCenter 模块存在，调用完整的 logout
+            if (typeof UserCenter !== 'undefined' && UserCenter.logout) {
+                UserCenter.logout();
+            }
+            window.location.href = 'login.html';
+        });
+
+        // ========== 加载路线/创作/收藏 ==========
+        function loadSavedItems(type, containerId) {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+
+            try {
+                // 通过 StorageUtils 获取数据（统一键名）
+                var items = [];
+                if (type === 'creations') {
+                    items = StorageUtils.getCreations();
+                } else if (type === 'routes') {
+                    items = StorageUtils.getRoutes();
+                } else if (type === 'bookmarks') {
+                    items = StorageUtils.getFavorites();
+                }
+
+                if (!items || items.length === 0) return; // 保持空状态
+
+                var html = '';
+                items.forEach(function(item, index) {
+                    var title = item.title || '未命名';
+                    var date = item.createdAt ? item.createdAt.slice(0, 10) : (item.date || '');
+                    var typeLabel = item.typeName || item.type || '';
+                    var preview = item.preview || (item.content ? item.content.substring(0, 120) : '');
+
+                    html += '<div class="route-card">';
+                    html += '<h4>' + title + '</h4>';
+                    html += '<div class="meta">' + date + ' · ' + typeLabel + '</div>';
+                    if (preview) {
+                        html += '<p style="color:#666;font-size:14px;margin-top:8px;">' + preview + '...</p>';
+                    }
+                    html += '<div class="route-actions">';
+                    html += '<button onclick="viewItem(\'' + type + '\',' + index + ')"><i class="fa-solid fa-eye"></i> 查看</button>';
+                    html += '<button onclick="deleteItem(\'' + type + '\',' + index + ')"><i class="fa-solid fa-trash-can"></i> 删除</button>';
+                    html += '</div></div>';
+                });
+                container.innerHTML = html;
+            } catch(e) { console.warn('loadSavedItems 失败:', e); }
+        }
+
+        window.viewItem = function(type, index) {
+            try {
+                var items = [];
+                if (type === 'creations') items = StorageUtils.getCreations();
+                else if (type === 'routes') items = StorageUtils.getRoutes();
+                else if (type === 'bookmarks') items = StorageUtils.getFavorites();
+
+                if (items[index] && items[index].content) {
+                    var win = window.open('', '_blank');
+                    win.document.write('<html><head><title>' + (items[index].title||'查看') + '</title>');
+                    win.document.write('<meta charset="UTF-8">');
+                    win.document.write('<style>body{max-width:800px;margin:40px auto;padding:20px;font-family:SimSun,serif;line-height:1.8;color:#333;}h1{color:#8c1515;}</style>');
+                    win.document.write('</head><body>');
+                    win.document.write('<h1>' + (items[index].title||'') + '</h1>');
+                    win.document.write('<div>' + items[index].content + '</div>');
+                    win.document.write('</body></html>');
+                }
+            } catch(e) {}
+        };
+
+        window.deleteItem = function(type, index) {
+            if (!confirm('确定删除这条记录吗？')) return;
+            try {
+                var items = [];
+                if (type === 'creations') items = StorageUtils.getCreations();
+                else if (type === 'routes') items = StorageUtils.getRoutes();
+                else if (type === 'bookmarks') items = StorageUtils.getFavorites();
+
+                if (items[index]) {
+                    var id = items[index].id;
+                    if (type === 'creations') StorageUtils.deleteCreation(id);
+                    else if (type === 'routes') StorageUtils.deleteRoute(id);
+                    else if (type === 'bookmarks') StorageUtils.deleteFavorite(id);
+                }
+                location.reload();
+            } catch(e) {}
+        };
+
+        // ========== 初始化 ==========
+        loadUserInfo();
+        loadSavedItems('creations', 'creations-container');
+        loadSavedItems('bookmarks', 'bookmarks-container');
+    })();
+    </script>
+<script src="JS/components/aiTip.js"></script>
+<script src="JS/components/scrollReveal.js"></script>
+<script src="JS/components/searchOverlay.js"></script>
+<script src="JS/components/skeletonLoader.js"></script>
+<script src="JS/components/backToTop.js"></script>
+<script src="JS/components/uiEnhancements.js"></script><script>
+// 注册 Service Worker（PWA 离线支持）
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js').then(function(reg) {
+      console.log('Service Worker 注册成功:', reg.scope);
+    }).catch(function(err) {
+      console.warn('Service Worker 注册失败:', err);
+    });
+  });
+}
+</script>
+</body>
+</html>

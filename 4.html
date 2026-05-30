@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>平遥文庙 - 平遥古城</title>
+    <link rel="stylesheet" href="CSS/PYGCCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -29,92 +31,7 @@
             border-bottom: 1px solid #e5e5e5;
         }
         
-        /* 导航栏样式 */
-        header {
-            background: linear-gradient(to right, #902E22, #31322C);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 0;
-        }
-        
-        .logo {
-            font-size: 30px;
-            font-weight: bold;
-            color: #f8f5f0;
-            text-decoration: none;
-            letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .nav-links {
-            display: flex;
-            list-style: none;
-        }
-        
-        .nav-links li {
-            margin-left: 30px;
-        }
-        
-        .nav-links a {
-            color: #f8f5f0;
-            text-decoration: none;
-            font-size: 18px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-links a:hover {
-            color: #e8c6a6;
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            color: #f8f5f0;
-            text-decoration: none;
-        }
-        
-        .user-avatar {
-            width: 35px;
-            height: 35px;
-            background-color: #f8f5f0;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            overflow: hidden;
-        }
-        
-        .user-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .logout-btn {
-            background: none;
-            border: none;
-            color: #f8f5f0;
-            cursor: pointer;
-            margin-left: 15px;
-            font-size: 14px;
-        }
-        
-        .logout-btn:hover {
-            text-decoration: underline;
-        }
-        
+
         /* 页面内容样式 */
         .section-title {
             text-align: center;
@@ -215,86 +132,83 @@
             left: 0;
         }
         
-        /* 页脚样式 */
-        footer {
-            background-color: #1a1a1a;
-            color: white;
-            padding: 50px 0 20px;
-            text-align: center;
+        /* 统一页脚样式 */
+        .site-footer {
+            background: linear-gradient(to right, #902E22, #31322C);
+            color: #f0e6d3;
+            padding: 60px 0 0;
+            font-family: 'SimSun', '宋体', serif;
         }
         
-        .footer-content {
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-grid {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
-            margin-bottom: 30px;
+            gap: 40px;
+            margin-bottom: 40px;
         }
         
-        .footer-section {
+        .footer-col {
             flex: 1;
             min-width: 250px;
-            margin-bottom: 30px;
-            padding: 0 20px;
-            text-align: left;
         }
         
-        .footer-section h3 {
+        .footer-col h3 {
             font-size: 20px;
+            color: #f0e6d3;
             margin-bottom: 20px;
-            color: #8c1515;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(240, 230, 211, 0.3);
+            font-family: 'STXingkai', '华文行楷', serif;
         }
         
-        .footer-section p {
-            line-height: 1.6;
+        .footer-col p {
+            font-size: 15px;
+            line-height: 1.8;
             margin-bottom: 10px;
+            text-indent: 0;
+            color: #d9cdb8;
         }
         
-        .footer-section ul {
+        .footer-col ul {
             list-style: none;
+            padding: 0;
         }
         
-        .footer-section ul li {
-            margin-bottom: 10px;
+        .footer-col ul li {
+            margin-bottom: 12px;
         }
         
-        .footer-section ul li a {
-            color: #ccc;
+        .footer-col ul li a {
+            color: #d9cdb8;
             text-decoration: none;
-            transition: color 0.3s ease;
+            font-size: 15px;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+            display: inline-block;
         }
         
-        .footer-section ul li a:hover {
-            color: #8c1515;
+        .footer-col ul li a:hover {
+            color: #fff;
+            padding-left: 6px;
         }
         
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            background-color: #333;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        
-        .social-icon:hover {
-            background-color: #8c1515;
-        }
-        
-        .copyright {
-            border-top: 1px solid #333;
-            padding-top: 20px;
+        .footer-bottom {
+            border-top: 1px solid rgba(240, 230, 211, 0.2);
+            padding: 20px 0;
+            text-align: center;
             font-size: 14px;
-            color: #999;
+            color: #b8a88c;
+        }
+        
+        .footer-bottom p {
+            margin: 0;
+            text-indent: 0;
         }
         
         /* 内容样式 */
@@ -362,25 +276,12 @@
             font-size: 35px;
         }
     </style>
+    <link rel="icon" href="IMG/logo.png" type="image/png">
 </head>
 <body>
-    <!-- 导航栏 -->
-    <header>
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">平遥古城</a>
-                <ul class="nav-links">
-                    <li><a href="首页.html">首页</a></li>
-                    <li><a href="history.html">历史与文化</a></li>
-                    <li><a href="architecture.html">建筑特色</a></li>
-                    <li><a href="vr.html">VR体验</a></li>
-		 <li><a href="creation.html">文化共创</a></li>
-                    <li><a href="https://pingyao888.cn">旅游服务</a></li>
-                </ul>
-            
-            </nav>
-        </div>
-    </header>
+    <!-- 全局导航栏 -->
+    <div id="global-nav"></div>
+    <script src="JS/components/nav.js"></script>
 
     <!-- 平遥文庙介绍 -->
     <section id="pingyao-confucius-temple">
@@ -438,32 +339,72 @@
         </div>
     </section>
 
+ <!-- 统一页脚 -->
+ <footer style="background: linear-gradient(to right, #902E22, #31322C); color: #fff; padding: 60px 0 0; margin-top: 60px;">
+     <div class="container">
+         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+             <div style="flex: 1; min-width: 280px; margin-bottom: 40px; padding-right: 40px;">
+                 <h3 style="color: #fff; font-size: 22px; margin-bottom: 20px; font-family: 'STXingkai', '华文行楷', serif;">平遥古城智能文旅平台</h3>
+                 <p style="color: rgba(255,255,255,0.8); line-height: 1.8; font-size: 15px; text-indent: 0;">平遥古城智能文旅平台致力于通过数字化技术，深度整合平遥古城的历史文化资源，为游客提供沉浸式的文化旅游体验。平台融合AI智能导览、VR全景漫游、文化共创社区等功能，让千年古城在数字时代焕发新的生机。</p>
+             </div>
+             <div style="flex: 1; min-width: 160px; margin-bottom: 40px;">
+                 <h3 style="color: #fff; font-size: 18px; margin-bottom: 20px;">快速链接</h3>
+                 <ul style="list-style: none; padding: 0;">
+                     <li style="margin-bottom: 12px;"><a href="1.html" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; transition: color 0.3s;">历史渊源</a></li>
+                     <li style="margin-bottom: 12px;"><a href="architecture.html" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; transition: color 0.3s;">建筑特色</a></li>
+                     <li style="margin-bottom: 12px;"><a href="vr.html" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; transition: color 0.3s;">VR全景</a></li>
+                     <li style="margin-bottom: 12px;"><a href="creation.html" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; transition: color 0.3s;">文化共创</a></li>
+                 </ul>
+             </div>
+             <div style="flex: 1; min-width: 160px; margin-bottom: 40px;">
+                 <h3 style="color: #fff; font-size: 18px; margin-bottom: 20px;">关于平台</h3>
+                 <ul style="list-style: none; padding: 0;">
+                     <li style="margin-bottom: 12px;"><span style="color: rgba(255,255,255,0.8); font-size: 14px;">参赛作品</span></li>
+                     <li style="margin-bottom: 12px;"><a href="https://pygcwhgc.site/" target="_blank" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 14px; transition: color 0.3s;">线上访问</a></li>
+                     <li style="margin-bottom: 12px;"><span style="color: rgba(255,255,255,0.8); font-size: 14px;">测试账号：test / 123456</span></li>
+                 </ul>
+             </div>
+         </div>
+         <div style="border-top: 1px solid rgba(255,255,255,0.2); padding: 20px 0; text-align: center;">
+             <p style="color: rgba(255,255,255,0.6); font-size: 13px; text-indent: 0;">&copy; 平遥古城智能文旅平台 | 传承历史文脉，共绘文化新篇</p>
+         </div>
+     </div>
+ </footer>
+
     
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
+<script src="config.js"></script>
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
 <script>
-  new CozeWebSDK.WebChatClient({
-    config: {
-       type: 'bot',
-    bot_id: '7628618640471965731',
-    isIframe: true,
-    },
-    componentProps: {
-      title: '平遥古城智能助手',
-      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
-      position: {
-        top: '85px', /* 导航栏下方 */
-        right: '20px',
-        bottom: 'auto'
-      }
-    },
-    auth: {
-      type: 'token',
-      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
-      onRefreshToken: function () {
-        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
-      }
+  try {
+    if (typeof CozeWebSDK !== 'undefined') {
+      new CozeWebSDK.WebChatClient({
+        config: {
+           type: 'bot',
+        bot_id: '7628618640471965731',
+        isIframe: true,
+        },
+        componentProps: {
+          title: '平遥古城智能助手',
+          icon: 'https://img.icons8.com/color/48/000000/pagoda.png',
+          position: {
+            top: '85px',
+            right: '20px',
+            bottom: 'auto'
+          }
+        },
+        auth: {
+          type: 'token',
+          token: window.PINGYAO_CONFIG.coze.token,
+          onRefreshToken: function () {
+            return window.PINGYAO_CONFIG.coze.token
+          }
+        }
+      });
     }
-  });
+  } catch (e) {
+    console.warn('Coze SDK:', e.message);
+  }
 </script>
+<script src="JS/components/aiTip.js"></script>
 </body>
 </html>

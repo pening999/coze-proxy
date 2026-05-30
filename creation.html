@@ -3,12 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文化共创 - 平遥古城</title>
+    <title>文化共创 - 平遥古城智能文旅平台</title>
     <link rel="stylesheet" href="CSS/PYGCCSS.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8c1515">
+    <link rel="icon" href="IMG/logo.png" type="image/png">
+    <meta name="description" content="平遥古城文化共创 - AI 意境绘卷、文案改写、个性化旅游推荐、智能问答">
+    <meta property="og:title" content="平遥古城 - 文化共创">
+    <meta property="og:description" content="用 AI 创作平遥文化内容，生成意境绘卷、润色游记文案、获取个性化推荐。">
+    <meta property="og:image" content="https://pygcwhgc.site/IMG/pygc.jpg">
+    <meta name="keywords" content="平遥古城,文化共创,AI创作,意境绘卷,文案改写,旅游推荐">
     
     <style>
         * { box-sizing: border-box; }
@@ -86,7 +96,7 @@
         .card-icon {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #8c1515, #a52a2a);
+background: linear-gradient(135deg, #8c1515, #c0392b);
             border-radius: 10px;
             display: flex;
             align-items: center;
@@ -249,7 +259,7 @@
         }
         
         .action-btn { 
-            background: linear-gradient(135deg, #8c1515, #a52a2a);
+            background: linear-gradient(135deg, #8c1515, #c0392b);
             color: white; 
             border: none; 
             padding: 14px 32px; 
@@ -304,35 +314,71 @@
         .loading-state { 
             display: none; 
             text-align: center; 
-            padding: 40px; 
+            padding: 32px 40px; 
             color: #8c1515;
-            background: #faf7f4;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #fdfaf6 0%, #faf5ef 50%, #fdfaf6 100%);
+            border-radius: 12px;
             margin-top: 20px;
-            border: 1px dashed #e0d5c7;
+            border: 1px solid #e8dccc;
+            position: relative;
+            overflow: hidden;
+        }
+        .loading-state::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(140,21,21,0.02) 0%, transparent 60%);
+            animation: loadingPulse 2s ease-in-out infinite;
         }
         
         .loading-state.active { display: block; }
         
         .spinner { 
             display: inline-block; 
-            width: 40px; 
-            height: 40px; 
-            border: 3px solid #f3e9e3; 
+            width: 44px; 
+            height: 44px; 
+            border: 3px solid #f0e4d8; 
             border-top-color: #8c1515; 
+            border-right-color: #c0392b;
             border-radius: 50%; 
-            animation: spin 1s linear infinite; 
-            margin-bottom: 15px;
+            animation: spin 0.7s linear infinite; 
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 0 16px rgba(140,21,21,0.12);
+        }
+        .spinner::after {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border: 1.5px solid rgba(140,21,21,0.08);
+            border-radius: 50%;
+            animation: spin 1.2s linear infinite reverse;
         }
         
         .loading-text {
-            font-size: 14px;
-            color: #666;
+            font-size: 15px;
+            color: #5a3d2a;
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+            font-family: 'SimSun', '宋体', serif;
         }
         
         .loading-dots::after {
             content: '';
             animation: dots 1.5s steps(4, end) infinite;
+            display: inline-block;
+            width: 1.2em;
+            text-align: left;
+        }
+        
+        @keyframes loadingPulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
         }
         
         @keyframes dots {
@@ -537,7 +583,49 @@
             margin-bottom: 12px;
             opacity: 0.5;
         }
-        
+
+        /* 生成图片容器样式 */
+        .generated-image-container {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: #f0ece6;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .generated-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .generated-image:hover {
+            transform: scale(1.02);
+        }
+
+        .image-poetic-text {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #faf6f0, #f5efe8);
+            border-radius: 10px;
+            border-left: 4px solid #8c1515;
+            margin-top: 8px;
+        }
+
+        .image-poetic-text h2 {
+            color: #8c1515;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+        }
+
+        .image-poetic-text p {
+            color: #4a3f35;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
         /* 全屏模态框样式 */
         .fullscreen-modal {
             display: none;
@@ -646,6 +734,627 @@
             z-index: -1;
         }
         
+        /* ===== 导出图片覆盖层样式 ===== */
+        .export-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+            padding: 20px;
+        }
+        .export-overlay.active { display: flex; }
+        .export-card {
+            background: white;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+            animation: slideUp 0.35s ease;
+        }
+        .export-card-header {
+            position: sticky;
+            top: 0;
+            background: #fff;
+            padding: 18px 24px;
+            border-bottom: 1px solid #e8e0d8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+        .export-card-header h3 {
+            color: #8c1515;
+            font-size: 18px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'SimSun', serif;
+        }
+        .export-card-body {
+            padding: 24px;
+            max-height: calc(90vh - 140px);
+            overflow-y: auto;
+        }
+        .export-preview {
+            border: 1px solid #e8e0d8;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fdfcfa;
+            margin-bottom: 20px;
+        }
+        .export-preview-header {
+            background: linear-gradient(135deg, #8c1515, #c0392b);
+            color: white;
+            padding: 16px 20px;
+            text-align: center;
+            font-family: 'SimSun', serif;
+            font-size: 18px;
+            letter-spacing: 3px;
+        }
+        .export-preview-header small {
+            display: block;
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 4px;
+            letter-spacing: 1px;
+            font-family: sans-serif;
+        }
+        .export-preview-body {
+            padding: 20px;
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            max-height: 320px;
+            overflow-y: auto;
+            background: #fff;
+        }
+        .export-preview-footer {
+            background: #f5f0eb;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #8c6d5a;
+            border-top: 1px solid #e8e0d8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        .export-preview-footer img {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        .export-card-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            padding: 16px 24px 24px;
+        }
+        .export-btn-action {
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+            font-family: 'SimSun', 'Microsoft YaHei', serif;
+        }
+        .export-btn-primary {
+            background: linear-gradient(135deg, #8c1515, #c0392b);
+            color: white;
+            box-shadow: 0 4px 12px rgba(140,21,21,0.25);
+        }
+        .export-btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(140,21,21,0.35);
+        }
+        .export-btn-secondary {
+            background: #f5f0eb;
+            color: #666;
+            border: 1px solid #e0d5c7;
+        }
+        .export-btn-secondary:hover {
+            background: #ebe4dc;
+        }
+        .export-btn-success {
+            background: #2d8a4e;
+            color: white;
+            box-shadow: 0 4px 12px rgba(45,138,78,0.25);
+        }
+        .export-btn-success:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(45,138,78,0.35);
+        }
+        .export-watermark-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .export-watermark-option input[type="checkbox"] {
+            accent-color: #8c1515;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        @media (max-width: 640px) {
+            .export-card { max-width: 100%; margin: 10px; }
+            .export-card-body { padding: 16px; }
+            .export-btn-action { padding: 10px 20px; font-size: 14px; }
+        }
+
+        /* ===== 键盘快捷键提示 ===== */
+        .keyboard-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #f5f0eb;
+            border: 1px solid #e0d5c7;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #8c6d5a;
+            cursor: default;
+            font-family: 'Consolas', monospace;
+        }
+        .keyboard-hint kbd {
+            background: #fff;
+            border: 1px solid #d0c4b8;
+            border-radius: 3px;
+            padding: 0 5px;
+            font-size: 10px;
+            font-family: 'Consolas', monospace;
+            color: #8c1515;
+            line-height: 1.6;
+        }
+        .shortcuts-help-btn {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 1px solid #e0d5c7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #8c1515;
+            font-size: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+            z-index: 100;
+        }
+        .shortcuts-help-btn:hover {
+            background: #8c1515;
+            color: white;
+            border-color: #8c1515;
+            transform: scale(1.1);
+        }
+        .shortcuts-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 9998;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.25s ease;
+        }
+        .shortcuts-modal.active { display: flex; }
+        .shortcuts-modal-card {
+            background: white;
+            border-radius: 16px;
+            max-width: 420px;
+            width: 90%;
+            padding: 28px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+        }
+        .shortcuts-modal-card h3 {
+            color: #8c1515;
+            font-size: 20px;
+            margin: 0 0 16px;
+            text-align: center;
+            font-family: 'SimSun', serif;
+        }
+        .shortcuts-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .shortcuts-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0ebe4;
+            font-size: 14px;
+            color: #444;
+        }
+        .shortcuts-list li:last-child { border-bottom: none; }
+        .shortcuts-list li .keys {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .shortcuts-list li kbd {
+            background: #f5f0eb;
+            border: 1px solid #d0c4b8;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-family: 'Consolas', monospace;
+            color: #8c1515;
+        }
+
+        /* ===== 追问优化 ===== */
+        .follow-up-badge {
+            display: inline-block;
+            background: #f3e9e3;
+            color: #8c1515;
+            font-size: 11px;
+            padding: 1px 8px;
+            border-radius: 10px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+
+        /* ==================== 创作统计看板 ==================== */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px 0 10px 0;
+            flex-wrap: wrap;
+            background: linear-gradient(135deg, #fdf6f0 0%, #f5ebe0 100%);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(140,21,21,0.08);
+        }
+        .stat-item {
+            text-align: center;
+            padding: 10px 24px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 12px;
+            min-width: 120px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: default;
+        }
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(140,21,21,0.10);
+        }
+        .stat-number {
+            display: block;
+            font-size: 28px;
+            font-weight: 700;
+            color: #8c1515;
+            line-height: 1.2;
+        }
+        .stat-label {
+            display: block;
+            font-size: 12px;
+            color: #666;
+            margin-top: 2px;
+        }
+        .stat-label small {
+            display: block;
+            font-size: 10px;
+            color: #999;
+        }
+
+        /* ==================== 追问触发条 ==================== */
+        .follow-up-bar {
+            margin-top: 16px;
+            padding: 14px 16px;
+            background: #f9f5f0;
+            border-radius: 12px;
+            border: 1px solid rgba(140,21,21,0.06);
+        }
+        .follow-up-input-row {
+            display: flex;
+            gap: 10px;
+        }
+        .follow-up-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+            background: #fff;
+        }
+        .follow-up-input:focus {
+            border-color: #8c1515;
+        }
+        .follow-up-btn {
+            padding: 10px 20px;
+            background: #8c1515;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .follow-up-btn:hover {
+            background: #a01a1a;
+        }
+        .follow-up-suggestions {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .suggestion-tag {
+            padding: 5px 12px;
+            background: #fff;
+            border: 1px solid #e0d5cc;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #555;
+            white-space: nowrap;
+        }
+        .suggestion-tag:hover {
+            background: #8c1515;
+            color: #fff;
+            border-color: #8c1515;
+        }
+
+        /* ==================== 创作历史面板 ==================== */
+        .history-export-bar {
+            margin-top: 28px;
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid rgba(140,21,21,0.10);
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
+        }
+        .history-export-bar.collapsed .history-panel,
+        .history-export-bar.collapsed .export-shortcuts {
+            display: none;
+        }
+        .history-panel {
+            padding: 18px 20px 4px;
+        }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .history-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: #333;
+        }
+        .history-title i {
+            color: #8c1515;
+            margin-right: 6px;
+        }
+        .history-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .history-btn {
+            padding: 6px 14px;
+            background: #f5f0ea;
+            border: 1px solid #e0d5cc;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #555;
+            transition: all 0.2s;
+        }
+        .history-btn:hover {
+            background: #8c1515;
+            color: #fff;
+            border-color: #8c1515;
+        }
+        .history-btn.danger:hover {
+            background: #c0392b;
+            border-color: #c0392b;
+        }
+        .history-list {
+            max-height: 320px;
+            overflow-y: auto;
+            margin: 0 -4px;
+            padding: 0 4px;
+        }
+        .history-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .history-list::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 4px;
+        }
+        .history-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #bbb;
+            font-size: 14px;
+        }
+        .history-empty i {
+            font-size: 36px;
+            margin-bottom: 10px;
+            display: block;
+            color: #ddd;
+        }
+        .history-empty small {
+            color: #ccc;
+        }
+        .history-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            border-bottom: 1px solid #f5f0ea;
+            cursor: pointer;
+            transition: background 0.15s;
+            gap: 10px;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        .history-item:hover {
+            background: #faf5ee;
+        }
+        .history-item .h-type {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .history-item .h-type.rewrite { background: #fce8e8; color: #8c1515; }
+        .history-item .h-type.recommend { background: #e8f0fc; color: #2c5f8c; }
+        .history-item .h-type.quick-answer { background: #f0fce8; color: #3d7a2c; }
+        .history-item .h-info {
+            flex: 1;
+            overflow: hidden;
+        }
+        .history-item .h-info .h-title-text {
+            font-size: 13px;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .history-item .h-info .h-meta {
+            font-size: 11px;
+            color: #999;
+            margin-top: 2px;
+        }
+        .history-item .h-actions {
+            flex-shrink: 0;
+            display: flex;
+            gap: 4px;
+        }
+        .history-item .h-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            color: #999;
+            font-size: 12px;
+            border-radius: 4px;
+            transition: all 0.15s;
+        }
+        .history-item .h-actions button:hover {
+            background: #f0e8e0;
+            color: #8c1515;
+        }
+
+        /* 快捷导出栏 */
+        .export-shortcuts {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: #faf5ee;
+            border-top: 1px solid rgba(140,21,21,0.06);
+            flex-wrap: wrap;
+        }
+        .export-label {
+            font-size: 13px;
+            color: #666;
+            margin-right: 4px;
+        }
+        .export-label i {
+            color: #8c1515;
+        }
+        .export-btn {
+            padding: 6px 16px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            color: #555;
+            transition: all 0.2s;
+        }
+        .export-btn:hover {
+            background: #f5ede5;
+            border-color: #8c1515;
+            color: #8c1515;
+        }
+        .export-btn.primary {
+            background: #8c1515;
+            color: #fff;
+            border-color: #8c1515;
+        }
+        .export-btn.primary:hover {
+            background: #a01a1a;
+        }
+
+        /* 浮动历史入口 */
+        .float-history-btn {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: #8c1515;
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 20px rgba(140,21,21,0.30);
+            cursor: pointer;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            z-index: 999;
+        }
+        .float-history-btn:hover {
+            transform: translateY(-50%) scale(1.08);
+            box-shadow: 0 6px 28px rgba(140,21,21,0.40);
+        }
+        .float-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #c0392b;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.20);
+        }
+
         /* Toast 提示样式 */
         .toast {
             position: fixed;
@@ -702,7 +1411,245 @@
             text-align: left;
         }
         
+        /* 快捷提问面板样式 */
+        .quick-questions-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px 20px;
+        }
+        
+        .quick-questions-card {
+            background: linear-gradient(135deg, #fdfcfa, #faf7f4);
+        }
+        
+        .quick-questions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .quick-q-btn {
+            background: white;
+            border: 1px solid #e0d5c7;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #5a4a3a;
+            transition: all 0.2s;
+            font-family: 'SimSun', 'Microsoft YaHei', serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+        }
+        
+        .quick-q-btn:hover {
+            background: #8c1515;
+            color: white;
+            border-color: #8c1515;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(140,21,21,0.15);
+        }
+        
+        .quick-q-btn i {
+            width: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .quick-q-btn:hover i {
+            color: white;
+        }
+        
+        /* 装饰性分隔线 */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 20px 0;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #b8a898;
+            font-size: 14px;
+            font-family: 'SimSun', serif;
+            letter-spacing: 3px;
+        }
+        
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            max-width: 120px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #d0c4b8, transparent);
+        }
+        
+        .section-divider i {
+            color: #c0392b;
+            font-size: 16px;
+            opacity: 0.6;
+        }
+        
+        /* ===== 装饰性分割线（独立类） ===== */
+        .decorative-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin: 32px 0;
+            color: #8c6d5a;
+            font-size: 13px;
+        }
+        .decorative-divider::before,
+        .decorative-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d0c4b8, transparent);
+        }
+        .decorative-divider i {
+            color: #8c1515;
+            font-size: 18px;
+        }
+        
+        /* ===== 快捷提问结果头部（含保存按钮） ===== */
+        .quick-answer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            background: #faf7f4;
+            border-radius: 8px;
+            border-left: 3px solid #8c1515;
+        }
+        .quick-answer-header .result-title {
+            color: #8c1515;
+            font-weight: bold;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .quick-answer-header .result-actions {
+            display: flex;
+            gap: 6px;
+        }
+        .quick-answer-header .icon-btn.save-btn {
+            background: white;
+            border: 1px solid #8c1515;
+            color: #8c1515;
+        }
+        .quick-answer-header .icon-btn.save-btn:hover {
+            background: #8c1515;
+            color: white;
+        }
+        
+        /* ===== 动画渐变边框 ===== */
+        @keyframes gradientBorder {
+            0% { border-image: linear-gradient(135deg, #8c1515, #c0392b, #e67e22, #8c1515) 1; }
+            25% { border-image: linear-gradient(135deg, #c0392b, #e67e22, #f1c40f, #c0392b) 1; }
+            50% { border-image: linear-gradient(135deg, #e67e22, #f1c40f, #8c1515, #e67e22) 1; }
+            75% { border-image: linear-gradient(135deg, #f1c40f, #8c1515, #c0392b, #f1c40f) 1; }
+            100% { border-image: linear-gradient(135deg, #8c1515, #c0392b, #e67e22, #8c1515) 1; }
+        }
+        .gradient-border-card {
+            border: 2px solid;
+            border-image: linear-gradient(135deg, #8c1515, #c0392b) 1;
+            animation: gradientBorder 6s ease infinite;
+            background: white;
+            border-radius: 12px;
+        }
+        
+        /* ===== 段落头部装饰 ===== */
+        .section-header.has-decoration {
+            position: relative;
+        }
+        .section-header.has-decoration::before {
+            content: '◆';
+            display: block;
+            color: #8c1515;
+            font-size: 14px;
+            margin-bottom: 6px;
+            letter-spacing: 8px;
+            text-align: center;
+        }
+        .section-header.has-decoration::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #8c1515, #c0392b);
+            margin: 12px auto 0;
+            border-radius: 2px;
+        }
+        .section-header .subtitle-decoration {
+            display: inline-block;
+            padding: 0 20px;
+            position: relative;
+        }
+        .section-header .subtitle-decoration::before,
+        .section-header .subtitle-decoration::after {
+            content: '—';
+            color: #c0392b;
+            margin: 0 8px;
+        }
+        
+        /* ===== 快捷输入行（quick-input-row）类 ===== */
+        .quick-input-row {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0 10px 0;
+            align-items: stretch;
+        }
+        .quick-input-row input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid #e0d5c7;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: 'SimSun', 'Microsoft YaHei', serif;
+            color: #5a4a3a;
+            outline: none;
+            background: #fdfcfa;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .quick-input-row input:focus {
+            border-color: #8c1515;
+            box-shadow: 0 0 0 3px rgba(140,21,21,0.08);
+        }
+        .quick-input-row input::placeholder {
+            color: #b0a090;
+        }
+        .quick-input-row button {
+            background: #8c1515;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            white-space: nowrap;
+            transition: background 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .quick-input-row button:hover {
+            background: #a52a2a;
+            transform: translateY(-1px);
+        }
+        .quick-input-row button:active {
+            transform: translateY(0);
+        }
+        
         @media (max-width: 640px) {
+            .quick-questions-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-q-btn { padding: 10px 14px; font-size: 13px; }
             .creation-container { padding: 20px 16px; }
             .ai-card { padding: 24px; }
             .card-title { font-size: 20px; }
@@ -711,31 +1658,389 @@
             .modal-body { padding: 20px; }
             .input-tools { gap: 4px; }
             .tool-btn { padding: 4px 8px; font-size: 11px; }
+            .section-divider { padding: 12px 0; font-size: 12px; }
+            .section-divider::before,
+            .section-divider::after { max-width: 60px; }
+        }
+
+        /* ===== 统计看板 - 已有新版 @ line 939 ===== */
+
+        /* ===== 历史记录面板 ===== */
+        .history-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(140,21,21,0.08);
+            border: 1px solid #e8e0d8;
+            transition: all 0.3s ease;
+        }
+        .history-panel:hover {
+            box-shadow: 0 12px 40px rgba(140,21,21,0.12);
+        }
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #e0d5c7;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .history-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #8c1515;
+            font-size: 20px;
+            font-family: 'SimSun', serif;
+            font-weight: bold;
+        }
+        .history-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .history-filters {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .history-filter-btn {
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid #e0d5c7;
+            background: transparent;
+            color: #8c6d5a;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .history-filter-btn:hover {
+            background: #f5ede4;
+            border-color: #8c1515;
+        }
+        .history-filter-btn.active {
+            background: #8c1515;
+            color: white;
+            border-color: #8c1515;
+        }
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .history-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .history-list::-webkit-scrollbar-thumb {
+            background: #ddd2c0;
+            border-radius: 2px;
+        }
+        .history-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 16px;
+            background: #fdfcfa;
+            border: 1px solid #eee8e0;
+            border-radius: 10px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .history-item:hover {
+            background: #f9f5f0;
+            border-color: #d5c8b8;
+            transform: translateX(3px);
+        }
+        .history-item-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, #8c1515, #c0392b);
+            color: white;
+        }
+        .history-item-icon.rewrite { background: linear-gradient(135deg, #2d5016, #4a7c2a); }
+        .history-item-icon.recommend { background: linear-gradient(135deg, #b8860b, #daa520); }
+        .history-item-icon.quick-answer { background: linear-gradient(135deg, #1a5276, #2980b9); }
+
+        .history-item-body {
+            flex: 1;
+            min-width: 0;
+        }
+        .history-item-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .history-item-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            font-size: 12px;
+            color: #999;
+        }
+        .history-item-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .history-item-badge {
+            font-size: 11px;
+            padding: 1px 8px;
+            border-radius: 10px;
+            background: #f3e9e3;
+            color: #8c1515;
+        }
+        .history-item-actions {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+            opacity: 0.3;
+            transition: opacity 0.2s;
+        }
+        .history-item:hover .history-item-actions {
+            opacity: 1;
+        }
+        .history-item-action-btn {
+            width: 30px;
+            height: 30px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 13px;
+        }
+        .history-item-action-btn:hover {
+            background: #f3e9e3;
+            color: #8c1515;
+        }
+        .history-item-action-btn.danger:hover {
+            background: #fce8e8;
+            color: #e74c3c;
+        }
+        .history-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #bbb;
+        }
+        .history-empty i {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 12px;
+            color: #ddd;
+        }
+        .history-empty p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* ===== 追问拓展按钮 ===== */
+        .follow-up-trigger {
+            margin-top: 12px;
+            text-align: center;
+        }
+        .follow-up-trigger button {
+            padding: 6px 18px;
+            border-radius: 20px;
+            border: 1px solid #ddd2c0;
+            background: transparent;
+            color: #8c6d5a;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .follow-up-trigger button:hover {
+            background: #f5ede4;
+            border-color: #8c1515;
+            color: #8c1515;
+        }
+
+        /* ===== 一键导出栏 ===== */
+        .export-all-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .export-all-bar button {
+            padding: 8px 20px;
+            border-radius: 8px;
+            border: 1px solid #e0d5c7;
+            background: white;
+            color: #8c6d5a;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .export-all-bar button:hover {
+            background: #8c1515;
+            color: white;
+            border-color: #8c1515;
+        }
+
+        @media (max-width: 768px) {
+            .history-panel { padding: 20px; }
+            .history-item { flex-wrap: wrap; }
+            .history-item-actions { opacity: 1; }
+            .stat-item { min-width: 90px; padding: 10px 14px; }
+            .stat-number { font-size: 20px; }
         }
     </style>
 </head>
 <body>
+    <!-- 页面加载遮罩 -->
+    <div id="page-loading" class="page-loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">文化共创 · 匠心启程</div>
+    </div>
+    <script>
+    window.addEventListener('load', function() {
+        var loading = document.getElementById('page-loading');
+        if (loading) {
+            setTimeout(function() {
+                loading.classList.add('fade-out');
+                setTimeout(function() { loading.style.display = 'none'; }, 500);
+            }, 300);
+        }
+    });
+    </script>
 
-    <header>
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">平遥古城</a>
-                <ul class="nav-links">
-                    <li><a href="首页.html">首页</a></li>
-                    <li><a href="history.html">历史与文化</a></li>
-                    <li><a href="architecture.html">建筑特色</a></li>
-                    <li><a href="vr.html">VR体验</a></li>
-                    <li><a href="creation.html" style="color: #e8c6a6;">文化共创</a></li>
-                    <li><a href="https://pingyao888.cn">旅游服务</a></li>
-                    <li><a href="login.html">登录</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <!-- 全局导航栏 -->
+    <div id="global-nav"></div>
+    <script src="JS/components/nav.js"></script>
 
     <div class="section-header">
         <h2>文化共创空间</h2>
         <p>融合 AI 技术，共绘平遥千年华章</p>
+    </div>
+
+    <!-- ====== 新增：快捷问题面板（AI导览快速入口） ====== -->
+    <section class="quick-questions-section">
+        <div class="container">
+            <div class="ai-card quick-questions-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <div class="card-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                        <span>快捷提问平遥</span>
+                    </div>
+                    <span class="card-badge">快速了解</span>
+                </div>
+                <p style="color:#666;margin:0 0 15px 0;font-size:15px;">点击快速提问，AI 为您讲解平遥古城的历史文化、景点特色</p>
+                <div class="quick-questions-grid">
+                    <button class="quick-q-btn" onclick="quickAsk('平遥古城墙建于哪个朝代？有多长？')">
+                        <i class="fa-solid fa-city"></i> 古城墙建于何时？
+                    </button>
+                    <button class="quick-q-btn" onclick="quickAsk('日升昌票号是谁创立的？有什么历史意义？')">
+                        <i class="fa-solid fa-landmark"></i> 日升昌票号起源
+                    </button>
+                    <button class="quick-q-btn" onclick="quickAsk('平遥古城什么美食最有名？推荐去哪里吃？')">
+                        <i class="fa-solid fa-utensils"></i> 平遥必吃美食
+                    </button>
+                    <button class="quick-q-btn" onclick="quickAsk('平遥古城什么时候成为世界文化遗产的？有哪些称号？')">
+                        <i class="fa-solid fa-award"></i> 世界遗产历程
+                    </button>
+                    <button class="quick-q-btn" onclick="quickAsk('晋商文化有什么核心特点？平遥在其中是什么地位？')">
+                        <i class="fa-solid fa-handshake"></i> 晋商文化精髓
+                    </button>
+                    <button class="quick-q-btn" onclick="quickAsk('平遥古城有哪些必看景点？推荐一日游路线是怎样的？')">
+                        <i class="fa-solid fa-route"></i> 一日游推荐
+                    </button>
+                    <button class="quick-q-btn" onclick="quickAsk('平遥推光漆器有什么特色？在哪里可以体验？')">
+                        <i class="fa-solid fa-palette"></i> 推光漆器工艺
+                    </button>
+                    <button class="quick-q-btn" onclick="quickAsk('平遥古城墙上有多少座敌楼？有什么象征意义？')">
+                        <i class="fa-solid fa-chess-rook"></i> 城墙敌楼之谜
+                    </button>
+                </div>
+                <div class="quick-input-row">
+                    <input type="text" id="quick-custom-input" placeholder="输入你想问的问题...">
+                    <button onclick="var v=document.getElementById('quick-custom-input').value.trim();if(v){quickAsk(v);document.getElementById('quick-custom-input').value='';}">
+                        <i class="fa-solid fa-paper-plane"></i> 提问
+                    </button>
+                </div>
+                <p style="text-align:center;color:#999;font-size:13px;margin:12px 0 0 0;">
+                    <i class="fa-solid fa-circle-info"></i> 回答由 AI 生成，具体开放时间和票价请以景区官方信息为准
+                </p>
+                <!-- 快捷提问结果显示区域 -->
+                <div id="quick-answer-loading" class="loading-state" style="display:none;margin-top:16px;">
+                    <div class="spinner"></div>
+                    <div class="loading-text">AI 正在解答<span class="loading-dots"></span></div>
+                </div>
+                <div class="error-msg" id="quick-answer-error" style="margin-top:12px;">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span></span>
+                </div>
+                <div class="result-container" id="quick-answer-result" style="margin-top:16px;">
+                    <div class="result-header">
+                        <span class="result-title"><i class="fa-solid fa-robot"></i> AI 解答</span>
+                        <div class="result-actions">
+                            <button class="icon-btn" onclick="continueWriting('quick-answer')"><i class="fa-solid fa-feather"></i> 续写</button>
+                            <button class="icon-btn" onclick="shareAsCard('quick-answer')"><i class="fa-solid fa-share-nodes"></i> 分享</button>
+                            <button class="icon-btn" onclick="copyQuickAnswer()"><i class="fa-regular fa-copy"></i> 复制</button>
+                            <button class="icon-btn" onclick="saveCreation('quick-answer')"><i class="fa-regular fa-bookmark"></i> 保存</button>
+                            <button class="icon-btn" onclick="exportAsImage('quick-answer-content','快捷问答-平遥')"><i class="fa-solid fa-image"></i> 导出图片</button>
+                            <button class="icon-btn" onclick="regenerateQuickAnswer()"><i class="fa-solid fa-rotate"></i> 重新生成</button>
+                        </div>
+                    </div>
+                    <div id="quick-answer-content" class="markdown-body"></div>
+                    <div id="quick-answer-tags" class="keyword-tags"></div>
+                    <div id="quick-answer-conv-panel" class="conv-panel" style="display:none;margin-top:12px;">
+                        <div class="conv-panel-title"><i class="fa-solid fa-comments"></i> 对话追问记录</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 装饰性分隔线 -->
+    <div class="section-divider">
+        <i class="fa-solid fa-yin-yang"></i>
+        <span>古今交融 · 文脉相承</span>
+        <i class="fa-solid fa-yin-yang"></i>
+    </div>
+
+    <!-- 创作统计看板 -->
+    <div class="stats-bar" id="stats-bar">
+        <div class="stat-item">
+            <span class="stat-number" id="stat-creations">0</span>
+            <span class="stat-label">创作记录<small>总作品数</small></span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="stat-types">0</span>
+            <span class="stat-label">覆盖类型<small>创作类型</small></span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="stat-today">0</span>
+            <span class="stat-label">今日新增<small>本日创作</small></span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number" id="stat-favs">0</span>
+            <span class="stat-label">收藏数量<small>已收藏</small></span>
+        </div>
     </div>
 
     <section class="creation-container">
@@ -795,14 +2100,14 @@
             <div class="tip-box">
                 <i class="fa-solid fa-lightbulb"></i>
                 <div>
-                    <strong>提示：</strong>AI 将根据您的描述生成<strong>横版</strong>专属平遥意境图，并配上诗意文案。
+                    <strong>提示：</strong>AI 将根据您的描述生成<strong>专属平遥意境图</strong>（横版 16:9），并配上诗意文案供您品鉴。
                 </div>
             </div>
             
             <div class="loading-state" id="image-loading">
                 <div class="spinner"></div>
                 <div class="loading-text">
-                    AI正在作画<span class="loading-dots"></span><br>
+                    AI正在绘制平遥意境图<span class="loading-dots"></span><br>
                     <small style="color: #999; margin-top: 8px; display: block;">约需 10-20 秒</small>
                 </div>
             </div>
@@ -824,8 +2129,14 @@
                         <button class="icon-btn" onclick="downloadImage()">
                             <i class="fa-solid fa-download"></i> 保存
                         </button>
+                        <button class="icon-btn" onclick="exportImageOnly()">
+                            <i class="fa-solid fa-image"></i> 导出图片
+                        </button>
                         <button class="icon-btn" onclick="copyContent('image')">
                             <i class="fa-regular fa-copy"></i> 复制
+                        </button>
+                        <button class="icon-btn" onclick="saveCreation('image')">
+                            <i class="fa-regular fa-bookmark"></i> 保存
                         </button>
                     </div>
                 </div>
@@ -910,6 +2221,7 @@
                     <i class="fa-solid fa-wand-sparkles"></i> 
                     <span>开始智能创作</span>
                 </button>
+                
             </div>
 
             <div class="tip-box">
@@ -937,23 +2249,56 @@
                         <i class="fa-solid fa-scroll"></i> 创作成果
                     </span>
                     <div class="result-actions">
-                        <button class="icon-btn" onclick="openFullscreen('rewrite')">
+                        <button class="icon-btn" onclick="openFullscreen('rewrite')" title="全屏预览">
                             <i class="fa-solid fa-expand"></i> 全屏
                         </button>
-                        <button class="icon-btn" onclick="regenerate('rewrite')">
-                            <i class="fa-solid fa-rotate-right"></i> 重试
+                        <button class="icon-btn" onclick="regenerate('rewrite')" title="重新生成">
+                            <i class="fa-solid fa-rotate-right"></i> 重新生成
                         </button>
-                        <button class="icon-btn" onclick="copyContent('rewrite')">
+                        <button class="icon-btn" onclick="continueWriting('rewrite')" title="智能续写扩写">
+                            <i class="fa-solid fa-feather"></i> 续写
+                        </button>
+                        <button class="icon-btn" onclick="shareAsCard('rewrite')" title="生成分享卡片">
+                            <i class="fa-solid fa-share-nodes"></i> 分享
+                        </button>
+                        <button class="icon-btn" onclick="exportAsImage('rewrite-text','故里新篇')" title="导出为图片">
+                            <i class="fa-solid fa-image"></i> 导出图片
+                        </button>
+                        <button class="icon-btn" onclick="copyContent('rewrite')" title="复制内容">
                             <i class="fa-regular fa-copy"></i> 复制
+                        </button>
+                        <button class="icon-btn" onclick="saveCreation('rewrite')" title="保存到历史">
+                            <i class="fa-regular fa-bookmark"></i> 保存
                         </button>
                     </div>
                 </div>
                 <div id="rewrite-text" class="markdown-body"></div>
+                <!-- 关键词标签区 -->
+                <div id="rewrite-tags" class="keyword-tags"></div>
+                <!-- 对话上下文追踪 -->
+                <div id="rewrite-conv-panel" class="conv-panel" style="display:none;margin-top:12px;">
+                    <div class="conv-panel-title"><i class="fa-solid fa-comments"></i> 对话追问记录</div>
+                </div>
+                <!-- 追问触发条 -->
+                <div class="follow-up-bar">
+                    <div class="follow-up-input-row">
+                        <input type="text" class="follow-up-input" id="rewrite-follow-input" placeholder="追问更多细节或调整方向..." onkeydown="if(event.key==='Enter')rewriteFollowUp()">
+                        <button class="follow-up-btn" onclick="rewriteFollowUp()">
+                            <i class="fa-solid fa-paper-plane"></i> 追问
+                        </button>
+                    </div>
+                    <div class="follow-up-suggestions">
+                        <span class="suggestion-tag" onclick="quickFollowUp('rewrite','深入描述一下建筑细节')">🏛️ 建筑细节</span>
+                        <span class="suggestion-tag" onclick="quickFollowUp('rewrite','增加一些历史背景')">📜 历史背景</span>
+                        <span class="suggestion-tag" onclick="quickFollowUp('rewrite','用更口语化的方式重写')">💬 口语化</span>
+                        <span class="suggestion-tag" onclick="quickFollowUp('rewrite','翻译成英文版本')">🌍 英文版</span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- 模块 3：灵感拾遗 -->
-        <div class="ai-card">
+        <div class="ai-card" id="inspiration">
             <div class="card-header">
                 <div class="card-title">
                     <div class="card-icon"><i class="fa-solid fa-compass"></i></div>
@@ -1039,19 +2384,98 @@
                         <i class="fa-solid fa-clipboard-list"></i> 专属方案
                     </span>
                     <div class="result-actions">
-                        <button class="icon-btn" onclick="openFullscreen('recommend')">
+                        <button class="icon-btn" onclick="openFullscreen('recommend')" title="全屏预览">
                             <i class="fa-solid fa-expand"></i> 全屏
                         </button>
-                        <button class="icon-btn" onclick="copyContent('recommend')">
+                        <button class="icon-btn" onclick="regenerate('recommend')" title="重新生成">
+                            <i class="fa-solid fa-rotate-right"></i> 重新生成
+                        </button>
+                        <button class="icon-btn" onclick="continueWriting('recommend')" title="智能续写扩写">
+                            <i class="fa-solid fa-feather"></i> 续写
+                        </button>
+                        <button class="icon-btn" onclick="exportAsImage('recommend-text','平遥专属方案')" title="导出为图片">
+                            <i class="fa-solid fa-image"></i> 导出图片
+                        </button>
+                        <button class="icon-btn" onclick="copyContent('recommend')" title="复制内容">
                             <i class="fa-regular fa-copy"></i> 复制
+                        </button>
+                        <button class="icon-btn" onclick="saveCreation('recommend')" title="保存到历史">
+                            <i class="fa-regular fa-bookmark"></i> 保存
                         </button>
                     </div>
                 </div>
                 <div id="recommend-text" class="markdown-body"></div>
+                <!-- 关键词标签区 -->
+                <div id="recommend-tags" class="keyword-tags"></div>
+                <!-- 对话上下文追踪 -->
+                <div id="recommend-conv-panel" class="conv-panel" style="display:none;margin-top:12px;">
+                    <div class="conv-panel-title"><i class="fa-solid fa-comments"></i> 对话追问记录</div>
+                </div>
+                <!-- 追问触发条 -->
+                <div class="follow-up-bar">
+                    <div class="follow-up-input-row">
+                        <input type="text" class="follow-up-input" id="recommend-follow-input" placeholder="进一步细化推荐要求或调整方案..." onkeydown="if(event.key==='Enter')recommendFollowUp()">
+                        <button class="follow-up-btn" onclick="recommendFollowUp()">
+                            <i class="fa-solid fa-paper-plane"></i> 追问
+                        </button>
+                    </div>
+                    <div class="follow-up-suggestions">
+                        <span class="suggestion-tag" onclick="quickFollowUp('recommend','增加预算限制')">💰 预算调整</span>
+                        <span class="suggestion-tag" onclick="quickFollowUp('recommend','加入更多非遗体验项目')">🏮 非遗体验</span>
+                        <span class="suggestion-tag" onclick="quickFollowUp('recommend','推荐适合拍照的打卡点')">📸 拍照打卡</span>
+                        <span class="suggestion-tag" onclick="quickFollowUp('recommend','安排成三日游行程')">📅 三日游</span>
+                    </div>
+                </div>
             </div>
         </div>
 
     </section>
+
+    <!-- 创作历史面板 + 一键导出 -->
+    <div class="history-export-bar" id="history-export-bar">
+        <div class="history-panel">
+            <div class="history-header">
+                <span class="history-title">
+                    <i class="fa-solid fa-clock-rotate-left"></i> 创作历史
+                </span>
+                <div class="history-actions">
+                    <button class="history-btn" onclick="exportAllHistory()">
+                        <i class="fa-solid fa-download"></i> 导出全部
+                    </button>
+                    <button class="history-btn danger" onclick="clearHistory()">
+                        <i class="fa-solid fa-trash-can"></i> 清空历史
+                    </button>
+                </div>
+            </div>
+            <div class="history-list" id="history-list">
+                <div class="history-empty">
+                    <i class="fa-solid fa-inbox"></i>
+                    <p>暂无创作记录<br><small>生成内容后，点击「保存」即可记录在此</small></p>
+                </div>
+            </div>
+        </div>
+        <div class="export-shortcuts">
+            <span class="export-label"><i class="fa-solid fa-share-nodes"></i> 快速导出：</span>
+            <button class="export-btn" onclick="batchExport('txt')">
+                <i class="fa-solid fa-file-lines"></i> TXT
+            </button>
+            <button class="export-btn" onclick="batchExport('md')">
+                <i class="fa-solid fa-file"></i> Markdown
+            </button>
+            <button class="export-btn" onclick="batchExport('image')">
+                <i class="fa-solid fa-images"></i> 全部图片
+            </button>
+            <button class="export-btn primary" onclick="batchExport('zip')">
+                <i class="fa-solid fa-file-zipper"></i> 打包 ZIP
+            </button>
+        </div>
+    </div>
+
+    <!-- 浮动历史入口 -->
+    <button class="float-history-btn" id="float-history-btn" onclick="toggleHistoryPanel()" title="创作历史">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span class="float-badge" id="float-badge">0</span>
+    </button>
 
     <!-- Toast 提示 -->
     <div id="toast" class="toast">
@@ -1078,13 +2502,17 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <!-- API 配置与核心逻辑 -->
     <script>
         // ===================== 核心配置 =====================
         const COZE_CONFIG = {
             BOT_ID: "7628618640471965731",
-            API_URL: "https://pygcwhgc.site/api/coze",
-            USER_ID: "pingyao_visitor_" + Date.now().toString().slice(-6)
+            API_URL: "https://api.coze.cn/open_api/v2/chat",
+            USER_ID: "pingyao_visitor_" + Date.now().toString().slice(-6),
+            get TOKEN() {
+                return (window.PINGYAO_CONFIG && window.PINGYAO_CONFIG.coze && window.PINGYAO_CONFIG.coze.token) || '';
+            }
         };
 
         // ===================== Toast 提示功能 =====================
@@ -1099,8 +2527,511 @@
             }, 2500);
         }
 
+        // ===================== 追问功能 =====================
+        function rewriteFollowUp() {
+            const input = document.getElementById('rewrite-follow-input');
+            const question = input.value.trim();
+            if (!question) { showToast('请输入追问内容'); return; }
+            const currentText = document.getElementById('rewrite-text').textContent;
+            if (!currentText) { showToast('请先生成内容再追问'); return; }
+            input.value = '';
+            showToast('正在思考...');
+            doFollowUp('故里新篇', currentText, question, 'rewrite-text', 'rewrite');
+        }
+
+        function recommendFollowUp() {
+            const input = document.getElementById('recommend-follow-input');
+            const question = input.value.trim();
+            if (!question) { showToast('请输入追问内容'); return; }
+            const currentText = document.getElementById('recommend-text').textContent;
+            if (!currentText) { showToast('请先生成内容再追问'); return; }
+            input.value = '';
+            showToast('正在思考...');
+            doFollowUp('灵感拾遗', currentText, question, 'recommend-text', 'recommend');
+        }
+
+        function quickFollowUp(module, question) {
+            if (module === 'rewrite') {
+                const input = document.getElementById('rewrite-follow-input');
+                input.value = question;
+                rewriteFollowUp();
+            } else if (module === 'recommend') {
+                const input = document.getElementById('recommend-follow-input');
+                input.value = question;
+                recommendFollowUp();
+            }
+        }
+
+        // ===================== 创作历史管理 =====================
+        let historyData = JSON.parse(localStorage.getItem('creationHistory') || '[]');
+        let historyCollapsed = false;
+
+        function saveToHistory(type, title, content) {
+            const now = new Date();
+            const timeStr = now.toLocaleString('zh-CN', { hour12: false });
+            historyData.unshift({
+                id: Date.now(),
+                type: type,
+                title: title.length > 30 ? title.slice(0, 30) + '...' : title,
+                content: content,
+                time: timeStr,
+                fullTime: now.toISOString()
+            });
+            if (historyData.length > 100) historyData = historyData.slice(0, 100);
+            localStorage.setItem('creationHistory', JSON.stringify(historyData));
+            renderHistory();
+            updateStats();
+            updateBadge();
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('history-list');
+            if (!list) return;
+            if (!historyData.length) {
+                list.innerHTML = `<div class="history-empty"><i class="fa-solid fa-inbox"></i><p>暂无创作记录<br><small>生成内容后，点击「保存」即可记录在此</small></p></div>`;
+                return;
+            }
+            const typeIcons = { 'rewrite': 'fa-pen-fancy', 'recommend': 'fa-route', 'quick-answer': 'fa-comment', 'image': 'fa-image' };
+            const typeLabels = { 'rewrite': '故里新篇', 'recommend': '灵感拾遗', 'quick-answer': '快问快答', 'image': '意境绘卷' };
+            list.innerHTML = historyData.map(item => `
+                <div class="history-item" onclick="restoreHistory(${item.id})">
+                    <div class="h-type ${item.type || 'rewrite'}">
+                        <i class="fa-solid ${typeIcons[item.type] || 'fa-file'}"></i>
+                    </div>
+                    <div class="h-info">
+                        <div class="h-title-text">${item.title || '未命名'}</div>
+                        <div class="h-meta">${typeLabels[item.type] || '其他'} · ${item.time || ''}</div>
+                    </div>
+                    <div class="h-actions">
+                        <button onclick="event.stopPropagation();copyHistory(${item.id})" title="复制内容">
+                            <i class="fa-solid fa-copy"></i>
+                        </button>
+                        <button onclick="event.stopPropagation();deleteHistory(${item.id})" title="删除">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function restoreHistory(id) {
+            const item = historyData.find(d => d.id === id);
+            if (!item) return;
+            const targetMap = { 'rewrite': 'rewrite-text', 'recommend': 'recommend-text', 'quick-answer': 'quick-text', 'image': 'image-text' };
+            const targetId = targetMap[item.type];
+            const el = targetId ? document.getElementById(targetId) : null;
+            if (el) {
+                el.innerHTML = marked.parse ? marked.parse(item.content) : item.content;
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                showToast('已恢复历史内容');
+            } else {
+                showToast('无法定位到对应结果区');
+            }
+        }
+
+        function copyHistory(id) {
+            const item = historyData.find(d => d.id === id);
+            if (!item) return;
+            navigator.clipboard.writeText(item.content).then(() => showToast('已复制到剪贴板'));
+        }
+
+        function deleteHistory(id) {
+            historyData = historyData.filter(d => d.id !== id);
+            localStorage.setItem('creationHistory', JSON.stringify(historyData));
+            renderHistory();
+            updateBadge();
+            showToast('已删除');
+        }
+
+        function clearHistory() {
+            if (!historyData.length) { showToast('暂无记录'); return; }
+            if (!confirm('确定清空所有创作历史吗？此操作不可撤销。')) return;
+            historyData = [];
+            localStorage.setItem('creationHistory', JSON.stringify(historyData));
+            renderHistory();
+            updateStats();
+            updateBadge();
+            showToast('已清空历史');
+        }
+
+        function toggleHistoryPanel() {
+            const bar = document.getElementById('history-export-bar');
+            if (!bar) return;
+            historyCollapsed = !historyCollapsed;
+            bar.classList.toggle('collapsed', historyCollapsed);
+            if (!historyCollapsed) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function updateBadge() {
+            const badge = document.getElementById('float-badge');
+            if (badge) {
+                badge.textContent = historyData.length;
+                badge.style.display = historyData.length > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // ===================== 导出功能 =====================
+        function exportAllHistory() {
+            if (!historyData.length) { showToast('暂无记录可导出'); return; }
+            let text = '# 平遥古城 · 文化共创创作历史\n\n';
+            const typeLabels = { 'rewrite': '故里新篇', 'recommend': '灵感拾遗', 'quick-answer': '快问快答', 'image': '意境绘卷' };
+            historyData.forEach((item, i) => {
+                text += `## ${i+1}. [${typeLabels[item.type] || '其他'}] ${item.title || '未命名'}\n`;
+                text += `> 时间：${item.time || ''}\n\n`;
+                text += item.content + '\n\n---\n\n';
+            });
+            downloadFile(text, `平遥文化共创_${new Date().toISOString().slice(0,10)}.md`, 'text/markdown');
+            showToast('导出成功');
+        }
+
+        function batchExport(type) {
+            if (!historyData.length && type !== 'image') { showToast('暂无记录可导出'); return; }
+            const typeLabels = { 'rewrite': '故里新篇', 'recommend': '灵感拾遗', 'quick-answer': '快问快答', 'image': '意境绘卷' };
+            if (type === 'txt') {
+                let text = historyData.map((item, i) =>
+                    `[${i+1}] ${typeLabels[item.type]||'其他'} - ${item.title||'未命名'} (${item.time||''})\n${item.content}`
+                ).join('\n\n---\n\n');
+                downloadFile(text, `平遥创作_${new Date().toISOString().slice(0,10)}.txt`, 'text/plain');
+            } else if (type === 'md') {
+                exportAllHistory();
+                return;
+            } else if (type === 'image') {
+                showToast('正在准备导出...');
+                const containers = [
+                    { id: 'rewrite-text', name: '故里新篇' },
+                    { id: 'recommend-text', name: '灵感拾遗' }
+                ];
+                let exported = 0;
+                containers.forEach(c => {
+                    const el = document.getElementById(c.id);
+                    if (el && el.textContent.trim()) {
+                        html2canvas(el, { backgroundColor: '#fff', scale: 2 }).then(canvas => {
+                            const link = document.createElement('a');
+                            link.download = `${c.name}_${Date.now()}.png`;
+                            link.href = canvas.toDataURL();
+                            link.click();
+                            exported++;
+                            if (exported === containers.filter(c2 => document.getElementById(c2.id)?.textContent.trim()).length) {
+                                showToast(`已导出 ${exported} 张图片`);
+                            }
+                        });
+                    }
+                });
+                return;
+            } else if (type === 'zip') {
+                batchExportZip();
+                return;
+            }
+            showToast('导出成功');
+        }
+
+        async function batchExportZip() {
+            if (!historyData.length) { showToast('暂无记录可导出'); return; }
+            showToast('正在生成 ZIP 包...');
+            try {
+                const JSZip = window.JSZip;
+                if (!JSZip) { showToast('ZIP 库未加载，请刷新页面重试'); return; }
+                const zip = new JSZip();
+                const typeLabels = { 'rewrite': '故里新篇', 'recommend': '灵感拾遗', 'quick-answer': '快问快答', 'image': '意境绘卷' };
+                const dateStr = new Date().toISOString().slice(0, 10);
+
+                // 1) 汇总 Markdown
+                let mdContent = '# 平遥古城 · 文化共创创作历史\n\n';
+                historyData.forEach((item, i) => {
+                    mdContent += `## ${i+1}. [${typeLabels[item.type] || '其他'}] ${item.title || '未命名'}\n`;
+                    mdContent += `> 时间：${item.time || ''}\n\n`;
+                    mdContent += item.content + '\n\n---\n\n';
+                });
+                zip.file(`平遥创作汇总_${dateStr}.md`, mdContent);
+
+                // 2) 各模块独立 Markdown
+                for (const [modKey, modLabel] of Object.entries(typeLabels)) {
+                    const items = historyData.filter(item => item.type === modKey);
+                    if (items.length === 0) continue;
+                    let modMd = `# ${modLabel} - 平遥古城创作记录\n\n`;
+                    items.forEach((item, i) => {
+                        modMd += `## ${i+1}. ${item.title || '未命名'}\n`;
+                        modMd += `> 时间：${item.time || ''}\n\n`;
+                        modMd += item.content + '\n\n---\n\n';
+                    });
+                    zip.file(`${modLabel}_${dateStr}.md`, modMd);
+                }
+
+                // 3) 截图
+                const containers = [
+                    { id: 'rewrite-text', name: '故里新篇' },
+                    { id: 'recommend-text', name: '灵感拾遗' }
+                ];
+                for (const c of containers) {
+                    const el = document.getElementById(c.id);
+                    if (el && el.textContent.trim() && typeof html2canvas !== 'undefined') {
+                        try {
+                            const canvas = await html2canvas(el, { backgroundColor: '#fff', scale: 2 });
+                            const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                            if (blob) zip.file(`${c.name}_截图_${dateStr}.png`, blob);
+                        } catch (e) { console.warn('截图失败:', c.name, e); }
+                    }
+                }
+
+                // 4) 下载 ZIP
+                const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+                const url = URL.createObjectURL(zipBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `平遥文化共创打包_${dateStr}.zip`;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+                showToast(`打包成功！共 ${historyData.length} 条记录`);
+            } catch (err) {
+                console.error('ZIP 打包失败:', err);
+                showToast('打包失败，请重试');
+            }
+        }
+
+        function downloadFile(content, filename, mimeType) {
+            const blob = new Blob([content], { type: mimeType + ';charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 100);
+        }
+
+        // ===================== 统计面板更新 =====================
+        function updateStats() {
+            const creations = document.getElementById('stat-creations');
+            const types = document.getElementById('stat-types');
+            const today = document.getElementById('stat-today');
+            const favs = document.getElementById('stat-favs');
+            if (creations) creations.textContent = historyData.length;
+            if (types) {
+                const uniqueTypes = new Set(historyData.map(d => d.type)).size;
+                types.textContent = uniqueTypes;
+            }
+            if (today) {
+                const todayStr = new Date().toISOString().slice(0,10);
+                const todayCount = historyData.filter(d => d.fullTime?.startsWith(todayStr)).length;
+                today.textContent = todayCount;
+            }
+            if (favs) {
+                const favCount = historyData.filter(d => {
+                    try { return JSON.parse(localStorage.getItem('fav_' + d.id)); }
+                    catch(e) { return false; }
+                }).length;
+                favs.textContent = favCount;
+            }
+        }
+
+        // ===================== 自动挂载 =====================
+        document.addEventListener('DOMContentLoaded', function() {
+            renderHistory();
+            updateStats();
+            updateBadge();
+        });
+
+        // ===================== AI 智能续写功能 =====================
+        function continueWriting(type) {
+            const textId = type === 'image' ? 'image-content' : (type === 'quick-answer' ? 'quick-answer-content' : type + '-text');
+            const contentEl = document.getElementById(textId);
+            const text = contentEl.innerText.trim();
+            if (!text) { showToast('请先生成内容'); return; }
+            
+            showToast('正在续写...');
+            const prompt = `以下是与平遥古城相关的文案，请在此基础上进行智能扩写和深化，保持原有的风格和文化底蕴，增加更多细节和感染力。\n\n【原文】\n${text}\n\n【续写要求】\n1. 延续原文的风格和视角\n2. 融入更多平遥古城的历史文化细节\n3. 保持语言流畅优美\n4. 扩写后总长度增加约50%-80%\n5. 直接输出扩写后的完整内容，不要加"原文"和"续写"等标记`;
+            
+            contentEl.innerHTML = '<div class="loading-spinner"><i class="fa-solid fa-feather-pointed fa-fade"></i> 文思泉涌，笔耕不辍...</div>';
+            
+            callCozeApiStream(prompt, contentEl, module).then(fullText => {
+                // 保存续写结果到历史
+                const firstLine = text.split('\n')[0].slice(0, 30) || module + '续写';
+                saveToHistory(module, firstLine + '（续写版）', fullText);
+                showToast('✅ 续写完成');
+                // 滚动到内容区
+                contentEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }).catch(err => {
+                contentEl.innerHTML = marked.parse ? marked.parse(text) : text;
+                showToast('续写失败，请稍后重试');
+            });
+        }
+
+        // ===================== 关键词智能提取 =====================
+        function extractKeywords(type) {
+            const textId = type === 'image' ? 'image-content' : (type === 'quick-answer' ? 'quick-answer-content' : type + '-text');
+            const text = document.getElementById(textId).innerText.trim();
+            if (!text) { showToast('请先生成内容'); return; }
+            
+            const container = document.getElementById(type + '-tags');
+            if (!container) return;
+            
+            // 先显示加载状态
+            container.innerHTML = '<span class="tag-loading"><i class="fa-solid fa-spinner fa-spin"></i> 提取中...</span>';
+            
+            const prompt = `请从以下关于平遥古城的文本中提取 3-6 个核心关键词/标签，每个标签不超过 8 个字。\n只输出标签本身，用逗号分隔，不要序号和其他文字。\n\n文本：${text.slice(0, 2000)}`;
+            
+            callCozeApiNonStream(prompt).then(data => {
+                let content = data.messages?.find(m => m.type === 'answer')?.content || '';
+                const tags = content.split(/[,，、\n]/).map(t => t.trim()).filter(t => t.length > 0 && t.length < 20).slice(0, 8);
+                if (tags.length === 0) { container.innerHTML = ''; return; }
+                
+                container.innerHTML = tags.map(tag => 
+                    `<span class="keyword-tag" onclick="quickTagSearch('${tag}')">🏷 ${tag}</span>`
+                ).join('');
+                container.style.display = 'flex';
+            }).catch(() => {
+                container.innerHTML = '';
+            });
+        }
+
+        function quickTagSearch(tag) {
+            // 自动填入快捷提问输入框并触发搜索
+            const input = document.getElementById('quick-custom-input');
+            if (input) {
+                input.value = tag;
+                quickAsk(tag);
+                // 滚动到快捷提问结果区
+                setTimeout(() => {
+                    document.getElementById('quick-answer-result')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 500);
+            }
+        }
+
+        // ===================== 智能分享卡片 =====================
+        function shareAsCard(type) {
+            const textId = type === 'image' ? 'image-content' : (type === 'quick-answer' ? 'quick-answer-content' : type + '-text');
+            const text = document.getElementById(textId).innerText.trim();
+            if (!text) { showToast('请先生成内容'); return; }
+            
+            const typeNames = { 'rewrite': '故里新篇 · 创作', 'recommend': '灵感拾遗 · 推荐', 'image': '意境绘卷', 'quick-answer': 'AI 解答' };
+            const typeName = typeNames[module] || '平遥文化创作';
+            
+            showToast('正在生成分享卡片...');
+            
+            // 创建全屏模态展示卡片
+            const modal = document.getElementById('fullscreen-modal');
+            const modalBody = document.getElementById('modal-body');
+            const modalTitle = document.getElementById('modal-title-text');
+            modalTitle.textContent = '📤 分享卡片预览';
+            
+            modalBody.innerHTML = `
+                <div class="share-card" id="share-card-preview">
+                    <div class="share-card-header">
+                        <div class="share-card-brand">
+                            <span class="share-card-icon">🏛</span>
+                            <span>平遥古城 · 智能文旅</span>
+                        </div>
+                        <span class="share-card-type">${typeName}</span>
+                    </div>
+                    <div class="share-card-body">
+                        ${text.slice(0, 500)}${text.length > 500 ? '...' : ''}
+                    </div>
+                    <div class="share-card-footer">
+                        <span>点击"保存"分享到社交媒体</span>
+                        <span class="share-card-time">${new Date().toLocaleString('zh-CN')}</span>
+                    </div>
+                    <div class="share-card-watermark">AI 赋能文化传承</div>
+                </div>
+                <div class="share-card-actions">
+                    <button class="action-btn" onclick="downloadShareCard()">
+                        <i class="fa-solid fa-download"></i> 保存卡片图片
+                    </button>
+                    <button class="action-btn secondary" onclick="copyShareCardText()">
+                        <i class="fa-regular fa-copy"></i> 复制文本
+                    </button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function downloadShareCard() {
+            const el = document.getElementById('share-card-preview');
+            if (!el) return;
+            showToast('正在导出卡片...');
+            html2canvas(el, {
+                backgroundColor: '#fdfcfa',
+                scale: 2,
+                useCORS: true,
+                logging: false
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `平遥卡片_${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                showToast('✅ 卡片已保存');
+            }).catch(() => {
+                showToast('导出失败，请使用截图方式保存');
+            });
+        }
+
+        function copyShareCardText() {
+            const el = document.querySelector('.share-card-body');
+            if (!el) return;
+            navigator.clipboard.writeText(el.innerText).then(() => {
+                showToast('已复制正文');
+            }).catch(() => showToast('复制失败'));
+        }
+
+        // ===================== 多轮对话上下文面板 =====================
+        let conversationHistory = {};
+
+        function addConversationEntry(module, question, answer) {
+            if (!conversationHistory[module]) conversationHistory[module] = [];
+            conversationHistory[module].push({
+                question: question,
+                answer: answer.slice(0, 200),
+                time: new Date().toLocaleTimeString('zh-CN')
+            });
+            if (conversationHistory[module].length > 10) conversationHistory[module].shift();
+            renderConversationPanel(module);
+        }
+
+        function renderConversationPanel(module) {
+            const panel = document.getElementById(module + '-conv-panel');
+            if (!panel) return;
+            const entries = conversationHistory[module] || [];
+            if (!entries.length) { panel.style.display = 'none'; return; }
+            panel.style.display = 'block';
+            panel.innerHTML = entries.map((entry, i) => `
+                <div class="conv-entry">
+                    <div class="conv-q"><i class="fa-regular fa-circle-user"></i> ${entry.question}</div>
+                    <div class="conv-a"><i class="fa-regular fa-circle-check"></i> ${entry.answer}...</div>
+                    <div class="conv-time">${entry.time}</div>
+                </div>
+            `).join('');
+        }
+
+        function doFollowUp(moduleName, context, question, resultId, type) {
+            const el = document.getElementById(resultId);
+            const oldText = el.textContent;
+            el.innerHTML = `<div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> 正在结合上下文思考...</div>`;
+            const prompt = `【上下文】${context}\n\n【追问】${question}\n\n请基于以上上下文，针对性地回答追问，保持平遥古城特色。`;
+            
+            callCozeApiNonStream(prompt).then(data => {
+                let answer = data.messages?.find(m => m.type === 'answer')?.content || '未获取到回答';
+                el.innerHTML = marked.parse ? marked.parse(answer) : answer;
+                if (typeof hljs !== 'undefined') el.querySelectorAll('pre code').forEach(b => hljs.highlightElement(b));
+                saveToHistory(type, question, answer);
+                addConversationEntry(type, question, answer);
+                extractKeywords(type);
+            }).catch((err) => {
+                console.error('追问失败:', err);
+                el.innerHTML = marked.parse ? marked.parse(oldText) : oldText;
+                showToast('追问暂时不可用，请稍后重试');
+            });
+        }
+
         // ===================== 特定标记替换功能 =====================
-        function replaceTechMarkers(content) {
+        function replaceTechMarkers(content, module) {
             if (!content || typeof content !== 'string') return '';
             
             let result = content;
@@ -1120,22 +3051,26 @@
                 const matchIndex = lastMatch.index;
                 const matchLength = lastMatch[0].length;
                 
-                // 截取匹配前的内容
+                // 截取匹配前的内容（主要正文）
                 const beforeContent = result.substring(0, matchIndex).trim();
-                // 截取匹配后的内容（即"猜你还想问"后面的文字）
-                const afterContent = result.substring(matchIndex + matchLength).trim();
                 
-                // 构建新的HTML结构
-                // 匹配前的内容保持不变
-                // 匹配后的内容放入 .suggested-questions-content div 中
-                let newContent = beforeContent;
-                newContent += '\n\n<div class="suggested-questions">';
-                newContent += '<div class="suggested-questions-title"><i class="fa-solid fa-lightbulb"></i>猜你还想问：</div>';
-                newContent += '<div class="suggested-questions-content">';
-                newContent += afterContent;
-                newContent += '</div></div>';
-                
-                result = newContent;
+                if (module === 'quick-answer') {
+                    // 截取匹配后的内容（即"猜你还想问"后面的文字）
+                    const afterContent = result.substring(matchIndex + matchLength).trim();
+                    
+                    // 构建新的HTML结构（仅 quick-answer 使用，因为 appendFollowUpQuestions 也在此模块中使用）
+                    let newContent = beforeContent;
+                    newContent += '\n\n<div class="suggested-questions">';
+                    newContent += '<div class="suggested-questions-title"><i class="fa-solid fa-lightbulb"></i>猜你还想问：</div>';
+                    newContent += '<div class="suggested-questions-content">';
+                    newContent += afterContent;
+                    newContent += '</div></div>';
+                    
+                    result = newContent;
+                } else {
+                    // 非 quick-answer 模块（故里新篇/灵感拾遗/意境绘卷）直接剥离标记，不显示"猜你还想问"
+                    result = beforeContent;
+                }
             }
             
             return result;
@@ -1165,10 +3100,73 @@
             label.querySelector('input').checked = true;
         }
 
+        // ========== 快捷提问功能 ==========
+        let _quickAnswerText = '';
+
+        let _lastQuickQuestion = '';
+
+        function quickAsk(question) {
+            _lastQuickQuestion = question;
+            const loadingEl = document.getElementById('quick-answer-loading');
+            const errorEl = document.getElementById('quick-answer-error');
+            const resultEl = document.getElementById('quick-answer-result');
+            const contentEl = document.getElementById('quick-answer-content');
+
+            // 显示加载状态
+            loadingEl.style.display = 'flex';
+            errorEl.classList.remove('active');
+            resultEl.classList.remove('active');
+            resultEl.classList.remove('result-fade-in');
+            _quickAnswerText = '';
+            // 移除旧的追问区域
+            const oldQ = document.querySelector('.suggested-questions-wrapper');
+            if (oldQ) oldQ.remove();
+
+            callCozeApiNonStream(question).then(data => {
+                loadingEl.style.display = 'none';
+                let content = data.messages?.find(m => m.type === 'answer')?.content || '';
+                content = replaceTechMarkers(content, 'quick-answer');
+                _quickAnswerText = content;
+                // 用 fade-in 动画展示 markdown 渲染结果
+                contentEl.innerHTML = marked.parse(content);
+                resultEl.classList.add('active', 'result-fade-in');
+                // 滚动到结果区域
+                resultEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                // 提取关键词标签
+                extractKeywords('quick-answer');
+                // 追加追问建议
+                appendFollowUpQuestions();
+            }).catch(err => {
+                loadingEl.style.display = 'none';
+                errorEl.querySelector('span').textContent = err.message || 'AI 暂不可用，请稍后重试';
+                errorEl.classList.add('active');
+            });
+        }
+
+        function regenerateQuickAnswer() {
+            if (!_lastQuickQuestion) {
+                showToast('暂无上次提问记录');
+                return;
+            }
+            quickAsk(_lastQuickQuestion);
+        }
+
+        function copyQuickAnswer() {
+            var contentEl = document.getElementById('quick-answer-content');
+            if (!contentEl || !contentEl.innerText.trim()) { showToast('暂无内容可复制'); return; }
+            var textarea = document.createElement('textarea');
+            textarea.value = contentEl.innerText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast('已复制 AI 解答');
+        }
+
         // 快速填充示例（每个模块3个示例）
         const examples = {
             'image': {
-                1: '平遥古城南门迎薰门，晨曦微光中，城楼轮廓若隐若现，城墙根下老人打着太极，红灯笼在薄雾中透出暖光，青石板路湿润反光，远处传来晨钟声，水墨丹青风格',
+                1: '平遥古城墙迎薰门，傍晚金色夕阳洒在斑驳的城砖上，一位穿长衫的老者拉着二胡，城墙根下几株老槐树的影子被拉得很长，风中飘来远处寺院的钟声，写实摄影风格，温暖金色调，浅景深，85mm镜头',
                 2: '日升昌票号大院内，阳光透过雕花窗棂洒在青砖地上，形成斑驳光影，账房先生装扮的演员正在用毛笔书写，桌上摆放着算盘和账本，背景是精美的三雕砖刻，暖色调，复古胶片质感',
                 3: '明清一条街夜景，华灯初上，大红灯笼高高挂起，石板路上人来人往，两侧店铺幌子随风轻摆，药铺、茶庄、票号灯火通明，热闹非凡，电影感构图，85mm镜头，浅景深'
             },
@@ -1178,14 +3176,34 @@
                 3: '平遥古城墙始建于西周宣王时期，为夯土城垣。明洪武三年重筑，变为砖石城墙。城墙周长6163米，墙高约12米，把面积约2.25平方公里的平遥县城一隔为两个风格迥异的世界。城墙上有72座敌楼，3000垛口，象征孔子三千弟子及七十二圣人。城墙历经600余年的风雨沧桑，至今雄风犹存。'
             },
             'recommend': {
-                1: '一家三口带7岁男孩，孩子喜欢听故事和动手体验，不喜欢纯看建筑。体力中等，预算中等，希望避开人挤人的主干道，想体验真正的晋商文化和非遗手作，最好有互动性强的项目。',
-                2: '情侣两人，摄影爱好者，喜欢拍摄古建筑和人文纪实。希望找一些人少但出片的好地方，需要知道最佳拍摄时间和角度。体力较好，可以接受早起拍日出。预算宽裕，希望体验一些有特色的民宿。',
-                3: '两位退休老人，腿脚不便需要平路或轮椅通道，喜欢安静的环境听历史讲解。对晋商文化感兴趣，想深入了解票号、镖局的故事。节奏要慢，中午需要休息，附近要有茶馆或休息区。'
+                '旅游路线': {
+                    1: '一家三口带7岁男孩，孩子喜欢听故事和动手体验，不喜欢纯看建筑。体力中等，预算中等，希望避开人挤人的主干道，想体验真正的晋商文化和非遗手作，最好有互动性强的项目。',
+                    2: '大学生两人，预算有限，两天一夜穷游平遥。喜欢拍照打卡和品尝地道小吃，对门票昂贵的景点兴趣不大。希望推荐免费或低成本的游玩路线，以及本地人常去的小吃店。',
+                    3: '公司团建10人左右，想体验平遥古城的特色文化项目。希望安排一场晋商主题的沉浸式体验，包含穿古装、学票号记账等活动。下午自由活动时间想逛古城，需推荐值得看的免费场馆。'
+                },
+                '美食': {
+                    1: '一个人来平遥出差，只有一晚空闲时间。想尝尝最正宗的平遥牛肉和平遥碗托，不要网红店，要找本地人从小吃到大的老字号。最好集中在一条街上能吃完，方便步行。',
+                    2: '带着父母来平遥过周末，父亲喜欢面食，母亲想尝尝本地特色的甜食和小吃。希望推荐环境好一些的餐厅（干净卫生有空调），口味不要太辣太油，适合中老年人的口味。',
+                    3: '和闺蜜两人来平遥，想找一些有特色、适合拍照的餐厅或小吃店。喜欢文艺风、有故事的店铺，菜品颜值要高。还想知道平遥有什么特色伴手礼可以买回去送人。'
+                },
+                '摄影点': {
+                    1: '摄影发烧友，专程来平遥拍古城日出和夜景。带了广角和长焦镜头，想找一个能俯瞰古城全景的制高点。还希望推荐一些古城内小众但出片的胡同和院落，避开旅行团。',
+                    2: '用手机摄影的爱好者，不太会后期调色。喜欢拍古建筑细节（砖雕、窗棂、屋顶）和人文纪实（当地人生活场景）。希望推荐构图简单但容易出片的点位，以及适合手机拍摄的时段。',
+                    3: '情侣两人，想拍一组古风人像写真。男生穿长衫女生穿旗袍，希望找到一些有年代感的场景——老门楼、青砖巷子、古院落的影壁前。需要推荐人少、背景干净的地方。'
+                }
             }
         };
 
         function fillExample(type, num) {
-            const content = examples[type] && examples[type][num];
+            let content;
+            if (type === 'recommend') {
+                // 获取当前选中的子类型（旅游路线/美食/摄影点）
+                const radio = document.querySelector('input[name="recommend-type"]:checked');
+                const subType = radio ? radio.value : '旅游路线';
+                content = examples[type] && examples[type][subType] && examples[type][subType][num];
+            } else {
+                content = examples[type] && examples[type][num];
+            }
             if (content) {
                 const inputId = type === 'image' ? 'gen-prompt' : type + '-' + (type === 'rewrite' ? 'content' : 'prompt');
                 const el = document.getElementById(inputId);
@@ -1229,7 +3247,10 @@
         async function callCozeApiNonStream(prompt) {
             const response = await fetch(COZE_CONFIG.API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + COZE_CONFIG.TOKEN
+                },
                 body: JSON.stringify({
                     bot_id: COZE_CONFIG.BOT_ID,
                     user: COZE_CONFIG.USER_ID,
@@ -1238,7 +3259,10 @@
                     auto_save_history: true
                 })
             });
-            if (!response.ok) throw new Error(`服务繁忙(${response.status})`);
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.msg || `服务繁忙(${response.status})`);
+            }
             const data = await response.json();
             if (data.code !== 0) throw new Error(data.msg || '生成失败');
             return data;
@@ -1247,7 +3271,10 @@
         async function callCozeApiStream(prompt, resultElement, type) {
             const response = await fetch(COZE_CONFIG.API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + COZE_CONFIG.TOKEN
+                },
                 body: JSON.stringify({
                     bot_id: COZE_CONFIG.BOT_ID,
                     user: COZE_CONFIG.USER_ID,
@@ -1257,7 +3284,10 @@
                 })
             });
 
-            if (!response.ok) throw new Error(`服务繁忙(${response.status})`);
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.msg || `服务繁忙(${response.status})`);
+            }
 
             const reader = response.body.getReader();
             const decoder = new TextDecoder('utf-8');
@@ -1276,14 +3306,14 @@
                     if (line.startsWith('data:')) {
                         try {
                             const jsonStr = line.replace('data:', '').trim();
-                            if (jsonStr === '[DONE]') continue;
-                            
+                            if (!jsonStr || jsonStr === '[DONE]') continue;
+
                             const data = JSON.parse(jsonStr);
+                            // open_api/v2/chat 流式格式: event===message, message.content
                             if (data.event === 'message' && data.message?.content) {
-                                // 替换特定技术标记
-                                const processedChunk = replaceTechMarkers(data.message.content);
+                                const processedChunk = replaceTechMarkers(data.message.content, type);
                                 resultText += processedChunk;
-                                
+
                                 if (resultText.trim()) {
                                     resultElement.innerHTML = marked.parse(resultText);
                                     resultElement.querySelectorAll('pre code').forEach((block) => {
@@ -1293,27 +3323,38 @@
                                 }
                             }
                             if (data.event === 'done') {
-                                resultText = replaceTechMarkers(resultText);
-                                resultElement.innerHTML = marked.parse(resultText);
-                                resultElement.querySelectorAll('pre code').forEach((block) => {
-                                    hljs.highlightElement(block);
-                                });
-                                return resultText;
+                                resultText = replaceTechMarkers(resultText, type);
+                                    resultElement.innerHTML = marked.parse(resultText);
+                                    resultElement.querySelectorAll('pre code').forEach((block) => {
+                                        hljs.highlightElement(block);
+                                    });
+                                    return resultText;
+                                }
+                                if (data.event === 'error') throw new Error(data.error?.message || '生成出错');
+                            } catch (e) {
+                                if (e.message !== '解析流数据失败' && e.message !== '生成出错') throw e;
+                                console.warn('解析流数据失败', e);
                             }
-                            if (data.event === 'error') throw new Error(data.error?.message || '生成出错');
-                        } catch (e) {
-                            console.warn('解析流数据失败', e);
                         }
                     }
                 }
-            }
-            
-            resultText = replaceTechMarkers(resultText);
+
+                resultText = replaceTechMarkers(resultText, type);
             resultElement.innerHTML = marked.parse(resultText);
             return resultText;
         }
 
-        // ========== 功能 1：意境绘卷（横版图片） ==========
+        // HTML 转义函数，防止 XSS 和 HTML 破坏
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;')
+                      .replace(/</g, '&lt;')
+                      .replace(/>/g, '&gt;')
+                      .replace(/"/g, '&quot;')
+                      .replace(/'/g, '&#39;');
+        }
+
+        // ========== 功能 1：意境绘卷（真实图片生成） ==========
         async function startImageGeneration() {
             const prompt = document.getElementById('gen-prompt').value.trim();
             if (!prompt) {
@@ -1327,51 +3368,65 @@
             document.getElementById('image-generate-btn').disabled = true;
 
             try {
-                // 优化后的提示词：要求横版图片（16:9比例）
-                const finalPrompt = `【角色】你是平遥古城的资深文旅策划与AI绘画专家。
-【任务】根据用户的场景描述，直接生成一张高清横版意境图（16:9宽屏比例），并配上一段诗意文案。
+                // 第一步：用 Coze 获取英文绘图提示词 + 诗意文案
+                const finalPrompt = `【角色】你是平遥古城的资深文旅策划与AI绘画提示词专家。
+【任务】根据用户的场景描述，生成一段可直接用于生图的AI绘画提示词（英文）。
 
 【用户描述】${prompt}
 
 【输出要求】
-1. 首先生成一张符合描述的横版高清图片（横向构图，适合网页展示），使用Markdown图片格式：![平遥意境](图片URL)
-2. 图片要求：宽屏比例（16:9），画面开阔，适合作为banner或头图使用
-3. 然后配上一段中文宣传文案（200-300字），要求诗意优美，有画面感，突出"${prompt}"中的核心元素
-4. 使用Markdown格式：标题用##，重点用**加粗**
-5. 不要输出英文提示词、不要输出技术参数
+1. 首先生成一段英文 AI 绘画提示词（EN prompt），格式：\`\`\`prompt\n[英文提示词]\n\`\`\`
+2. 提示词要求：包含场景主体、环境氛围、光线色彩、构图视角、画质风格，适合生成横版16:9宽屏图
+3. 然后配上一段中文宣传文案（150-200字），诗意优美，有画面感，突出"${prompt}"中的核心元素
+4. 使用Markdown格式，标题用##，重点用**加粗**
 
 【输出格式】
-![平遥古城意境图](图片URL)
+\`\`\`prompt
+[英文提示词]
+\`\`\`
 
-## 文案标题
+## 📝 成图画意
 
-正文内容...`;
+[中文诗意文案描述]`;
                 
                 const res = await callCozeApiNonStream(finalPrompt);
                 let content = res.messages?.find(m => m.type === 'answer')?.content || '';
+                content = replaceTechMarkers(content, 'image');
                 
-                // 替换技术标记
-                content = replaceTechMarkers(content);
+                // 提取英文提示词
+                const promptMatch = content.match(/```prompt\s*\n?([\s\S]*?)\n?```/);
+                const enPrompt = promptMatch ? promptMatch[1].trim() : prompt;
+                
+                // 提取诗意文案（去掉提示词部分）
+                let poeticText = content.replace(/```prompt[\s\S]*?```/, '').trim();
+                
+                // 第二步：用 Pollinations.ai 生成真实图片（免费，无需密钥）
+                const imageUrl = 'https://image.pollinations.ai/prompt/' + encodeURIComponent(enPrompt) + '?width=1280&height=720&nologo=true';
                 
                 const resultEl = document.getElementById('image-content');
-                resultEl.innerHTML = marked.parse(content);
-                
-                // 为图片添加点击放大功能
-                resultEl.querySelectorAll('img').forEach(img => {
-                    img.onclick = function() {
-                        window.open(this.src, '_blank');
-                    };
-                    img.onerror = function() {
-                        this.parentElement.innerHTML = `<div class="image-placeholder">
-                            <i class="fa-regular fa-image"></i>
-                            <div>图片加载失败</div>
-                            <small style="color: #999;">${this.alt || '平遥意境图'}</small>
-                        </div>`;
-                    };
-                });
+                const escapedPrompt = escapeHtml(prompt);
+                resultEl.innerHTML = `
+                    <div class="generated-image-container">
+                        <img src="${imageUrl}" 
+                             alt="平遥意境：${escapedPrompt}" 
+                             class="generated-image"
+                             onclick="window.open(this.src, '_blank')"
+                             onerror="this.parentElement.innerHTML=\`<div class='image-placeholder'><i class='fa-regular fa-image'></i><div>图片生成失败，请重试</div><small style='color:#999;'>${escapedPrompt}</small></div>\`">
+                    </div>
+                    <div class="image-poetic-text">
+                        ${marked.parse(poeticText)}
+                    </div>
+                `;
                 
                 document.getElementById('image-result').classList.add('active');
                 document.getElementById('image-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+                // 保存当前图片URL供下载使用
+                window._currentImageUrl = imageUrl;
+                window._currentImagePrompt = prompt;
+                
+                // 自动保存到创作历史
+                saveCreation('image');
                 
             } catch (e) {
                 showError('image', e.message);
@@ -1382,16 +3437,59 @@
         }
 
         function downloadImage() {
-            const img = document.querySelector('#image-content img');
-            if (img && img.src) {
+            const url = window._currentImageUrl;
+            if (url) {
                 const a = document.createElement('a');
-                a.href = img.src;
-                a.download = 'pingyao-意境绘卷-' + Date.now() + '.jpg';
+                a.href = url;
+                a.download = '平遥意境-' + Date.now() + '.jpg';
                 a.target = '_blank';
                 a.click();
-                showToast('图片下载已开始');
+                showToast('✅ 图片下载已开始');
             } else {
-                showToast('暂无图片可下载');
+                // 降级：尝试从页面中获取图片
+                const img = document.querySelector('#image-content .generated-image');
+                if (img && img.src) {
+                    const a = document.createElement('a');
+                    a.href = img.src;
+                    a.download = '平遥意境-' + Date.now() + '.jpg';
+                    a.target = '_blank';
+                    a.click();
+                    showToast('✅ 图片下载已开始');
+                } else {
+                    showToast('⚠️ 暂无图片可下载，请先生成意境绘卷');
+                }
+            }
+        }
+
+        // ========== 意境绘卷：导出纯图片（不含文字） ==========
+        async function exportImageOnly() {
+            const img = document.querySelector('#image-content .generated-image');
+            if (!img || !img.src) {
+                showToast('⚠️ 暂无图片可导出，请先生成意境绘卷');
+                return;
+            }
+            try {
+                showToast('📷 正在导出图片...');
+                const canvas = await html2canvas(img, {
+                    scale: 2,
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: null
+                });
+                const link = document.createElement('a');
+                link.download = '平遥意境绘卷-' + Date.now() + '.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                showToast('✅ 图片已导出');
+            } catch (e) {
+                console.error('导出图片失败:', e);
+                // 降级：直接下载原始图片
+                const a = document.createElement('a');
+                a.href = img.src;
+                a.download = '平遥意境绘卷-' + Date.now() + '.jpg';
+                a.target = '_blank';
+                a.click();
+                showToast('✅ 图片已导出（原始格式）');
             }
         }
 
@@ -1439,6 +3537,8 @@ ${content}
                 await callCozeApiStream(finalPrompt, document.getElementById('rewrite-text'), 'rewrite');
                 document.getElementById('rewrite-result').classList.add('active');
                 document.getElementById('rewrite-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                extractKeywords('rewrite');
+                saveCreation('rewrite');
                 
             } catch (e) {
                 showError('rewrite', e.message);
@@ -1448,8 +3548,218 @@ ${content}
             }
         }
 
+        // 在 quickAsk 成功后根据回答内容自动生成个性化的追问问题
+        function appendFollowUpQuestions() {
+            const existing = document.querySelector('.suggested-questions-wrapper');
+            if (existing) existing.remove();
+
+            const content = document.getElementById('quick-answer-content');
+            if (!content || !content.innerText.trim()) return;
+
+            const answerText = content.innerText.trim();
+            const questionText = _lastQuickQuestion || '';
+
+            // 显示加载中的追问区域
+            const wrapper = document.createElement('div');
+            wrapper.className = 'suggested-questions-wrapper';
+            wrapper.style.cssText = 'margin-top:16px;padding:14px 18px 12px;background:#f9f5f0;border-radius:10px;border:1px solid #e8ddd0;';
+            wrapper.innerHTML = `
+                <div style="font-size:14px;font-weight:600;color:#8c1515;margin-bottom:10px;font-family:'SimSun',serif;">
+                    <i class="fa-solid fa-robot"></i> AI 正在为您生成个性化追问...
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;">
+                    <div class="spinner" style="width:24px;height:24px;border-width:2px;margin:0;"></div>
+                </div>
+            `;
+            content.parentNode.appendChild(wrapper);
+
+            // 调用 AI 基于回答内容生成个性化的追问问题
+            const followUpPrompt = `【角色】你是平遥古城文化导游，了解古城每个角落的细节。
+【任务】根据用户刚才的提问和 AI 的回答，生成 3 个"追问"问题，让用户能进一步深入了解相关内容。
+
+【用户刚才的提问】
+${questionText}
+
+【AI 的回答内容】
+${answerText}
+
+【要求】
+- 生成 3 个追问问题，每个问题 10-20 字
+- 问题必须基于回答内容中的具体信息进行延伸，不要凭空提问
+- 每个问题搭配一个合适的 emoji 图标
+- 问题要有层次：第1个围绕回答中的核心亮点深入，第2个关联相关知识点，第3个偏向实用或体验建议
+- 只输出 JSON 数组，格式：[
+  {"q": "问题1", "icon": "📍"},
+  {"q": "问题2", "icon": "🍜"},
+  {"q": "问题3", "icon": "💡"}
+]
+- 不要输出任何其他文字，严格只输出 JSON`;
+
+            callCozeApiNonStream(followUpPrompt).then(data => {
+                let followUps = [];
+                try {
+                    const rawText = data.messages?.find(m => m.type === 'answer')?.content || '';
+                    // 尝试提取 JSON 数组
+                    const jsonMatch = rawText.match(/\[[\s\S]*?\]/);
+                    if (jsonMatch) {
+                        followUps = JSON.parse(jsonMatch[0]);
+                    }
+                } catch (e) {
+                    console.warn('解析追问 JSON 失败，使用回退问题', e);
+                }
+
+                // 确保是有效数组且每项有 q 和 icon
+                if (!Array.isArray(followUps) || followUps.length < 3) {
+                    // 根据回答内容关键信息智能生成回退问题
+                    const fallbackQuestions = generateFallbackQuestions(answerText, questionText);
+                    followUps = fallbackQuestions;
+                }
+
+                // 限制最多 3 个问题
+                followUps = followUps.slice(0, 3);
+
+                wrapper.innerHTML = `
+                    <div style="font-size:14px;font-weight:600;color:#8c1515;margin-bottom:10px;font-family:'SimSun',serif;">
+                        <i class="fa-solid fa-lightbulb"></i> 还想了解这些吗？
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                        ${followUps.map(q => `
+                            <button onclick="quickAsk('${q.q.replace(/'/g, "\\'")}')"
+                                    style="font-size:13px;padding:6px 16px;background:#fff;border:1px solid #ddd2c0;border-radius:20px;
+                                           cursor:pointer;transition:all .2s;color:#5a4a3a;font-family:inherit;"
+                                    onmouseover="this.style.background='#f5ede4';this.style.borderColor='#8c1515'"
+                                    onmouseout="this.style.background='#fff';this.style.borderColor='#ddd2c0'">
+                                    ${q.icon || '❓'} ${q.q || ''}
+                                </button>
+                        `).join('')}
+                    </div>
+                `;
+            }).catch(err => {
+                console.warn('AI 生成追问失败，使用回退问题:', err.message);
+                const fallbackQuestions = generateFallbackQuestions(answerText, questionText);
+                wrapper.innerHTML = `
+                    <div style="font-size:14px;font-weight:600;color:#8c1515;margin-bottom:10px;font-family:'SimSun',serif;">
+                        <i class="fa-solid fa-lightbulb"></i> 还想了解这些吗？
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                        ${fallbackQuestions.map(q => `
+                            <button onclick="quickAsk('${q.q.replace(/'/g, "\\'")}')"
+                                    style="font-size:13px;padding:6px 16px;background:#fff;border:1px solid #ddd2c0;border-radius:20px;
+                                           cursor:pointer;transition:all .2s;color:#5a4a3a;font-family:inherit;"
+                                    onmouseover="this.style.background='#f5ede4';this.style.borderColor='#8c1515'"
+                                    onmouseout="this.style.background='#fff';this.style.borderColor='#ddd2c0'">
+                                    ${q.icon || '❓'} ${q.q || ''}
+                                </button>
+                        `).join('')}
+                    </div>
+                `;
+            });
+        }
+
+        // 基于回答内容的关键词智能生成回退追问问题
+        function generateFallbackQuestions(answerText, questionText) {
+            const answer = answerText || '';
+            const question = questionText || '';
+
+            // 从回答中提取关键实体词
+            const keywords = [];
+            const knownEntities = [
+                '城墙', '敌楼', '瓮城', '城门', '迎薰门', '太和门',
+                '日升昌', '票号', '钱庄', '镖局', '县衙', '文庙', '武庙',
+                '清虚观', '城隍庙', '明清街', '南大街', '西大街',
+                '推光漆器', '平遥牛肉', '碗托', '栲栳栳', '水煎包',
+                '晋商', '商帮', '汇通天下', '万里茶路',
+                '申遗', '世界文化遗产', '历史文化名城', '5A',
+                '四合院', '三雕', '砖雕', '木雕', '石雕',
+                '又见平遥', '摄影', '民宿', '特产'
+            ];
+
+            // 找到回答中出现的已知实体
+            knownEntities.forEach(entity => {
+                if (answer.includes(entity)) {
+                    keywords.push(entity);
+                }
+            });
+
+            // 根据关键词生成个性化的追问
+            const questions = [];
+
+            // 第1问：围绕回答核心内容深入
+            if (keywords.length > 0) {
+                const mainKeyword = keywords[0];
+                if (mainKeyword.includes('城墙') || mainKeyword.includes('敌楼') || mainKeyword.includes('城门')) {
+                    questions.push({ q: `平遥有哪些独特之处？`, icon: '🏯' });
+                } else if (mainKeyword.includes('日升昌') || mainKeyword.includes('票号')) {
+                    questions.push({ q: `背后的故事有哪些？`, icon: '📜' });
+                } else if (mainKeyword.includes('牛肉') || mainKeyword.includes('碗托') || mainKeyword.includes('美食') || mainKeyword.includes('小吃')) {
+                    questions.push({ q: `平遥最正宗的去哪吃？`, icon: '🥢' });
+                } else if (mainKeyword.includes('推光漆器') || mainKeyword.includes('三雕') || mainKeyword.includes('非遗')) {
+                    questions.push({ q: `在哪里可以体验制作？`, icon: '🎨' });
+                } else if (mainKeyword.includes('晋商')) {
+                    questions.push({ q: `晋商文化在平遥有哪些具体体现？`, icon: '🤝' });
+                } else if (mainKeyword.includes('申遗') || mainKeyword.includes('世界遗产')) {
+                    questions.push({ q: `平遥古城申遗背后的故事是什么？`, icon: '🏆' });
+                } else {
+                    questions.push({ q: `关于平遥还有哪些故事？`, icon: '📖' });
+                }
+            } else {
+                questions.push({ q: '平遥古城还有哪些值得一去的景点？', icon: '📍' });
+            }
+
+            // 第2问：关联周边知识
+            if (keywords.length > 1) {
+                const secondKeyword = keywords[1];
+                if (secondKeyword.includes('镖局')) {
+                    questions.push({ q: '平遥镖局在当时有多重要？', icon: '⚔️' });
+                } else if (secondKeyword.includes('县衙')) {
+                    questions.push({ q: '平遥县衙有什么特别之处？', icon: '⚖️' });
+                } else if (secondKeyword.includes('文庙') || secondKeyword.includes('武庙')) {
+                    questions.push({ q: '平遥的庙宇文化有何特色？', icon: '🙏' });
+                } else if (secondKeyword.includes('又见平遥')) {
+                    questions.push({ q: '《又见平遥》演出值得看吗？', icon: '🎭' });
+                } else {
+                    questions.push({ q: `平遥有什么特别的故事？`, icon: '📚' });
+                }
+            } else {
+                questions.push({ q: '有哪些平遥美食是必尝的？', icon: '🍜' });
+            }
+
+            // 第3问：实用建议类
+            if (answer.includes('门票') || answer.includes('开放') || answer.includes('时间') || answer.includes('预约')) {
+                questions.push({ q: '去平遥古城需要提前做哪些准备？', icon: '✅' });
+            } else if (answer.includes('路线') || answer.includes('游览') || answer.includes('一日游') || answer.includes('游玩')) {
+                questions.push({ q: '平遥古城最佳游览路线是什么？', icon: '🗺️' });
+            } else if (answer.includes('拍照') || answer.includes('摄影') || answer.includes('日出') || answer.includes('日落')) {
+                questions.push({ q: '平遥古城有哪些最佳拍照机位？', icon: '📷' });
+            } else if (answer.includes('民宿') || answer.includes('住宿') || answer.includes('酒店')) {
+                questions.push({ q: '平遥古城有哪些特色民宿推荐？', icon: '🏠' });
+            } else if (answer.includes('春节') || answer.includes('庙会') || answer.includes('社火') || answer.includes('活动')) {
+                questions.push({ q: '平遥古城有哪些传统节庆活动？', icon: '🎉' });
+            } else {
+                questions.push({ q: '去平遥古城有什么实用建议？', icon: '💡' });
+            }
+
+            return questions;
+        }
+
         function regenerate(type) {
-            startRewrite();
+            // 根据类型调用对应的重新生成函数
+            switch(type) {
+                case 'quick-answer':
+                    regenerateQuickAnswer();
+                    break;
+                case 'image':
+                    startImageGeneration();
+                    break;
+                case 'rewrite':
+                    startRewrite();
+                    break;
+                case 'recommend':
+                    startRecommend();
+                    break;
+                default:
+                    showToast('暂不支持该类型重新生成');
+            }
         }
 
         // ========== 功能 3：灵感拾遗 ==========
@@ -1497,6 +3807,8 @@ ${content}
                 await callCozeApiStream(finalPrompt, document.getElementById('recommend-text'), 'recommend');
                 document.getElementById('recommend-result').classList.add('active');
                 document.getElementById('recommend-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                extractKeywords('recommend');
+                saveCreation('recommend');
                 
             } catch (e) {
                 showError('recommend', e.message);
@@ -1508,7 +3820,7 @@ ${content}
 
         // ========== 全屏显示功能 ==========
         function openFullscreen(type) {
-            const contentEl = document.getElementById(type === 'image' ? 'image-content' : type + '-text');
+            const contentEl = document.getElementById(type === 'image' ? 'image-content' : (type === 'quick-answer' ? 'quick-answer-content' : type + '-text'));
             const modal = document.getElementById('fullscreen-modal');
             const modalBody = document.getElementById('modal-body');
             const modalTitle = document.getElementById('modal-title-text');
@@ -1553,7 +3865,7 @@ ${content}
 
         // ========== 复制功能（带Toast反馈） ==========
         async function copyContent(type) {
-            const contentEl = document.getElementById(type === 'image' ? 'image-content' : type + '-text');
+            const contentEl = document.getElementById(type === 'image' ? 'image-content' : (type === 'quick-answer' ? 'quick-answer-content' : type + '-text'));
             const text = contentEl.innerText;
             
             try {
@@ -1579,6 +3891,131 @@ ${content}
             }
         }
 
+        // ========== 保存到创作记录 ==========
+        function saveCreation(type) {
+            const contentEl = document.getElementById(type === 'image' ? 'image-content' : (type === 'quick-answer' ? 'quick-answer-content' : type + '-text'));
+            const text = contentEl.innerText.trim();
+            if (!text) {
+                showToast('没有可保存的内容');
+                return;
+            }
+
+            const typeNames = {
+                'image': '意境绘卷',
+                'rewrite': '故里新篇',
+                'recommend': '灵感拾遗',
+                'quick-answer': '快问快答'
+            };
+
+            const result = StorageUtils.saveCreation({
+                type: type,
+                typeName: typeNames[type] || type,
+                content: text,
+                title: text.split('\n')[0].slice(0, 30) || typeNames[type] || '创作'
+            });
+
+            // 同步保存到收藏，让"我的收藏"也能看到
+            StorageUtils.saveFavorite({
+                type: 'creation',
+                typeName: typeNames[type] || type,
+                content: text,
+                title: text.split('\n')[0].slice(0, 30) || typeNames[type] || '创作'
+            });
+
+            // ★ 同时记录到创作历史面板
+            if (typeof saveToHistory === 'function') {
+                saveToHistory(type, (text.split('\n')[0].slice(0, 30) || typeNames[type] || '创作'), text);
+            }
+
+            if (result) {
+                showToast('✅ 已保存到创作记录');
+            } else {
+                showToast('保存失败，请稍后重试');
+            }
+        }
+
+        // ========== 导出为图片（使用 html2canvas） ==========
+        async function exportAsImage(elementId, fileName = '平遥创作') {
+            const el = document.getElementById(elementId);
+            if (!el || !el.innerText.trim()) {
+                showToast('暂无内容可导出');
+                return;
+            }
+            showToast('正在生成图片...');
+            try {
+                // 动态加载 html2canvas
+                if (typeof html2canvas === 'undefined') {
+                    await new Promise((resolve, reject) => {
+                        const script = document.createElement('script');
+                        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+                        script.onload = resolve;
+                        script.onerror = reject;
+                        document.head.appendChild(script);
+                    });
+                }
+                
+                // 创建一个临时的 Canvas 容器，只包含图片元素，不包含文字
+                const tempContainer = document.createElement('div');
+                tempContainer.style.position = 'absolute';
+                tempContainer.style.visibility = 'hidden';
+                tempContainer.style.zIndex = '-9999';
+                document.body.appendChild(tempContainer);
+                
+                // 查找生成的图片元素（img.generated-image）
+                const imgEl = el.querySelector('img.generated-image');
+                if (imgEl) {
+                    // 只复制图片到临时容器
+                    const clonedImg = imgEl.cloneNode(true);
+                    clonedImg.style.maxWidth = '800px';
+                    clonedImg.style.height = 'auto';
+                    tempContainer.appendChild(clonedImg);
+                    
+                    const canvas = await html2canvas(tempContainer, {
+                        backgroundColor: '#fdfcfa',
+                        scale: 2,
+                        useCORS: true,
+                        logging: false,
+                        allowTaint: false,
+                        width: Math.min(imgEl.naturalWidth || 800, 800),
+                        height: Math.floor(imgEl.naturalHeight * (800 / imgEl.naturalWidth) || 600)
+                    });
+                    
+                    document.body.removeChild(tempContainer);
+                    
+                    const link = document.createElement('a');
+                    link.download = `${fileName}-${Date.now()}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    showToast('✅ 图片已导出');
+                } else {
+                    // 降级方案：没有图片则导出原文本
+                    const canvas = await html2canvas(el, {
+                        backgroundColor: '#fdfcfa',
+                        scale: 2,
+                        useCORS: true,
+                        logging: false,
+                        allowTaint: false,
+                        width: Math.min(el.scrollWidth, 800),
+                        height: el.scrollHeight
+                    });
+                    document.body.removeChild(tempContainer);
+                    const link = document.createElement('a');
+                    link.download = `${fileName}-${Date.now()}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    showToast('✅ 图片已导出');
+                }
+            } catch (e) {
+                console.warn('html2canvas 导出失败:', e);
+                showToast('导出失败，请重试');
+            } finally {
+                // 清理临时容器
+                if (tempContainer && tempContainer.parentNode) {
+                    document.body.removeChild(tempContainer);
+                }
+            }
+        }
+
         // 回车快捷键
         document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('gen-prompt').addEventListener('keydown', (e) => {
@@ -1590,29 +4027,112 @@ ${content}
             document.getElementById('recommend-prompt').addEventListener('keydown', (e) => {
                 if (e.ctrlKey && e.key === 'Enter') startRecommend();
             });
+            document.getElementById('quick-custom-input').addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const v = document.getElementById('quick-custom-input').value.trim();
+                    if (v) {
+                        quickAsk(v);
+                        document.getElementById('quick-custom-input').value = '';
+                    }
+                }
+            });
+
+            // 处理 URL 参数中的预置问题（来自其他页面的"问 AI 了解更多"）
+            const urlParams = new URLSearchParams(window.location.search);
+            const presetQuestion = urlParams.get('q');
+            if (presetQuestion) {
+                setTimeout(function() {
+                    quickAsk(decodeURIComponent(presetQuestion));
+                    // 滚动到快捷提问区域
+                    var quickAskSection = document.getElementById('quick-answer-loading');
+                    if (quickAskSection) quickAskSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 600);
+            }
         });
     </script>
 
     <!-- Coze 智能助手 -->
     <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
     <script>
-        new CozeWebSDK.WebChatClient({
-            config: {
-                type: 'bot',
-                bot_id: '7628618640471965731',
-                isIframe: true,
-            },
-            componentProps: {
-                title: '平遥古城智能助手',
-                icon: 'https://img.icons8.com/color/48/000000/pagoda.png',
-                position: { top: '85px', right: '20px', bottom: 'auto' }
-            },
-            auth: {
-                type: 'token',
-                token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
-                onRefreshToken: () => 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+        try {
+            if (typeof CozeWebSDK !== 'undefined') {
+                new CozeWebSDK.WebChatClient({
+                    config: {
+                        type: 'bot',
+                        bot_id: '7628618640471965731',
+                        isIframe: true,
+                    },
+                    componentProps: {
+                        title: '平遥古城智能助手',
+                        icon: 'https://img.icons8.com/color/48/000000/pagoda.png',
+                        position: { top: '85px', right: '20px', bottom: 'auto' }
+                    },
+                    auth: {
+                        type: 'token',
+                        token: window.PINGYAO_CONFIG.coze.token,
+                        onRefreshToken: () => window.PINGYAO_CONFIG.coze.token
+                    }
+                });
             }
-        });
+        } catch (e) {
+            console.warn('Coze SDK 初始化失败:', e.message);
+        }
     </script>
+    <script src="JS/utils/storage.js"></script>
+    <script src="JS/utils/errorHandler.js"></script>
+    <script src="JS/api/cozeClient.js"></script>
+    <script src="JS/PYGCJS.js"></script>
+
+    <!-- ====== 统一页脚 ====== -->
+    <footer class="site-footer" style="background: linear-gradient(to right, #902E22, #31322C); color: #f5f0eb; padding: 50px 20px 30px; margin-top: 0;">
+        <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; align-items: start;">
+            <!-- 左侧：平台介绍 -->
+            <div>
+                <h3 style="color: #f5d6c4; font-size: 20px; margin-bottom: 16px; font-family: 'SimSun', serif; letter-spacing: 2px;">平遥古城智能文旅平台</h3>
+                <p style="font-size: 14px; line-height: 1.8; color: #d4c8b8; margin: 0;">以科技赋能文化传承，融合 AI、VR 与大数据技术，为您打造沉浸式的平遥古城数字化体验。探索千年晋商文化，感受世界遗产的永恒魅力。</p>
+            </div>
+            <!-- 中间：快速链接 -->
+            <div>
+                <h4 style="color: #f5d6c4; font-size: 16px; margin-bottom: 16px; font-family: 'SimSun', serif; letter-spacing: 1px;">快速链接</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px;"><a href="1.html" style="color: #d4c8b8; text-decoration: none; font-size: 14px; transition: color 0.2s;">🏛 历史渊源</a></li>
+                    <li style="margin-bottom: 10px;"><a href="architecture.html" style="color: #d4c8b8; text-decoration: none; font-size: 14px; transition: color 0.2s;">🏗 建筑特色</a></li>
+                    <li style="margin-bottom: 10px;"><a href="3.html" style="color: #d4c8b8; text-decoration: none; font-size: 14px; transition: color 0.2s;">🌄 古迹风貌</a></li>
+                    <li style="margin-bottom: 10px;"><a href="creation.html" style="color: #d4c8b8; text-decoration: none; font-size: 14px; transition: color 0.2s;">🎨 文化共创</a></li>
+                </ul>
+            </div>
+            <!-- 右侧：关于平台 -->
+            <div>
+                <h4 style="color: #f5d6c4; font-size: 16px; margin-bottom: 16px; font-family: 'SimSun', serif; letter-spacing: 1px;">关于平台</h4>
+                <ul style="list-style: none; padding: 0; margin: 0;">
+                    <li style="margin-bottom: 10px; color: #d4c8b8; font-size: 14px;">🎯 参赛作品 · 平遥文旅创新</li>
+                    <li style="margin-bottom: 10px; color: #d4c8b8; font-size: 14px;">🌐 线上访问 · 全天候开放</li>
+                    <li style="margin-bottom: 10px; color: #d4c8b8; font-size: 14px;">🔑 测试账号：test / 123456</li>
+                </ul>
+            </div>
+        </div>
+        <!-- 版权行 -->
+        <div style="max-width: 1100px; margin: 30px auto 0; padding-top: 20px; border-top: 1px solid rgba(245, 240, 235, 0.15); text-align: center; font-size: 13px; color: #b0a090;">
+            &copy;  平遥古城智能文旅平台 · 晋文化传承创新项目 &nbsp;|&nbsp; 用科技守护历史，让文化焕发新生
+        </div>
+    </footer>
+
+<script src="JS/components/aiTip.js"></script>
+<script src="JS/components/scrollReveal.js"></script>
+<script src="JS/components/searchOverlay.js"></script>
+<script src="JS/components/skeletonLoader.js"></script>
+<script src="JS/components/backToTop.js"></script>
+<script src="JS/components/uiEnhancements.js"></script><script>
+// 注册 Service Worker（PWA 离线支持）
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js').then(function(reg) {
+      console.log('Service Worker 注册成功:', reg.scope);
+    }).catch(function(err) {
+      console.warn('Service Worker 注册失败:', err);
+    });
+  });
+}
+</script>
 </body>
 </html>

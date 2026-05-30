@@ -3,29 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>平遥古城 - 智能文化旅游</title>
+    <title>平遥古城 - 历史与文化 | 智能文旅平台</title>
     <link rel="stylesheet" href="CSS/PYGCCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8c1515">
+    <link rel="icon" href="IMG/logo.png" type="image/png">
+    <meta name="description" content="平遥古城历史与文化 - 2700年古城变迁，晋商文化、票号文化、传统民俗深度解读">
+    <meta property="og:title" content="平遥古城 - 历史与文化">
+    <meta property="og:description" content="从西周烽火到明清票号，AI 为您讲述平遥古城2700年的文化瑰宝。">
+    <meta property="og:image" content="https://pygcwhgc.site/IMG/pygc.jpg">
+    <meta name="keywords" content="平遥古城,历史,晋商,票号,日升昌,世界文化遗产,山西旅游">
 </head>
 <body>
-    <!-- 导航栏 -->
-    <header>
-        <div class="container">
-            <nav>
-             <a href="#" class="logo">平遥古城</a>
-             <ul class="nav-links">
-                 <li><a href="首页.html">首页</a></li>
-                 <li><a href="history.html">历史与文化</a></li>
-                 <li><a href="architecture.html">建筑特色</a></li>
-                 <li><a href="vr.html">VR体验</a></li>
-	 <li><a href="creation.html">文化共创</a></li>
-                 <li><a href="https://pingyao888.cn">旅游服务</a></li>
-                 <li><a href="login.html">登录</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <!-- 页面加载遮罩 -->
+    <div id="page-loading" class="page-loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">历史长卷 · 徐徐展开</div>
+    </div>
+    <script>
+    window.addEventListener('load', function() {
+        var loading = document.getElementById('page-loading');
+        if (loading) {
+            setTimeout(function() {
+                loading.classList.add('fade-out');
+                setTimeout(function() { loading.style.display = 'none'; }, 500);
+            }, 300);
+        }
+    });
+    </script>
 
-
+    <!-- 全局导航栏 -->
+    <div id="global-nav"></div>
+    <script src="JS/components/nav.js"></script>
 
     <!-- 历史与文化 -->
     <section class="culture" id="culture">
@@ -37,17 +47,17 @@
             <div class="culture-grid">
                 <div class="culture-item">
                     <a href="1.html">
-                        <img src="IMG/pygc.jpg"/400x200/f8f5f0/333333?text=  历史建筑" alt="历史建筑"></img>
+                        <img src="IMG/pygc.jpg"/400x200/f8f5f0/333333?text=  历史建筑" loading="lazy" alt="历史建筑">
                     </a>
-                     <div class="culture-item-text">
-                        <h3>古城历史 </h3>
+                    <div class="culture-item-text">
+                        <h3>古城历史</h3>
                         <p>平遥古城始建于西周宣王时期，明洪武三年(1370年)扩建，距今已有2700多年历史，是中国保存最为完整的四大古城之一。</p>
                     </div>
                 </div>
                 
                 <div class="culture-item">
                     <a href="2.html">
-                        <img src="IMG/jswh.jpg"/400x200/f8f5f0/333333?text=  文化传承" alt="文化传承"></img>
+                        <img src="IMG/jswh.jpg"/400x200/f8f5f0/333333?text=  文化传承" loading="lazy" alt="文化传承">
                     </a>
                     <div class="culture-item-text">
                         <h3>文化传承</h3>
@@ -57,131 +67,167 @@
                 
                 <div class="culture-item">
                     <a href="3.html">
-                        <img src="IMG/sls.png"/400x200/f8f5f0/333333?text=  古迹风貌" alt="古迹风貌"></img>
+                        <img src="IMG/sls.png"/400x200/f8f5f0/333333?text=  古迹风貌" loading="lazy" alt="古迹风貌">
                     </a>
                     <div class="culture-item-text">
                         <h3>古迹风貌</h3>
                         <p>古城内有300多处古建筑，包括平遥文庙、日升昌票号、双林寺等，展现了明清时期的建筑风格。</p>
                     </div>
-                </div>
             </div>
-		
-            
+            </div>
 
             <div class="timeline">
                 <div class="timeline-item timeline-item-left">
                     <div class="timeline-content">
-                        <div class="timeline-year">西周宣王十五年</div>
-                        <h3>初建</h3>
-                        <p>平遥古城始建于西周宣王十五年(公元前827年)，当时称为"平陶"。</p>
+                        <div class="timeline-year">约公元前827年</div>
+                        <h3>西周始建</h3>
+                        <p>平遥古城始建于西周宣王时期，尹吉甫驻兵于此，修筑"平陶"城垣，开启了两千七百余年的建城史。</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item timeline-item-right">
                     <div class="timeline-content">
-                        <div class="timeline-year">明洪武三年</div>
-                        <h3>扩建</h3>
-                        <p>明洪武三年(1370年)，平遥古城进行了大规模扩建，奠定了今日古城的基本格局。</p>
+                        <div class="timeline-year">北魏</div>
+                        <h3>更名平遥</h3>
+                        <p>北魏太武帝时，为避讳"陶"字，"平陶"改称"平遥"，此名沿用至今，成为华夏大地上少有未变的地名之一。</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item timeline-item-left">
                     <div class="timeline-content">
-                        <div class="timeline-year">清咸丰年间</div>
-                        <h3>商业繁荣</h3>
-                        <p>清咸丰年间，平遥成为全国重要的金融中心，日升昌票号的创立标志着中国现代银行业的开端。</p>
+                        <div class="timeline-year">明洪武三年</div>
+                        <h3>大规模扩建</h3>
+                        <p>明洪武三年（1370年），平遥古城在原有基础上进行了大规模扩建，城墙包砖加高，奠定了今日"乌龟城"的完整格局。</p>
                     </div>
                 </div>
                 
                 <div class="timeline-item timeline-item-right">
                     <div class="timeline-content">
+                        <div class="timeline-year">清道光三年</div>
+                        <h3>日升昌创立</h3>
+                        <p>清道光三年（1823年），中国第一家票号"日升昌"在平遥西大街创立，开创了中国金融汇兑新时代，平遥从此成为全国金融中心。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item timeline-item-left">
+                    <div class="timeline-content">
+                        <div class="timeline-year">20世纪初</div>
+                        <h3>票号衰落</h3>
+                        <p>随着现代银行的兴起和战乱影响，平遥票号相继歇业，但保存完好的古城风貌和票号旧址成为珍贵的历史遗产。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item timeline-item-right">
+                    <div class="timeline-content">
+                        <div class="timeline-year">1986年</div>
+                        <h3>历史文化名城</h3>
+                        <p>平遥古城被国务院公布为第二批国家历史文化名城，古城保护工作正式纳入国家层面，为后续申遗奠定坚实基础。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item timeline-item-left">
+                    <div class="timeline-content">
                         <div class="timeline-year">1997年</div>
-                        <h3>世界遗产</h3>
-                        <p>1997年，平遥古城被联合国教科文组织列入《世界遗产名录》，成为中国第13处世界文化遗产。</p>
+                        <h3>世界文化遗产</h3>
+                        <p>1997年12月3日，平遥古城被联合国教科文组织列入《世界遗产名录》，成为中国第13处世界文化遗产，享誉世界。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item timeline-item-right">
+                    <div class="timeline-content">
+                        <div class="timeline-year">2015年</div>
+                        <h3>古城保护新篇章</h3>
+                        <p>平遥启动新一轮古城保护与文旅融合发展规划，传统建筑修缮、非遗活化、数字文旅等举措全面推进，古城焕发新活力。</p>
                     </div>
                 </div>
             </div>
         </div>
-
     </section>
 
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
-<script>
-  new CozeWebSDK.WebChatClient({
-    config: {
-      bot_id: '7628618640471965731',
-    },
-    componentProps: {
-      title: '平遥古城智能助手', // 自定义标题
-      icon: 'https://img.icons8.com/color/48/000000/pagoda.png', // 可替换为古城图标URL
-      zIndex: 1100, // 确保在最上层，高于导航栏的1000
-      position: {
-        bottom: '80px', // 距离底部距离，避免与页脚重叠
-        right: '30px'
-      },
-      style: {
-        color: '#8c1515', // 主题色
-        backgroundColor: '#f8f5f0', // 背景米色
-        fontFamily: 'SimSun, "宋体", serif' // 匹配网站字体
-      }
-    },
-    auth: {
-      type: 'token',
-      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
-      onRefreshToken: function () {
-        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
-      }
-    },
-    ui: {
-      base: {
-        zIndex: 1100, // UI基础层级
-      },
-      chat: {
-        header: {
-          backgroundColor: '#8c1515', // 聊天头部暗红色
-          color: '#f8f5f0' // 文字米色
-        },
-        input: {
-          borderColor: '#8c1515',
-          focusBorderColor: '#902E22'
-        },
-        message: {
-          userBackground: '#8c1515', // 用户消息背景
-          userColor: '#ffffff',
-          botBackground: '#f8f5f0', // 机器人消息背景
-          botColor: '#333333'
+    <!-- 页脚 -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>平遥古城智能文旅平台</h3>
+                    <p>融合 AI 问答、个性化游线推荐、VR 沉浸式体验与文化内容共创的智能文旅平台。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="首页.html">首页</a></li>
+                        <li><a href="architecture.html">建筑特色</a></li>
+                        <li><a href="vr.html">VR体验</a></li>
+                        <li><a href="creation.html">文化共创</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>关于平台</h3>
+                    <p>本项目为 AI Web 网页开发挑战赛参赛作品。</p>
+                    <p>线上访问：<a href="https://pygcwhgc.site/" target="_blank">https://pygcwhgc.site/</a></p>
+                    <p>测试账号：test / 123456</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy;  平遥古城智能文旅平台 | 世界文化遗产 · 平遥古城</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Coze AI 助手 -->
+    <script src="config.js"></script>
+    <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
+    <script>
+      try {
+        if (typeof CozeWebSDK !== 'undefined') {
+          new CozeWebSDK.WebChatClient({
+            config: {
+              type: 'bot',
+              bot_id: '7628618640471965731',
+              isIframe: true,
+            },
+            componentProps: {
+              title: '平遥古城智能助手',
+              icon: 'https://img.icons8.com/color/48/000000/pagoda.png',
+              position: {
+                top: '85px',
+                right: '20px',
+                bottom: 'auto'
+              }
+            },
+            auth: {
+              type: 'token',
+              token: window.PINGYAO_CONFIG.coze.token,
+              onRefreshToken: function () {
+                return window.PINGYAO_CONFIG.coze.token
+              }
+            }
+          });
         }
+      } catch (e) {
+        console.warn('Coze SDK 初始化失败（不影响页面其他功能）:', e.message);
       }
-    }
-  });
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
-<script>
-  new CozeWebSDK.WebChatClient({
-    config: {
-       type: 'bot',
-    bot_id: '7628618640471965731',
-    isIframe: true,
-    },
-    componentProps: {
-      title: '平遥古城智能助手',
-      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
-      position: {
-        top: '85px', /* 导航栏下方 */
-        right: '20px',
-        bottom: 'auto'
-      }
-    },
-    auth: {
-      type: 'token',
-      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
-      onRefreshToken: function () {
-        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
-      }
-    }
-  });
-</script>
+    </script>
 
-
+<script src="JS/utils/errorHandler.js"></script>
     <script src="JS/PYGCJS.js"></script>
+
+<script src="JS/components/aiTip.js"></script>
+<script src="JS/components/scrollReveal.js"></script>
+<script src="JS/components/searchOverlay.js"></script>
+<script src="JS/components/skeletonLoader.js"></script>
+<script src="JS/components/backToTop.js"></script>
+<script src="JS/components/uiEnhancements.js"></script><script>
+// 注册 Service Worker（PWA 离线支持）
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js').then(function(reg) {
+      console.log('Service Worker 注册成功:', reg.scope);
+    }).catch(function(err) {
+      console.warn('Service Worker 注册失败:', err);
+    });
+  });
+}
+</script>
 </body>
 </html>

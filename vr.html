@@ -3,77 +3,403 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>平遥古城 - 智能文化旅游</title>
+    <title>VR体验 - 平遥古城 | 智能文旅平台</title>
     <link rel="stylesheet" href="CSS/PYGCCSS.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8c1515">
+    <link rel="icon" href="IMG/logo.png" type="image/png">
+    <meta name="description" content="平遥古城 VR 沉浸体验 - 720°全景漫游古城墙、票号、县衙，AI 场景智能讲解">
+    <meta property="og:title" content="平遥古城 - VR 沉浸体验">
+    <meta property="og:description" content="720°全景漫游平遥古城，让千年建筑在您眼前生动呈现。">
+    <meta property="og:image" content="https://pygcwhgc.site/IMG/pygc.jpg">
+    <meta name="keywords" content="平遥古城,VR,全景,720yun,虚拟旅游,沉浸体验">
 </head>
 <body>
-    <!-- 导航栏 -->
-    <header>
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">平遥古城</a>
-                <ul class="nav-links">
-                    <li><a href="首页.html">首页</a></li>
-                    <li><a href="history.html">历史与文化</a></li>
-                    <li><a href="architecture.html">建筑特色</a></li>
-                    <li><a href="vr.html">VR体验</a></li>
-	 <li><a href="creation.html">文化共创</a></li>
-                    <li><a href="https://pingyao888.cn">旅游服务</a></li>
-                    <li><a href="login.html">登录</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-<!-- VR体验 -->
-<section class="vr-experience" id="vr">
-    <div class="container">
-        <div class="section-title">
-            <h2>VR体验</h2>
-        </div>
-        
-        <!-- VR 场景容器 -->
-        <div class="vr-container">
-            <iframe src="https://www.720yun.com/t/0cvksh7mdfl?scene_id=49629934 " allowfullscreen></iframe>
-            <!-- 全屏按钮 -->
-            <button class="fullscreen-button" id="enter-fullscreen">进入全屏</button>
-            <!-- 退出全屏按钮 -->
-            <button class="fullscreen-button" id="exit-fullscreen" style="display: none;">退出全屏</button>
-		</div>
-		<div class="vr-description">
-		    <p>通过VR技术，您可以身临其境地感受平遥古城的千年魅力，探索古城的每个角落，体验古代商业的繁荣，感受传统文化的独特魅力。</p>
-			<p>温馨提示:</p>
-			<p>可以点击左下角的场景选择-地面全景，就可以跳转到你感兴趣的景点啦！</p>
-		</div>
+    <!-- 页面加载遮罩 -->
+    <div id="page-loading" class="page-loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">虚拟幻境 · 身临其境</div>
     </div>
-</section>
+    <script>
+    window.addEventListener('load', function() {
+        var loading = document.getElementById('page-loading');
+        if (loading) {
+            setTimeout(function() {
+                loading.classList.add('fade-out');
+                setTimeout(function() { loading.style.display = 'none'; }, 500);
+            }, 300);
+        }
+    });
+    </script>
 
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js "></script>
-<script>
-  new CozeWebSDK.WebChatClient({
-    config: {
-       type: 'bot',
-    bot_id: '7628618640471965731',
-    isIframe: true,
-    },
-    componentProps: {
-      title: '平遥古城智能助手',
-      icon: 'https://img.icons8.com/color/48/000000/pagoda.png ',
-      position: {
-        top: '85px', /* 导航栏下方 */
-        right: '20px',
-        bottom: 'auto'
+    <!-- 全局导航栏 -->
+    <div id="global-nav"></div>
+    <script src="JS/components/nav.js"></script>
+
+    <!-- VR体验 -->
+    <section class="vr-experience" id="vr">
+        <div class="container">
+            <div class="section-title">
+                <h2>VR体验</h2>
+                <p style="font-size:18px;color:#555;margin-top:15px;">720°全景漫游平遥古城，沉浸式感受千年文化</p>
+            </div>
+
+            <!-- ====== 新增：移动端横屏提示 ====== -->
+            <div id="vr-landscape-tip" class="vr-landscape-tip" style="display:none;">
+                <i class="fa-solid fa-rotate"></i> 建议横屏观看，获得更好沉浸体验
+            </div>
+
+            <!-- 其他景点推荐（点击了解更多） -->
+            <div class="vr-spot-recommend">
+                <h3 class="recommend-title"><i class="fa-solid fa-map-signs"></i> 更多景点 · 点击了解详情</h3>
+                <div class="vr-spot-grid">
+                    <a href="7.html" class="spot-card">
+                        <div class="spot-card-icon"><i class="fa-solid fa-landmark"></i></div>
+                        <div class="spot-card-info">
+                            <div class="spot-card-name">古城墙</div>
+                            <div class="spot-card-desc">千年城墙遗迹，品读历史沧桑</div>
+                        </div>
+                        <span class="spot-card-action">了解更多 <i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                    <a href="5.html" class="spot-card">
+                        <div class="spot-card-icon"><i class="fa-solid fa-building-columns"></i></div>
+                        <div class="spot-card-info">
+                            <div class="spot-card-name">日升昌票号</div>
+                            <div class="spot-card-desc">晋商金融鼻祖，中国银行业先驱</div>
+                        </div>
+                        <span class="spot-card-action">了解更多 <i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                    <a href="4.html" class="spot-card">
+                        <div class="spot-card-icon"><i class="fa-solid fa-school"></i></div>
+                        <div class="spot-card-info">
+                            <div class="spot-card-name">平遥文庙</div>
+                            <div class="spot-card-desc">千年儒学圣地，感受文化传承</div>
+                        </div>
+                        <span class="spot-card-action">了解更多 <i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                    <a href="8.html" class="spot-card">
+                        <div class="spot-card-icon"><i class="fa-solid fa-gavel"></i></div>
+                        <div class="spot-card-info">
+                            <div class="spot-card-name">平遥县衙</div>
+                            <div class="spot-card-desc">古代官署典范，穿越百年时空</div>
+                        </div>
+                        <span class="spot-card-action">了解更多 <i class="fa-solid fa-arrow-right"></i></span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- VR 场景容器 -->
+            <div class="vr-container">
+                <div id="vr-loading" class="vr-loading">
+                    <div class="spinner"></div>
+                    <p>VR 场景加载中...</p>
+                </div>
+                <iframe id="vr-iframe" src="https://www.720yun.com/t/0cvksh7mdfl?scene_id=49629954" allowfullscreen loading="lazy"></iframe>
+                <!-- 全屏按钮 -->
+                <button class="fullscreen-button" id="enter-fullscreen"><i class="fa-solid fa-expand"></i> 全屏</button>
+                <!-- 退出全屏按钮 -->
+                <button class="fullscreen-button" id="exit-fullscreen" style="display: none;"><i class="fa-solid fa-compress"></i> 退出全屏</button>
+            </div>
+
+            <!-- ====== 新增：操作说明 ====== -->
+            <div class="vr-instructions">
+                <div class="instruction-item">
+                    <i class="fa-solid fa-mouse"></i>
+                    <span>拖拽旋转视角</span>
+                </div>
+                <div class="instruction-item">
+                    <i class="fa-solid fa-arrows-alt"></i>
+                    <span>滚动缩放</span>
+                </div>
+                <div class="instruction-item">
+                    <i class="fa-solid fa-hand-pointer"></i>
+                    <span>点击热点切换场景</span>
+                </div>
+                <div class="instruction-item">
+                    <i class="fa-solid fa-expand"></i>
+                    <span>全屏获得沉浸体验</span>
+                </div>
+            </div>
+
+            <!-- ====== 新增：场景介绍卡 ====== -->
+            <div id="scene-info" class="scene-info-card">
+                <div class="scene-info-header">
+                    <h4><i class="fa-solid fa-map-pin"></i> 当前场景：<span id="scene-name">古城全景</span></h4>
+                    <button class="icon-btn" onclick="toggleSceneInfo()">
+                        <i class="fa-solid fa-chevron-up" id="scene-toggle-icon"></i>
+                    </button>
+                </div>
+                <div id="scene-description" class="scene-description">
+                    <p>从空中俯瞰平遥古城全景，古城呈方形，城墙周长6163米，城内街道格局为"土"字形。可以看到古城的中轴线——南大街，以及市楼、县衙、文庙等主要建筑的分布。远处的山脉为太岳山，古城坐落于晋中盆地。</p>
+                </div>
+            </div>
+
+            <!-- AI 讲解按钮 -->
+            <div style="text-align:center;margin-top:20px;">
+                <button class="action-btn" onclick="askAIScene()" style="background:#8c1515;color:white;border:none;padding:12px 28px;border-radius:8px;font-size:16px;cursor:pointer;">
+                    <i class="fa-solid fa-robot"></i> AI 讲解当前场景
+                </button>
+            </div>
+
+            <!-- ====== 场景介绍数据 ====== -->
+            <div id="scene-data" style="display:none;">
+                <div data-scene="古城全景" data-description="从空中俯瞰平遥古城全景，古城呈方形，城墙周长6163米，城内街道格局为'土'字形。可以看到古城的中轴线——南大街，以及市楼、县衙、文庙等主要建筑的分布。远处的山脉为太岳山，古城坐落于晋中盆地。"></div>
+                <div data-scene="古城墙" data-description="平遥古城墙始建于西周宣王时期，明代洪武年间重筑。城墙周长6163米，墙高约12米，是我国现存最为完整的县级古城墙。城墙上建有72座敌楼、3000个垛口，象征孔子的三千弟子和七十二贤人。"></div>
+                <div data-scene="日升昌票号" data-description="日升昌票号创建于清道光三年（1823年），是中国第一家票号，被誉为'中国现代银行的鼻祖'。日升昌首创了汇兑业务，解决了异地银两运输的难题，见证了晋商纵横欧亚的辉煌历史。"></div>
+                <div data-scene="平遥文庙" data-description="平遥文庙始建于唐贞观年间，是中国现存最早的文庙之一。庙内大成殿为明代建筑，气势恢宏。文庙是古代祭祀孔子的场所，也是平遥古城文化教育的重要象征，体现了平遥崇文重教的传统。"></div>
+                <div data-scene="平遥县衙" data-description="平遥县衙始建于元代，是目前中国保存最完整、规模最大的县级官署建筑群。县衙占地约26000平方米，按明清规制分左中右三路布局，内有大堂、二堂、内宅等建筑，是研究古代官制文化的活化石。"></div>
+            </div>
+    </section>
+
+    <!-- ====== 新增：页脚 ====== -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>平遥古城智能文旅平台</h3>
+                    <p>融合 AI 问答、个性化游线推荐、VR 沉浸式体验与文化内容共创的智能文旅平台。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul>
+                        <li><a href="history.html">历史与文化</a></li>
+                        <li><a href="architecture.html">建筑特色</a></li>
+                        <li><a href="vr.html">VR体验</a></li>
+                        <li><a href="creation.html">文化共创</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>关于平台</h3>
+                    <p>本项目为 AI Web 网页开发挑战赛参赛作品。</p>
+                    <p>线上访问：<a href="https://pygcwhgc.site/" target="_blank">https://pygcwhgc.site/</a></p>
+                    <p>测试账号：test / 123456</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy;  平遥古城智能文旅平台 | 世界文化遗产 · 平遥古城</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Coze AI 讲解配置 -->
+    <script src="config.js"></script>
+    <script>
+      // ========== Coze API 配置 ==========
+      var COZE_CONFIG = {
+        BOT_ID: "7628618640471965731",
+        API_URL: "https://api.coze.cn/open_api/v2/chat",
+        USER_ID: "pingyao_vr_" + Date.now().toString().slice(-6),
+        get TOKEN() { return (window.PINGYAO_CONFIG && window.PINGYAO_CONFIG.coze && window.PINGYAO_CONFIG.coze.token) || ''; }
+      };
+
+      // ========== VR 页面功能（仅显示古城全景，其余景点引导至详细介绍页） ==========
+
+      // VR iframe 加载完成（隐藏loading）
+      document.addEventListener('DOMContentLoaded', function() {
+        var iframe = document.getElementById('vr-iframe');
+        if (iframe) {
+          iframe.addEventListener('load', function() {
+            var loading = document.getElementById('vr-loading');
+            if (loading) loading.style.display = 'none';
+          });
+        }
+      });
+
+      // ========== AI 讲解当前场景 ==========
+      function askAIScene() {
+        var sceneName = document.getElementById('scene-name').textContent;
+        var sceneEl = document.querySelector('#scene-data [data-scene="' + sceneName + '"]');
+        var desc = sceneEl ? sceneEl.getAttribute('data-description') : '';
+        var question = '请详细讲解平遥古城的「' + sceneName + '」景点，包括历史背景、建筑特色、文化意义等。' + (desc ? '参考背景：' + desc : '');
+
+        // 显示加载提示
+        var toast = document.createElement('div');
+        toast.id = 'ai-scene-toast';
+        toast.textContent = '🤖 AI 正在讲解「' + sceneName + '」...';
+        toast.style.cssText = 'position:fixed;bottom:120px;right:30px;background:#8c1515;color:white;padding:12px 24px;border-radius:8px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.2);font-size:15px;max-width:360px;animation:fadeIn 0.3s;';
+        document.body.appendChild(toast);
+
+        // 创建或显示讲解结果卡片
+        var resultCard = document.getElementById('ai-scene-result');
+        if (!resultCard) {
+          resultCard = document.createElement('div');
+          resultCard.id = 'ai-scene-result';
+          resultCard.style.cssText = 'margin:20px auto 0;max-width:800px;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.1);padding:24px;display:none;';
+          var sceneInfo = document.getElementById('scene-info');
+          sceneInfo.parentNode.insertBefore(resultCard, sceneInfo.nextSibling);
+        }
+        resultCard.style.display = 'block';
+        resultCard.innerHTML = '<div style="text-align:center;padding:30px;"><div class="spinner"></div><p style="margin-top:12px;color:#999;">AI 正在生成讲解内容...</p></div>';
+
+        // 调用 Coze API
+        fetch(COZE_CONFIG.API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + COZE_CONFIG.TOKEN
+          },
+          body: JSON.stringify({
+            bot_id: COZE_CONFIG.BOT_ID,
+            user: COZE_CONFIG.USER_ID,
+            query: question,
+            stream: false,
+            auto_save_history: true
+          })
+        }).then(function(res) {
+          if (!res.ok) throw new Error('服务繁忙(' + res.status + ')');
+          return res.json();
+        }).then(function(data) {
+          if (data.code !== 0) throw new Error(data.msg || '生成失败');
+          var messages = data.messages || [];
+          var answerMsgs = messages.filter(function(m) { return m.type === 'answer'; });
+          var content = answerMsgs.map(function(m) { return m.content; }).join('');
+          if (!content) content = '暂未获取到讲解内容，请稍后再试。';
+          resultCard.innerHTML = '<div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #eee;">' +
+            '<i class="fa-solid fa-robot" style="color:#8c1515;font-size:20px;"></i>' +
+            '<span style="font-weight:bold;font-size:16px;">AI 讲解：' + sceneName + '</span>' +
+            '</div>' +
+            '<div class="markdown-body" style="line-height:1.9;font-size:15px;">' + marked.parse(content) + '</div>';
+          resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+          // 更新 toast
+          var t = document.getElementById('ai-scene-toast');
+          if (t) {
+            t.textContent = '✅ AI 已生成「' + sceneName + '」讲解';
+            setTimeout(function() { t.remove(); }, 3000);
+          }
+        }).catch(function(err) {
+          resultCard.innerHTML = '<div style="text-align:center;color:#b71c1c;padding:20px;">' +
+            '<i class="fa-solid fa-circle-exclamation"></i> ' + (err.message || 'AI 暂不可用，请稍后重试') + '</div>';
+          var t = document.getElementById('ai-scene-toast');
+          if (t) {
+            t.textContent = '❌ 讲解生成失败';
+            setTimeout(function() { t.remove(); }, 3000);
+          }
+        });
       }
-    },
-    auth: {
-      type: 'token',
-      token: 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37',
-      onRefreshToken: function () {
-        return 'pat_Izy2l4XPYTpPWIRbns0OPEcdMP3Mg7wlG8fviYrJA3ciocZgr7f6BIF5B7dNzM37'
+
+      // 切换场景介绍展开/收起
+      function toggleSceneInfo() {
+        var desc = document.getElementById('scene-description');
+        var icon = document.getElementById('scene-toggle-icon');
+        if (desc.style.display === 'none') {
+          desc.style.display = 'block';
+          icon.className = 'fa-solid fa-chevron-up';
+        } else {
+          desc.style.display = 'none';
+          icon.className = 'fa-solid fa-chevron-down';
+        }
       }
-    }
-  });
-</script>
+
+      // 移动端横屏检测
+      function checkOrientation() {
+        var tip = document.getElementById('vr-landscape-tip');
+        if (!tip) return;
+        if (window.innerWidth < 768 && window.innerHeight > window.innerWidth) {
+          tip.style.display = 'flex';
+        } else {
+          tip.style.display = 'none';
+        }
+      }
+      window.addEventListener('resize', checkOrientation);
+      checkOrientation();
+
+      // VR 全屏功能（保留原有实现）
+      document.addEventListener('DOMContentLoaded', function() {
+        var vrContainer = document.querySelector('.vr-container');
+        var enterBtn = document.getElementById('enter-fullscreen');
+        var exitBtn = document.getElementById('exit-fullscreen');
+
+        if (enterBtn) {
+          enterBtn.addEventListener('click', function() {
+            if (vrContainer.requestFullscreen) vrContainer.requestFullscreen();
+            else if (vrContainer.mozRequestFullScreen) vrContainer.mozRequestFullScreen();
+            else if (vrContainer.webkitRequestFullscreen) vrContainer.webkitRequestFullscreen();
+            else if (vrContainer.msRequestFullscreen) vrContainer.msRequestFullscreen();
+          });
+        }
+        if (exitBtn) {
+          exitBtn.addEventListener('click', function() {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
+          });
+        }
+
+        function handleFullscreenChange() {
+          if (document.fullscreenElement || document.webkitFullscreenElement || 
+              document.mozFullScreenElement || document.msFullscreenElement) {
+            enterBtn.style.display = 'none';
+            exitBtn.style.display = 'block';
+          } else {
+            enterBtn.style.display = 'block';
+            exitBtn.style.display = 'none';
+          }
+        }
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('msfullscreenchange', handleFullscreenChange);
+      });
+    </script>
+
+    <!-- Coze AI 助手 -->
+    <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
+    <script>
+      try {
+        if (typeof CozeWebSDK !== 'undefined') {
+          new CozeWebSDK.WebChatClient({
+            config: {
+              type: 'bot',
+              bot_id: '7628618640471965731',
+              isIframe: true,
+            },
+            componentProps: {
+              title: '平遥古城智能助手',
+              icon: 'https://img.icons8.com/color/48/000000/pagoda.png',
+              position: {
+                top: '85px',
+                right: '20px',
+                bottom: 'auto'
+              }
+            },
+            auth: {
+              type: 'token',
+              token: window.PINGYAO_CONFIG.coze.token,
+              onRefreshToken: function () {
+                return window.PINGYAO_CONFIG.coze.token
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.warn('Coze SDK 初始化失败（不影响页面其他功能）:', e.message);
+      }
+    </script>
+
+    <script src="JS/utils/errorHandler.js"></script>
     <script src="JS/PYGCJS.js"></script>
+
+<script src="JS/components/aiTip.js"></script>
+<script src="JS/components/scrollReveal.js"></script>
+<script src="JS/components/searchOverlay.js"></script>
+<script src="JS/components/skeletonLoader.js"></script>
+<script src="JS/components/backToTop.js"></script>
+<script src="JS/components/uiEnhancements.js"></script><script>
+// 注册 Service Worker（PWA 离线支持）
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js').then(function(reg) {
+      console.log('Service Worker 注册成功:', reg.scope);
+    }).catch(function(err) {
+      console.warn('Service Worker 注册失败:', err);
+    });
+  });
+}
+</script>
 </body>
 </html>

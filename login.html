@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用户注册并登录 - 平遥古城</title>
+    <title>登录 - 平遥古城智能文旅平台</title>
+    <link rel="stylesheet" href="CSS/PYGCCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#8c1515">
+    <link rel="icon" href="IMG/logo.png" type="image/png">
+    <meta name="description" content="登录平遥古城智能文旅平台，开启 AI 导览、VR 漫游、文化共创之旅">
+    <meta property="og:title" content="平遥古城智能文旅平台 - 登录">
+    <meta property="og:description" content="注册或登录，探索千年古城的智能文旅体验。">
+    <meta property="og:image" content="https://pygcwhgc.site/IMG/pygc.jpg">
+    <meta name="keywords" content="平遥古城,登录,注册,智能文旅,AI导览">
     <style>
         * {
             margin: 0;
@@ -15,179 +25,421 @@
         body {
             background-color: #f8f5f0;
             color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            padding-top: 70px;
         }
         
-        .login-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-            width: 400px;
-            max-width: 90%;
+        /* 登录区域 */
+        .auth-section {
+            padding: 60px 0;
+            border-bottom: 1px solid #e5e5e5;
         }
         
-        .login-title {
+        .auth-section .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         
-        .login-title h2 {
+        .section-title h2 {
+            font-family: 'STXingkai', '华文行楷', serif;
+            font-size: 32px;
             color: #8c1515;
-            font-size: 24px;
-            margin-bottom: 10px;
         }
-        
+
+        .section-title p {
+            color: #999;
+            font-size: 15px;
+            margin-top: 8px;
+        }
+
+        /* 表单卡片 */
+        .ai-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 480px;
+            margin: 0 auto;
+            border: 1px solid #e8ddd0;
+        }
+
+        .profile-tab {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .profile-tab button {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #999;
+            border: none;
+            background: none;
+            font-family: 'SimSun', '宋体', serif;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .profile-tab button.active {
+            color: #8c1515;
+            border-bottom-color: #8c1515;
+            font-weight: bold;
+        }
+
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 8px;
             color: #555;
+            font-size: 14px;
         }
-        
+
         .form-group input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
             font-size: 16px;
+            transition: border-color 0.3s;
+            font-family: 'SimSun', '宋体', serif;
         }
-        
+
         .form-group input:focus {
             outline: none;
             border-color: #8c1515;
         }
-        
-        .remember-forgot {
+
+        .form-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
-        
-        .remember-forgot label {
+
+        .form-options label {
             display: flex;
             align-items: center;
+            gap: 6px;
             font-size: 14px;
+            color: #666;
+            cursor: pointer;
         }
-        
-        .remember-forgot a {
-            color: #8c1515;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        
+
         .login-button {
             width: 100%;
             padding: 12px;
             background-color: #8c1515;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 16px;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-family: 'SimSun', '宋体', serif;
         }
-        
+
         .login-button:hover {
             background-color: #6c0f0f;
         }
-        
-        .register-link {
-            text-align: center;
-            margin-top: 20px;
+
+        .login-button.action-btn {
+            letter-spacing: 2px;
         }
-        
-        .register-link a {
-            color: #8c1515;
-            text-decoration: none;
-        }
-        
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-        
-        .success-message {
+
+        .message-box {
             display: none;
-            background-color: #dff0d8;
-            color: #3c763d;
-            padding: 15px;
-            border-radius: 4px;
+            padding: 12px;
+            border-radius: 6px;
             margin-bottom: 20px;
             text-align: center;
+            font-size: 14px;
+        }
+
+        .message-box.success {
+            display: block;
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+        }
+
+        .message-box.error {
+            display: block;
+            background-color: #fdf0f0;
+            color: #e74c3c;
+            border: 1px solid #f5c6cb;
+        }
+
+        .form-tip {
+            font-size: 12px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .test-account-hint {
+            color: #999;
+            font-size: 13px;
+        }
+
+        /* 底部 */
+        .footer-bottom {
+            text-align: center;
+            padding: 25px 20px;
+            background: linear-gradient(to right, #902E22, #31322C);
+        }
+
+        .footer-bottom a {
+            color: #e8c6a6;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-bottom a:hover {
+            color: #fff;
+        }
+
+        .footer-bottom a i {
+            margin-right: 6px;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="success-message" id="successMessage">
-            注册成功！正在登录并跳转到主页...
+    <!-- 全局导航栏 -->
+    <div id="global-nav"></div>
+    <script src="JS/components/nav.js"></script>
+
+    <!-- 登录/注册区域 -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="section-title">
+                <h2 id="formTitle">用户登录</h2>
+                <p>欢迎来到平遥古城智能文旅平台</p>
+            </div>
+
+            <div class="ai-card">
+                <div class="profile-tabs" style="justify-content:center;gap:0;">
+                    <button class="profile-tab active" onclick="switchLoginTab('login', this)">登录</button>
+                    <button class="profile-tab" onclick="switchLoginTab('register', this)">注册</button>
+                </div>
+
+                <div id="message-box" class="message-box"></div>
+
+                <!-- 登录表单 -->
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" id="username" name="username" placeholder="请输入用户名" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" id="password" name="password" placeholder="请输入密码" required>
+                    </div>
+
+                    <div class="form-options">
+                        <label>
+                            <input type="checkbox" id="remember" name="remember" checked>
+                            记住我
+                        </label>
+                        <span class="test-account-hint">测试账号：test / 123456</span>
+                    </div>
+
+                    <button type="submit" class="login-button action-btn">
+                        <i class="fa-solid fa-right-to-bracket"></i> 登录
+                    </button>
+                </form>
+
+                <!-- 注册表单（默认隐藏） -->
+                <form id="registerForm" style="display:none;">
+                    <div class="form-group">
+                        <label for="reg-username">用户名</label>
+                        <input type="text" id="reg-username" name="reg-username" placeholder="2-20位，支持中文、字母、数字" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-password">密码</label>
+                        <input type="password" id="reg-password" name="reg-password" placeholder="6-20位密码" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg-confirm-password">确认密码</label>
+                        <input type="password" id="reg-confirm-password" name="reg-confirm-password" placeholder="再次输入密码" required>
+                        <div class="form-tip">注册后自动登录并跳转到首页</div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="reg-email">邮箱（选填）</label>
+                            <input type="email" id="reg-email" name="reg-email" placeholder="example@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-phone">手机号（选填）</label>
+                            <input type="tel" id="reg-phone" name="reg-phone" placeholder="11位手机号">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="login-button action-btn" style="background:#b8860b;">
+                        <i class="fa-solid fa-user-plus"></i> 注册
+                    </button>
+                </form>
+            </div>
         </div>
-        
-        <div class="login-title">
-            <h2>用户注册并登录</h2>
-            <p>欢迎登录平遥古城智能文旅平台</p>
-        </div>
-        
-        <form id="loginForm">
-            <div class="form-group">
-                <label for="username">用户名或邮箱</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="password">密码</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            
-            <div class="remember-forgot">
-                <label>
-                    <input type="checkbox" id="remember" name="remember">
-                    记住我
-                </label>
-              
-            </div>
-            
-            <button type="submit" class="login-button">登录</button>
-        </form>
-        
-    
+    </section>
+
+    <!-- 底部返回首页 -->
+    <div class="footer-bottom">
+        <a href="首页.html"><i class="fa-solid fa-house"></i> 返回首页</a>
     </div>
 
+    <script src="JS/utils/storage.js"></script>
+    <script src="JS/utils/validators.js"></script>
+    <script src="JS/utils/errorHandler.js"></script>
+    <script src="JS/modules/userCenter.js"></script>
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(event) {
+        /** 切换登录/注册 Tab */
+        function switchLoginTab(tab, btn) {
+            document.querySelectorAll('.profile-tabs .profile-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+
+            document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+            document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+
+            // 更新标题
+            document.getElementById('formTitle').textContent = tab === 'login' ? '用户登录' : '用户注册';
+
+            // 清空消息
+            const msgBox = document.getElementById('message-box');
+            msgBox.className = 'message-box';
+            msgBox.style.display = 'none';
+        }
+
+        /** 显示消息 */
+        function showMessage(text, type) {
+            const box = document.getElementById('message-box');
+            box.textContent = text;
+            box.className = 'message-box ' + type;
+            box.style.display = 'block';
+        }
+
+        /** 处理登录 */
+        function handleLogin(event) {
             event.preventDefault();
-            
-            // 获取表单数据
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            
-            // 模拟登录验证（这里应该连接到后端进行实际验证）
-            if (username && password) {
-                // 显示成功消息
-                const successMessage = document.getElementById('successMessage');
-                successMessage.style.display = 'block';
-                
-                // 模拟页面跳转（这里应该根据实际需求进行跳转）
-                setTimeout(function() {
-                    // 跳转到之前的页面或主页
-                    window.history.back();
-                    
-                    // 如果没有之前的页面，则跳转到主页
-                    if (document.referrer === '') {
-                        window.location.href = '首页.html'; // 替换为您的主页URL
-                    }
-                }, 1500); // 2秒后跳转
-            } else {
-                alert('请输入用户名和密码');
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!username || !password) {
+                showMessage('请输入用户名和密码', 'error');
+                return;
             }
-        });
+
+            const success = UserCenter.login(username, password);
+            if (success) {
+                showMessage('登录成功！正在跳转到首页...', 'success');
+                setTimeout(function () {
+                    window.location.href = '首页.html';
+                }, 1500);
+            } else {
+                showMessage('用户名或密码错误。如果是首次使用，请先注册。', 'error');
+            }
+        }
+
+        /** 处理注册 */
+        function handleRegister(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            const email = document.getElementById('reg-email').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+
+            // 校验
+            if (!username) {
+                showMessage('请输入用户名', 'error');
+                return;
+            }
+            if (typeof Validators !== 'undefined' && !Validators.isValidUsername(username)) {
+                showMessage('用户名格式不正确（2-20位，支持中文、字母、数字）', 'error');
+                return;
+            }
+            if (!password) {
+                showMessage('请输入密码', 'error');
+                return;
+            }
+            if (typeof Validators !== 'undefined' && !Validators.isValidPassword(password)) {
+                showMessage('密码长度需要6-20位', 'error');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showMessage('两次密码输入不一致', 'error');
+                return;
+            }
+            if (email && typeof Validators !== 'undefined' && !Validators.isValidEmail(email)) {
+                showMessage('邮箱格式不正确', 'error');
+                return;
+            }
+            if (phone && typeof Validators !== 'undefined' && !Validators.isValidPhone(phone)) {
+                showMessage('手机号格式不正确（请输入11位手机号）', 'error');
+                return;
+            }
+
+            // 注册
+            const success = UserCenter.register(username, password, email, phone);
+            if (success) {
+                showMessage('注册成功！正在自动登录...', 'success');
+                // 自动登录并跳转首页
+                UserCenter.login(username, password);
+                setTimeout(function () {
+                    window.location.href = '首页.html';
+                }, 1500);
+            } else {
+                showMessage('注册失败，用户名可能已存在', 'error');
+            }
+        }
+
+        // 绑定登录提交
+        document.getElementById('loginForm').addEventListener('submit', handleLogin);
+
+        // 绑定注册提交
+        document.getElementById('registerForm').addEventListener('submit', handleRegister);
     </script>
+
+<script src="JS/components/aiTip.js"></script>
+<script src="JS/components/scrollReveal.js"></script>
+<script src="JS/components/searchOverlay.js"></script>
+<script src="JS/components/skeletonLoader.js"></script>
+<script src="JS/components/backToTop.js"></script>
+<script src="JS/components/uiEnhancements.js"></script><script>
+// 注册 Service Worker（PWA 离线支持）
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js').then(function(reg) {
+      console.log('Service Worker 注册成功:', reg.scope);
+    }).catch(function(err) {
+      console.warn('Service Worker 注册失败:', err);
+    });
+  });
+}
+</script>
 </body>
 </html>
