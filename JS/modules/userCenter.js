@@ -25,7 +25,7 @@ const UserCenter = {
       this._currentUser = {
         username: '游客',
         isLoggedIn: false,
-        avatar: 'IMG/TX.jpg'
+        avatar: 'IMG/tx.jpg'
       };
     }
   },
@@ -105,7 +105,7 @@ const UserCenter = {
           password: '123456',
           email: '',
           phone: '',
-          avatar: 'IMG/TX.jpg',
+          avatar: 'IMG/tx.jpg',
           registeredAt: new Date().toISOString()
         });
         StorageUtils.set('pingyao_users', users);
@@ -113,7 +113,7 @@ const UserCenter = {
       this._currentUser = {
         username: 'test',
         isLoggedIn: true,
-        avatar: 'IMG/TX.jpg',
+        avatar: 'IMG/tx.jpg',
         email: '',
         phone: ''
       };
@@ -131,7 +131,7 @@ const UserCenter = {
       this._currentUser = {
         username: user.username,
         isLoggedIn: true,
-        avatar: user.avatar || 'IMG/TX.jpg',
+        avatar: user.avatar || 'IMG/tx.jpg',
         email: user.email || '',
         phone: user.phone || ''
       };
@@ -172,7 +172,7 @@ const UserCenter = {
       password,
       email,
       phone,
-      avatar: 'IMG/TX.jpg',
+      avatar: 'IMG/tx.jpg',
       registeredAt: new Date().toISOString()
     });
     StorageUtils.set('pingyao_users', users);
@@ -185,7 +185,7 @@ const UserCenter = {
     this._currentUser = {
       username: '游客',
       isLoggedIn: false,
-      avatar: 'IMG/TX.jpg'
+      avatar: 'IMG/tx.jpg'
     };
     this._saveUser();
     this._updateUI();
@@ -226,7 +226,7 @@ const UserCenter = {
         <!-- 用户信息卡 -->
         <div class="profile-card">
           <div class="profile-avatar">
-            <img src="${user.avatar || 'IMG/TX.jpg'}" alt="头像">
+            <img src="${user.avatar || 'IMG/tx.jpg'}" alt="头像">
           </div>
           <div class="profile-info">
             <h3>${user.username}</h3>
