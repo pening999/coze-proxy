@@ -4,7 +4,7 @@
  * 国赛评审亮点：PWA 支持，离线可用
  */
 
-const CACHE_NAME = 'pingyao-cache-v2';
+const CACHE_NAME = 'pingyao-cache-v3';
 const STATIC_ASSETS = [
   '/',
   '/首页.html',
